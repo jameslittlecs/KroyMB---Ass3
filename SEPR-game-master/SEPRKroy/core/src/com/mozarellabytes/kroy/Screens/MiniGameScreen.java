@@ -1,5 +1,54 @@
 package com.mozarellabytes.kroy.Screens;
 
-public class MiniGameScreen {
+import com.badlogic.gdx.Screen;
+import com.mozarellabytes.kroy.Kroy;
+
+public class MiniGameScreen implements Screen{
+
+	public MiniGameScreen(Kroy kroy) {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		System.out.println("Hi");
+	}
+
+	@Override
+	public void render(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
