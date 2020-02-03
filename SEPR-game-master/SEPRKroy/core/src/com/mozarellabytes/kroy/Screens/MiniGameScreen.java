@@ -1,10 +1,16 @@
 package com.mozarellabytes.kroy.Screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.math.Vector2;
 import com.mozarellabytes.kroy.Kroy;
+import com.mozarellabytes.kroy.Minigame.Alien;
+import com.mozarellabytes.kroy.Minigame.FireEngine;
 
 public class MiniGameScreen implements Screen{
 
+	private Alien alien = new Alien(100, 10, new Vector2(600, 800));
+	private FireEngine fireEngine = new FireEngine(100, 10, new Vector2(600, 800));
+	
 	public MiniGameScreen(Kroy kroy) {
 		// TODO Auto-generated constructor stub
 	}
@@ -12,7 +18,9 @@ public class MiniGameScreen implements Screen{
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		System.out.println("Hi");
+		System.out.println(fireEngine.getHP());
+		alien.getAttack(0).performAttack(fireEngine);
+		System.out.println(fireEngine.getHP());
 	}
 
 	@Override
