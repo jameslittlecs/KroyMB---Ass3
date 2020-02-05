@@ -16,8 +16,8 @@ public class FireEngine extends Unit{
 	//Deals some damage to self, but deals double damage to target
 	private Attack waterBlast = new Attack("Water Blast", 5, this, this.getDamage()*-2, this.getDamage()*-1, 0, 0);
 	
-	public FireEngine(int HP, int damage, Vector2 position) {
-		super(HP, damage, position);
+	public FireEngine(int HP, int damage, Vector2 position, int maxHP) {
+		super(HP, damage, position, maxHP);
 		List<Attack> moveList = Arrays.asList(waterSpray, quickRepair, pressurePump, waterBlast);
 		super.setMoveList(moveList);
 	}

@@ -10,12 +10,14 @@ public class Unit {
 	private Vector2 position;
 	private boolean isAlive;
 	private List<Attack> moveList;
+	private int maxHP;
 	
-	public Unit(int HP, int damage, Vector2 position) {
+	public Unit(int HP, int damage, Vector2 position, int maxHP) {
 		this.HP = HP;
 		this.damage = damage;
 		this.position = position;
 		this.isAlive = true;
+		this.maxHP = maxHP;
 	}
 	
 	//Methods
@@ -24,6 +26,14 @@ public class Unit {
 	}
 	
 	//Getters and Setters
+	public int getMaxHP() {
+		return this.maxHP;
+	}
+	
+	public void setMaxHP(int hp) {
+		this.maxHP = hp;
+	}
+	
 	public int getHP() {
 		return this.HP;
 	}

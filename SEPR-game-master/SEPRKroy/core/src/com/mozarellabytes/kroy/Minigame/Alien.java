@@ -16,8 +16,8 @@ public class Alien extends Unit{
 	//Deals some damage to target, heals damage dealt
 	private Attack probe = new Attack("Probe", 5, this, this.getDamage()*-1, this.getDamage(), 0, 0);
 	
-	public Alien(int HP, int damage, Vector2 position) {
-		super(HP, damage, position);
+	public Alien(int HP, int damage, Vector2 position, int maxHP) {
+		super(HP, damage, position, maxHP);
 		List<Attack> moveList = Arrays.asList(beamRay,dryOff,chargeUp,probe);
 		super.setMoveList(moveList);
 	}
