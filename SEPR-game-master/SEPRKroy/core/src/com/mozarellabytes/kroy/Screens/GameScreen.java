@@ -25,6 +25,8 @@ import java.util.ArrayList;
  */
 public class GameScreen implements Screen {
 
+	private int storyCounter;
+	
     /** Instance of our game that allows us the change screens */
     private final Kroy game;
 
@@ -52,6 +54,7 @@ public class GameScreen implements Screen {
 
     /** Stores whether the game is running or is paused */
     private PlayState state;
+    private StoryState storyState;
 
     /**
      * Deals with all the user interface on the screen
@@ -71,6 +74,8 @@ public class GameScreen implements Screen {
     /** List of Fortresses currently active on the map */
     private final ArrayList<Fortress> fortresses;
 
+    private int maxFortress;
+    
     /** Where the FireEngines' spawn, refill and repair */
     private final FireStation station;
 
@@ -86,16 +91,23 @@ public class GameScreen implements Screen {
     public enum PlayState {
         PLAY, PAUSE
     }
+    
+    public enum StoryState {
+    	NON, INTRO, FORTRESS, BOSS, UPDATE
+    }
 
     /**
      * Constructor which has the game passed in
      *
      * @param game LibGdx game
      */
+    
     public GameScreen(Kroy game) {
         this.game = game;
 
         state = PlayState.PLAY;
+        storyState = StoryState.INTRO;
+        storyCounter = 0;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
@@ -131,7 +143,9 @@ public class GameScreen implements Screen {
         fortresses.add(new Fortress(12, 18.5f, FortressType.Revs));
         fortresses.add(new Fortress(30.5f, 17.5f, FortressType.Walmgate));
         fortresses.add(new Fortress(16, 3.5f, FortressType.Clifford));
-
+        maxFortress = fortresses.size();
+        
+        
         // sets the origin point to which all of the polygon's local vertices are relative to.
         for (FireTruck truck : station.getTrucks()) {
             truck.setOrigin(Constants.TILE_WxH / 2, Constants.TILE_WxH / 2);
@@ -204,7 +218,48 @@ public class GameScreen implements Screen {
                 shapeMapRenderer.rect(0, 0, this.camera.viewportWidth, this.camera.viewportHeight);
                 shapeMapRenderer.end();
                 gui.renderPauseScreenText();
+                
         }
+        
+        switch (storyState) {
+        	case NON:
+        		this.update(delta);
+        		break;
+        	case INTRO:
+            	System.out.println(storyCounter);
+        		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+                shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeMapRenderer.setColor(0, 0, 0, 0.8f);
+                shapeMapRenderer.rect(this.camera.viewportWidth/4f, this.camera.viewportHeight/4f, this.camera.viewportWidth/2f, this.camera.viewportHeight/2f);
+                shapeMapRenderer.end();
+        		gui.renderIntroText();
+        		break;
+        	case FORTRESS:
+        		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+                shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeMapRenderer.setColor(0, 0, 0, 0.8f);
+                shapeMapRenderer.rect(this.camera.viewportWidth/4f, this.camera.viewportHeight/4f, this.camera.viewportWidth/2f, this.camera.viewportHeight/2f);
+                shapeMapRenderer.end();
+        		gui.renderFortressText();
+        		break;
+        	case BOSS:
+        		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+                shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeMapRenderer.setColor(0, 0, 0, 0.8f);
+                shapeMapRenderer.rect(this.camera.viewportWidth/4f, this.camera.viewportHeight/4f, this.camera.viewportWidth/2f, this.camera.viewportHeight/2f);
+                shapeMapRenderer.end();
+        		gui.renderBossText();
+        		break;
+        	case UPDATE:
+        		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+                shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeMapRenderer.setColor(0, 0, 0, 0.8f);
+                shapeMapRenderer.rect(this.camera.viewportWidth/4f, this.camera.viewportHeight/4f, this.camera.viewportWidth/2f, this.camera.viewportHeight/2f);
+                shapeMapRenderer.end();
+        		gui.renderUpdateText();
+        		break;
+        }
+        
         gui.renderButtons();
     }
 
@@ -221,6 +276,21 @@ public class GameScreen implements Screen {
         station.checkForCollisions();
         gameState.setTrucksInAttackRange(0);
 
+        
+        
+        if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
+        	storyCounter++;
+        	this.storyState = StoryState.FORTRESS;
+        	System.out.println(storyCounter);
+        } else if (maxFortress - fortresses.size() == 2 && storyCounter == 1) {
+        	storyCounter++;
+        	this.storyState = StoryState.UPDATE;
+        } else if (maxFortress - fortresses.size() == 3 && storyCounter == 2){
+        	storyCounter++;
+        	this.storyState = StoryState.BOSS;
+        } else {}
+        
+        
         for (int i = 0; i < station.getTrucks().size(); i++) {
             FireTruck truck = station.getTruck(i);
 
@@ -277,7 +347,6 @@ public class GameScreen implements Screen {
             }
         }
 
-        System.out.println(SoundFX.isPlaying);
 
         shapeMapRenderer.end();
         shapeMapRenderer.setColor(Color.WHITE);
@@ -366,7 +435,6 @@ public class GameScreen implements Screen {
         }
         return false;
     }
-
     /**
      * Checks whether the tile that the user is trying to add to the
      *  truck's path is on the road. This uses the custom "road"
@@ -413,6 +481,10 @@ public class GameScreen implements Screen {
         } else {
             this.state = PlayState.PLAY;
         }
+    }
+    
+    public void storyNon() {
+    	this.storyState = StoryState.NON;
     }
 
     public FireStation getStation() {

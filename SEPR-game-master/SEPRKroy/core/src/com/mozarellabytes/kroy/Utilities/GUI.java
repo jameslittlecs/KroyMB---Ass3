@@ -24,6 +24,8 @@ import com.mozarellabytes.kroy.Screens.GameScreen;
  * by clicking on it on the map
  */
 public class GUI {
+	
+	Texture commander;
 
     /** LibGdx game */
     private final Kroy game;
@@ -87,6 +89,8 @@ public class GUI {
      * @param gameScreen    Screen where these methods will be rendered
      */
     public GUI(Kroy game, GameScreen gameScreen) {
+    	commander = new Texture(Gdx.files.internal("images/commander.png"), true);
+    	
         this.game = game;
         this.gameScreen = gameScreen;
         this.selectedH = 275;
@@ -278,6 +282,10 @@ public class GUI {
         game.batch.draw(currentInfoTexture, infoButton.x, infoButton.y, infoButton.width, infoButton.height);
         game.batch.end();
     }
+    
+    public void renderStoryButton() {
+        game.batch.draw(currentPauseTexture, pauseButton.x, pauseButton.y, pauseButton.width, pauseButton.height);
+    }
 
     /** Sets the homeButton texture to homeButtonClicked while the homeButton
      * is being clicked on */
@@ -360,6 +368,122 @@ public class GUI {
         }
     }
 
+    public void renderIntroText() {
+    	GlyphLayout layout = new GlyphLayout();
+        String UpdateText1 =  "Help, help, help, is anyone out ";
+        String UpdateText2 =  "there, please help us now.";
+        String UpdateText3 =  "You hear those cries soldier, ";
+        String UpdateText4 =  "they need you now, go and destroy";
+        String UpdateText5 =  "those alien Fortresses. The Fire ";
+        String UpdateText6 =  "Department is at your disposal.";
+        String ContinueText =  "Press 'Space' to Continue";
+        layout.setText(game.font26, UpdateText1);
+        layout.setText(game.font26, UpdateText2);
+        layout.setText(game.font26, UpdateText3);
+        layout.setText(game.font26, UpdateText4);
+        layout.setText(game.font26, UpdateText5);
+        layout.setText(game.font26, UpdateText6);
+        layout.setText(game.font33, ContinueText);
+        
+
+        game.batch.setProjectionMatrix(pauseCamera.combined);
+        game.batch.begin();
+        game.font26.draw(game.batch, UpdateText1, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 60f);
+        game.font26.draw(game.batch, UpdateText2, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 100f);
+        game.font26.draw(game.batch, UpdateText3, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 140f);
+        game.font26.draw(game.batch, UpdateText4, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 180f);
+        game.font26.draw(game.batch, UpdateText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
+        game.font26.draw(game.batch, UpdateText6, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 260f);
+        game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
+        game.batch.draw(commander, pauseCamera.viewportWidth/8f, pauseCamera.viewportHeight/5f);
+        game.batch.end();
+
+    }
+    
+    public void renderFortressText() {
+    	GlyphLayout layout = new GlyphLayout();
+        String FortressText1 =  "Now that was pretty amazing but";
+        String FortressText2 =  "don't get too rested there is a lot";
+        String FortressText3 =  "more Fortresses around the map. ";
+        String FortressText4 =  "What are you waiting for go and get";
+        String FortressText5 =  "them. General Barnes";
+        String ContinueText =  "Press 'Space' to Continue";
+        layout.setText(game.font26, FortressText1);
+        layout.setText(game.font26, FortressText2);
+        layout.setText(game.font26, FortressText3);
+        layout.setText(game.font26, FortressText4);
+        layout.setText(game.font26, FortressText5);
+        layout.setText(game.font33, ContinueText);
+        
+        game.batch.setProjectionMatrix(pauseCamera.combined);
+        game.batch.begin();
+        game.font26.draw(game.batch, FortressText1, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 60f);
+        game.font26.draw(game.batch, FortressText2, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 100f);
+        game.font26.draw(game.batch, FortressText3, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 140f);
+        game.font26.draw(game.batch, FortressText4, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 180f);
+        game.font26.draw(game.batch, FortressText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
+        game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
+        game.batch.draw(commander, pauseCamera.viewportWidth/8f, pauseCamera.viewportHeight/5f);
+        game.batch.end();
+    }
+    
+    public void renderBossText() {
+    	GlyphLayout layout = new GlyphLayout();
+        String BossText1 =  "Soldier! Watch Out!";
+        String BossText2 =  "Now that is a big alien, you are";
+        String BossText3 =  "gonna have to fight him face to";
+        String BossText4 =  "face. Look for it weak points.";
+        String BossText5 =  "Good Luck, we are counting on you!";
+        String ContinueText =  "Press 'Space' to Continue";
+        layout.setText(game.font26, BossText1);
+        layout.setText(game.font26, BossText2);
+        layout.setText(game.font26, BossText3);
+        layout.setText(game.font26, BossText4);
+        layout.setText(game.font26, BossText5);
+        layout.setText(game.font33, ContinueText);
+        
+        game.batch.setProjectionMatrix(pauseCamera.combined);
+        game.batch.begin();
+        game.font26.draw(game.batch, BossText1, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 60f);
+        game.font26.draw(game.batch, BossText2, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 100f);
+        game.font26.draw(game.batch, BossText3, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 140f);
+        game.font26.draw(game.batch, BossText4, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 180f);
+        game.font26.draw(game.batch, BossText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
+        game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
+        game.batch.draw(commander, pauseCamera.viewportWidth/8f, pauseCamera.viewportHeight/5f);
+        game.batch.end();
+    }
+    
+    public void renderUpdateText() {
+    	GlyphLayout layout = new GlyphLayout();
+        String UpdateText1 =  "With that sort shooting soldier";
+        String UpdateText2 =  "you should be leading this assault.";
+        String UpdateText3 =  "Now keep going, those alien ";
+        String UpdateText4 =  "invaders will not stop until they";
+        String UpdateText5 =  "have been completely annihilated.";
+        String UpdateText6 =  "Remember were all counting on you.";
+        String ContinueText =  "Press 'Space' to Continue";
+        layout.setText(game.font26, UpdateText1);
+        layout.setText(game.font26, UpdateText2);
+        layout.setText(game.font26, UpdateText3);
+        layout.setText(game.font26, UpdateText4);
+        layout.setText(game.font26, UpdateText5);
+        layout.setText(game.font26, UpdateText6);
+        layout.setText(game.font33, ContinueText);
+
+        game.batch.setProjectionMatrix(pauseCamera.combined);
+        game.batch.begin();
+        game.font26.draw(game.batch, UpdateText1, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 60f);
+        game.font26.draw(game.batch, UpdateText2, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 100f);
+        game.font26.draw(game.batch, UpdateText3, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 140f);
+        game.font26.draw(game.batch, UpdateText4, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 180f);
+        game.font26.draw(game.batch, UpdateText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
+        game.font26.draw(game.batch, UpdateText6, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 260f);
+        game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
+        game.batch.draw(commander, pauseCamera.viewportWidth/8f, pauseCamera.viewportHeight/5f);
+        game.batch.end();
+    }
+    
     /** Renders the text to the screen when the game is paused */
     public void renderPauseScreenText() {
         GlyphLayout layout = new GlyphLayout();

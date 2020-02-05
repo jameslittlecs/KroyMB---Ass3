@@ -1,4 +1,4 @@
-package com.mozarellabytes.kroy.Screens;
+	package com.mozarellabytes.kroy.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

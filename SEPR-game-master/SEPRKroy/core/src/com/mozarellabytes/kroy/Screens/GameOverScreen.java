@@ -20,6 +20,8 @@ public class GameOverScreen implements Screen {
 
     /** The texture that makes up the background screen */
     private final Texture backgroundLogo;
+    
+    private final Texture commander;
 
     /** Camera to set the projection for the screen */
     private final OrthographicCamera camera;
@@ -36,6 +38,7 @@ public class GameOverScreen implements Screen {
      *            <code> false </code> if th game was lost
      */
     public GameOverScreen(Kroy game, boolean won) {
+    	commander = new Texture(Gdx.files.internal("images/commander.png"), true);
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
@@ -49,9 +52,10 @@ public class GameOverScreen implements Screen {
         if (won) {
             this.text = "We did it! Good job little guy.";
         } else {
-            this.text = "Mission Failed. We'll get 'em next time.";
+            this.text = "Mission Failed. We'll get 'em next time." + "\n" + "Ahh shit, the World was counting on you and look what you’ve done."+"\n"+"They've won, I couldn't be anymore disappointed."; 
+            
         }
-        this.text = this.text + "\n" + "   Click to return to the main menu...";
+        this.text = this.text + "\n" + "Click to return to the main menu...";
         layout.setText(game.font26, this.text);
     }
 
