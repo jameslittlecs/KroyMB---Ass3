@@ -39,7 +39,14 @@ public class Unit {
 	}
 	
 	public void setHP(int HP) {
-		this.HP = HP;
+		if(HP<=this.maxHP && HP>=0) {
+			this.HP = HP;
+		}else if(HP>this.maxHP) {
+			this.HP = this.maxHP;
+		}else if(HP<0) {
+			this.HP = 0;
+		}
+		
 	}
 	
 	public int getDamage() {

@@ -40,6 +40,10 @@ public class MinigameInputHandler implements InputProcessor{
 				MiniGameScreen.fireEngine.getAttack(currentlySelected).setSelected(false);
 			}
 			break;
+		case Input.Keys.ENTER:
+			int attackSelected = MiniGameScreen.fireEngine.getSelectedIndex();
+			MiniGameScreen.fireEngine.getAttack(attackSelected).performAttack(MiniGameScreen.alien);
+			break;
 		}
 		return false;
 	}

@@ -25,7 +25,7 @@ public class MiniGameScreen implements Screen{
 
 	private final Kroy game;
 	
-	private Alien alien = new Alien(100, 10, new Vector2(600, 800), 100);
+	public static Alien alien = new Alien(100, 10, new Vector2(600, 800), 100);
 	public static FireEngine fireEngine = new FireEngine(100, 10, new Vector2(600, 800), 100);
 	
 	public MiniGameScreen(Kroy game) {
