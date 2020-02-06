@@ -6,8 +6,9 @@ public class Attack {
 	private int PP;
 	private Unit self;
 	private int targetHealthChange, selfHealthChange, targetDamageChange, selfDamageChange;
+	private boolean selected;
 	
-	public Attack(String name, int PP, Unit self, int targetHealthChange, int selfHealthChange, int targetDamageChange, int selfDamageChange) {
+	public Attack(String name, int PP, Unit self, int targetHealthChange, int selfHealthChange, int targetDamageChange, int selfDamageChange, boolean selected) {
 		this.name = name;
 		this.PP = PP;
 		this.self = self;
@@ -15,6 +16,7 @@ public class Attack {
 		this.selfHealthChange = selfHealthChange;
 		this.targetDamageChange = targetDamageChange;
 		this.selfDamageChange = selfDamageChange;
+		this.selected = selected;
 	}
 	
 	//Methods
@@ -67,7 +69,12 @@ public class Attack {
 	public void setSelfDamageChange(int selfDamageChange) {
 		this.selfDamageChange = selfDamageChange;
 	}
-	
+		public boolean getSelected() {
+		return this.selected;
+	}
+	public void setSelected(boolean selected) {
+		this.selected =  selected;
+	}
 	
 	
 }

@@ -73,4 +73,17 @@ public class Unit {
 	public void setMoveList(List<Attack> moveList) {
 		this.moveList = moveList;
 	}
+	
+	public String getMoveName(int index) {
+		return this.getAttack(index).getName();
+	}
+	
+	public int getSelectedIndex() {
+		for(int i=0; i<this.getMoveList().size();i++) {
+			if(this.getAttack(i).getSelected()) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }
