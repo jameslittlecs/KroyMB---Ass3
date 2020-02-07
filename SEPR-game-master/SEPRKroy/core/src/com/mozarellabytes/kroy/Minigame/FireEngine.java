@@ -10,7 +10,7 @@ public class FireEngine extends Unit{
 	//Basic attack, does unit damage to target
 	private Attack waterSpray = new Attack("Water Spray", 10, this, this.getDamage()*-1, 0, 0, 0, true);
 	//Basic heal, heals self for damage variable
-	private Attack quickRepair = new Attack("Quick Repair", 3, this, 0, this.getDamage(), 0, 0, false);
+	private Attack quickRepair = new Attack("Quick Repair", 3, this, 0, this.getMaxHP()-this.getHP(), 0, 0, false);
 	//Increases self damage variable
 	private Attack pressurePump = new Attack("Pressure Pump", 5, this, 0, 0, 0, 10, false);
 	//Deals some damage to self, but deals double damage to target
@@ -22,4 +22,10 @@ public class FireEngine extends Unit{
 		super.setMoveList(moveList);
 	}
 
+	public void updateMoves() {
+		waterSpray.setTargetHealthChange(this.getDamage()*-1);
+		quickRepair.setSelfHealthChange(this.getMaxHP()-this.getHP());
+		waterBlast.setSelfHealthChange(this.getDamage()*-1);
+		waterBlast.setTargetHealthChange(this.getDamage()*-2);
+		}
 }

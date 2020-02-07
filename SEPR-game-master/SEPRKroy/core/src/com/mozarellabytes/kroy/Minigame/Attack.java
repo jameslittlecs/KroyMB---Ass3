@@ -23,10 +23,10 @@ public class Attack {
 	
 	//Methods
 	public void performAttack(Unit target) {
-		self.setHP(self.getHP()+this.selfHealthChange);
-		target.setHP(target.getHP()+this.targetHealthChange);
-		self.setDamage(self.getDamage()+this.selfDamageChange);
-		target.setDamage(target.getDamage()+this.targetDamageChange);
+		self.setHP(self.getHP()+this.getSelfHealthChange());
+		target.setHP(target.getHP()+this.getTargetHealthChange());
+		self.setDamage(self.getDamage()+this.getSelfDamageChange());
+		target.setDamage(target.getDamage()+this.getTargetDamageChange());
 		this.PP -= 1;
 	}
 	

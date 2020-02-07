@@ -41,8 +41,24 @@ public class MinigameInputHandler implements InputProcessor{
 			}
 			break;
 		case Input.Keys.ENTER:
-			int attackSelected = MiniGameScreen.fireEngine.getSelectedIndex();
-			MiniGameScreen.fireEngine.getAttack(attackSelected).performAttack(MiniGameScreen.alien);
+			if(!MiniGameScreen.gameEnd) {
+				if(MiniGameScreen.unitTurn == MiniGameScreen.fireEngine) {
+					int attackSelected = MiniGameScreen.fireEngine.getSelectedIndex();
+					if(MiniGameScreen.fireEngine.getAttack(attackSelected).hasPP()) {
+						MiniGameScreen.fireEngine.getAttack(attackSelected).performAttack(MiniGameScreen.alien);
+						MiniGameScreen.fireEngine.updateMoves();
+						MiniGameScreen.alien.updateMoves();
+						MiniGameScreen.unitTurn = MiniGameScreen.alien;
+					}
+				}
+				else {
+					MiniGameScreen.chosenAttack.performAttack(MiniGameScreen.fireEngine);
+					MiniGameScreen.alien.updateMoves();
+					MiniGameScreen.fireEngine.updateMoves();
+					MiniGameScreen.paused = false;
+					MiniGameScreen.unitTurn = MiniGameScreen.fireEngine;
+				}
+			}
 			break;
 		}
 		return false;

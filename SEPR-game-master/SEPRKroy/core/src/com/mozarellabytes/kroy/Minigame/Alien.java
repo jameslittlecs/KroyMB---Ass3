@@ -23,6 +23,13 @@ public class Alien extends Unit{
 		super.setMoveList(moveList);
 	}
 	
+	public void updateMoves() {
+		beamRay.setTargetHealthChange(this.getDamage()*-1);
+		dryOff.setSelfHealthChange(this.getDamage()*2);
+		probe.setSelfHealthChange(this.getDamage());
+		probe.setTargetHealthChange(this.getDamage()*-1);
+	}
+	
 	public Attack chooseAttack() {
 		Random rand = new Random();
 		int randomNum = rand.nextInt(100);
