@@ -3,14 +3,16 @@ package com.mozarellabytes.kroy.Minigame;
 public class Attack {
 
 	private String name;
+	private int maxPP;
 	private int PP;
 	private Unit self;
 	private int targetHealthChange, selfHealthChange, targetDamageChange, selfDamageChange;
 	private boolean selected;
 	
-	public Attack(String name, int PP, Unit self, int targetHealthChange, int selfHealthChange, int targetDamageChange, int selfDamageChange, boolean selected) {
+	public Attack(String name, int maxPP, Unit self, int targetHealthChange, int selfHealthChange, int targetDamageChange, int selfDamageChange, boolean selected) {
 		this.name = name;
-		this.PP = PP;
+		this.maxPP = maxPP;
+		this.PP = maxPP;
 		this.self = self;
 		this.targetHealthChange = targetHealthChange;
 		this.selfHealthChange = selfHealthChange;
@@ -25,6 +27,14 @@ public class Attack {
 		target.setHP(target.getHP()+this.targetHealthChange);
 		self.setDamage(self.getDamage()+this.selfDamageChange);
 		target.setDamage(target.getDamage()+this.targetDamageChange);
+		this.PP -= 1;
+	}
+	
+	public boolean hasPP() {
+		if(this.getPP()>0) {
+			return true;
+		}
+		return false;
 	}
 	//Getters and Setters
 	public String getName() {
@@ -32,6 +42,12 @@ public class Attack {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public int getMaxPP() {
+		return maxPP;
+	}
+	public void setMaxPP(int pP) {
+		maxPP = pP;
 	}
 	public int getPP() {
 		return PP;
