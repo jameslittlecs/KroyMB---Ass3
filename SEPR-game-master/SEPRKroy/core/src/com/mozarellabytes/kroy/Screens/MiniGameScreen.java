@@ -78,7 +78,7 @@ public class MiniGameScreen implements Screen{
 					paused = true;
 				}
 				batch.begin();
-				font.draw(batch, "Alien uses " + chosenAttack.getName() + "!", 500, 300);
+				font.draw(batch, "Alien uses " + chosenAttack.getName() + "! (Press Enter to continue)", 500, 300);
 				batch.end();
 			}
 		}
