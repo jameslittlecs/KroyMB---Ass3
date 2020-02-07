@@ -27,11 +27,13 @@ public class MiniGameScreen implements Screen{
 	
 	private Alien alien = new Alien(100, 10, new Vector2(600, 800), 100);
 	public static FireEngine fireEngine = new FireEngine(100, 10, new Vector2(600, 800), 100);
+	private Unit unitTurn;
 	
 	public MiniGameScreen(Kroy game) {
 		// TODO Auto-generated constructor stub
 		Gdx.input.setInputProcessor(new MinigameInputHandler(this));
 		this.game = game;
+		unitTurn = fireEngine;
 	}
 
 	@Override
@@ -43,22 +45,34 @@ public class MiniGameScreen implements Screen{
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
+		//Draw health bar
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		renderHPBar(fireEngine.getHP(), fireEngine.getMaxHP(), Color.RED, Color.FIREBRICK, 1, 1000, 1000, 100, 800);
 		game.shapeRenderer.end();
 		
-		batch.begin();
-        int yChange = 0;
-        for(int i = 0 ; i<fireEngine.getMoveList().size(); i++) {
-        	if(fireEngine.getMoveList().get(i).getSelected()) {
-        		font.setColor(Color.RED);
-        	}else {
-        		font.setColor(Color.WHITE);
-        	}
-        	font.draw(batch, fireEngine.getMoveName(i), 200, 300 - yChange);
-        	yChange += 20;
-        }
-        batch.end();
+		//When its the players turn
+		if(this.unitTurn == fireEngine) {
+			batch.begin();
+	        int yChange = 0;
+	        for(int i = 0 ; i<fireEngine.getMoveList().size(); i++) {
+	        	if(fireEngine.getMoveList().get(i).getSelected()) {
+	        		font.setColor(Color.RED);
+	        	}else {
+	        		font.setColor(Color.WHITE);
+	        	}
+	        	font.draw(batch, fireEngine.getMoveName(i) + " (" + fireEngine.getAttack(i).getPP() + "/" + fireEngine.getAttack(i).getMaxPP() + ")", 200, 300 - yChange);
+	        	yChange += 20;
+	        }
+	        batch.end();
+		}
+		//When its the AI's turn
+		else {
+			Attack chosenAttack = alien.chooseAttack();
+			font.draw(batch, "Alien uses " + chosenAttack.getName() + "!", 500, 300);
+			//Perform animation and wait
+			alien.chooseAttack().performAttack(fireEngine);
+			this.unitTurn = fireEngine;
+		}
 	}
 
 	@Override
