@@ -36,6 +36,11 @@ public class MiniGameScreen implements Screen{
 	private boolean alienDead = false;
 	public static boolean gameEnd = false;
 	public static Attack chosenAttack;
+	public static boolean fireEngineMoving = false;
+	public static boolean alienMoving = false;
+	private boolean goBack = false;
+	public static long startMovingTime;
+	public static long currentMovingTime;
 	
 	private final OrthographicCamera camera;
 	private Texture backgroundImage,grassImage;
@@ -64,9 +69,7 @@ public class MiniGameScreen implements Screen{
 	public void render(float delta) {
 		Gdx.gl.glClearColor(51/255f, 34/255f, 99/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
         camera.update();
-
         game.batch.setProjectionMatrix(camera.combined);
 		
 		batch.begin();
@@ -75,10 +78,47 @@ public class MiniGameScreen implements Screen{
 		//Draw Grass circles
 		batch.draw(grassImage, camera.viewportWidth/7f, camera.viewportHeight/5.5f, camera.viewportWidth/4f, camera.viewportHeight/4f);
 		batch.draw(grassImage, camera.viewportWidth/1.6f, camera.viewportHeight/1.9f, camera.viewportWidth/4f, camera.viewportHeight/4f);
-		//Draw FireEngine
 		fireEngine.drawSprite(batch);
-		//Draw alien
 		alien.drawSprite(batch);
+		//Draw FireEngine
+		if(fireEngineMoving) {
+			if(!goBack) {
+				Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
+				fireEngine.attackAnimation(thisVector);
+			}
+			else {
+				Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
+				fireEngine.attackAnimation(thisVector);
+			}
+			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && !goBack) {
+				goBack = true;
+				startMovingTime = System.currentTimeMillis();
+			}
+			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && goBack) {
+				fireEngineMoving = false;
+				unitTurn = alien;
+				goBack = false;
+			}
+		}
+		if(alienMoving) {
+			if(!goBack) {
+				Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
+				alien.attackAnimation(thisVector);
+			}
+			else {
+				Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
+				alien.attackAnimation(thisVector);
+			}
+			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && !goBack) {
+				goBack = true;
+				startMovingTime = System.currentTimeMillis();
+			}
+			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && goBack) {
+				alienMoving = false;
+				unitTurn = fireEngine;
+				goBack = false;
+			}
+		}
 		batch.end();
 		
 		//Draw health bar
@@ -89,7 +129,7 @@ public class MiniGameScreen implements Screen{
 		
 		//When its the players turn
 		
-		if(!gameEnd) {
+		if(!gameEnd && !fireEngineMoving && !alienMoving) {
 			if(this.unitTurn == fireEngine) {
 				batch.begin();
 		        int yChange = 0;
@@ -111,7 +151,7 @@ public class MiniGameScreen implements Screen{
 					paused = true;
 				}
 				batch.begin();
-				font.draw(batch, "Alien uses " + chosenAttack.getName() + "! (Press Enter to continue)", 500, 300);
+				font.draw(batch, "Alien uses " + chosenAttack.getName() + "! (Press Enter to continue)", camera.viewportWidth/10f, camera.viewportHeight/5f);
 				batch.end();
 			}
 		}

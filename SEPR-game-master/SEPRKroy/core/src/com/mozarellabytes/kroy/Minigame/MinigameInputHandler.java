@@ -41,14 +41,15 @@ public class MinigameInputHandler implements InputProcessor{
 			}
 			break;
 		case Input.Keys.ENTER:
-			if(!MiniGameScreen.gameEnd) {
+			if(!MiniGameScreen.gameEnd && !MiniGameScreen.fireEngineMoving && !MiniGameScreen.alienMoving) {
 				if(MiniGameScreen.unitTurn == MiniGameScreen.fireEngine) {
 					int attackSelected = MiniGameScreen.fireEngine.getSelectedIndex();
 					if(MiniGameScreen.fireEngine.getAttack(attackSelected).hasPP()) {
 						MiniGameScreen.fireEngine.getAttack(attackSelected).performAttack(MiniGameScreen.alien);
 						MiniGameScreen.fireEngine.updateMoves();
 						MiniGameScreen.alien.updateMoves();
-						MiniGameScreen.unitTurn = MiniGameScreen.alien;
+						MiniGameScreen.fireEngineMoving = true;
+						MiniGameScreen.startMovingTime = System.currentTimeMillis();
 					}
 				}
 				else {
@@ -56,7 +57,8 @@ public class MinigameInputHandler implements InputProcessor{
 					MiniGameScreen.alien.updateMoves();
 					MiniGameScreen.fireEngine.updateMoves();
 					MiniGameScreen.paused = false;
-					MiniGameScreen.unitTurn = MiniGameScreen.fireEngine;
+					MiniGameScreen.alienMoving = true;
+					MiniGameScreen.startMovingTime = System.currentTimeMillis();
 				}
 			}
 			break;

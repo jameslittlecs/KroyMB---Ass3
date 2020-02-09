@@ -19,8 +19,8 @@ public class Alien extends Unit{
 	//Deals some damage to target, heals damage dealt
 	private Attack probe = new Attack("Probe", 5, this, this.getDamage()*-1, this.getDamage(), 0, 0, false);
 	
-	public Alien(int HP, int damage, Vector2 position, int maxHP) {
-		super(new Texture(Gdx.files.internal("alien.png")),HP, damage, position, maxHP);
+	public Alien(int HP, int damage, Vector2 startPosition, int maxHP) {
+		super(new Texture(Gdx.files.internal("alien.png")),HP, damage, startPosition, maxHP);
 		List<Attack> moveList = Arrays.asList(beamRay,dryOff,chargeUp,probe);
 		super.setMoveList(moveList);
 	}

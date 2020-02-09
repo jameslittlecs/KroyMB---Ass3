@@ -11,16 +11,18 @@ import com.badlogic.gdx.math.Vector2;
 public class Unit extends Sprite{
 	
 	private int HP, damage;
-	private Vector2 position;
+	private Vector2 startPosition;
+	private Vector2 currentPosition;
 	private boolean isAlive;
 	private List<Attack> moveList;
 	private int maxHP;
 	
-	public Unit(Texture texture, int HP, int damage, Vector2 position, int maxHP) {
+	public Unit(Texture texture, int HP, int damage, Vector2 startPosition, int maxHP) {
 		super(texture);
 		this.HP = HP;
 		this.damage = damage;
-		this.position = position;
+		this.startPosition = startPosition;
+		this.currentPosition = startPosition;
 		this.isAlive = true;
 		this.maxHP = maxHP;
 	}
@@ -30,8 +32,16 @@ public class Unit extends Sprite{
 		return (Attack)this.getMoveList().get(i);
 	}
 	
+	public void attackAnimation(Vector2 otherUnitPosition) {
+		float velocity = 1000;
+		Vector2 delta = otherUnitPosition.sub(this.getCurrentPosition()).nor();
+		Vector2 newPos = new Vector2(this.getCurrentPosition());
+		newPos.add(delta.scl(velocity * Gdx.graphics.getDeltaTime()));
+		this.setCurrentPosition(newPos);
+	}
+	
     public void drawSprite(Batch batch) {
-        batch.draw(this, this.position.x, this.position.y, 400, 400);
+        batch.draw(this, this.currentPosition.x, this.currentPosition.y, 400, 400);
     }
 	
 	//Getters and Setters
@@ -66,12 +76,20 @@ public class Unit extends Sprite{
 		this.damage = damage;
 	}
 	
-	public Vector2 getPosition() {
-		return this.position;
+	public Vector2 getStartPosition() {
+		return this.startPosition;
 	}
 	
-	public void setPosition(Vector2 position) {
-		this.position = position;
+	public void setStartPosition(Vector2 position) {
+		this.startPosition = position;
+	}
+	
+	public Vector2 getCurrentPosition() {
+		return this.currentPosition;
+	}
+	
+	public void setCurrentPosition(Vector2 position) {
+		this.currentPosition = position;
 	}
 	
 	public boolean isAlive() {
