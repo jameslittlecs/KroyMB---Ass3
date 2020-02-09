@@ -2,9 +2,13 @@ package com.mozarellabytes.kroy.Minigame;
 
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-public class Unit {
+public class Unit extends Sprite{
 	
 	private int HP, damage;
 	private Vector2 position;
@@ -12,7 +16,8 @@ public class Unit {
 	private List<Attack> moveList;
 	private int maxHP;
 	
-	public Unit(int HP, int damage, Vector2 position, int maxHP) {
+	public Unit(Texture texture, int HP, int damage, Vector2 position, int maxHP) {
+		super(texture);
 		this.HP = HP;
 		this.damage = damage;
 		this.position = position;
@@ -24,6 +29,10 @@ public class Unit {
 	public Attack getAttack(int i) {
 		return (Attack)this.getMoveList().get(i);
 	}
+	
+    public void drawSprite(Batch batch) {
+        batch.draw(this, this.position.x, this.position.y, 400, 400);
+    }
 	
 	//Getters and Setters
 	public int getMaxHP() {

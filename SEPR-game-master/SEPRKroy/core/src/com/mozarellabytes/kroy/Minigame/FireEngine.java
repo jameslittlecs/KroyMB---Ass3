@@ -3,6 +3,9 @@ package com.mozarellabytes.kroy.Minigame;
 import java.util.Arrays;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 public class FireEngine extends Unit{
@@ -17,7 +20,7 @@ public class FireEngine extends Unit{
 	private Attack waterBlast = new Attack("Water Blast", 5, this, this.getDamage()*-2, this.getDamage()*-1, 0, 0, false);
 	
 	public FireEngine(int HP, int damage, Vector2 position, int maxHP) {
-		super(HP, damage, position, maxHP);
+		super(new Texture(Gdx.files.internal("minigameFireEngine.png")),HP, damage, position, maxHP);
 		List<Attack> moveList = Arrays.asList(waterSpray, quickRepair, pressurePump, waterBlast);
 		super.setMoveList(moveList);
 	}

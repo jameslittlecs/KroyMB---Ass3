@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public class Alien extends Unit{
@@ -18,7 +20,7 @@ public class Alien extends Unit{
 	private Attack probe = new Attack("Probe", 5, this, this.getDamage()*-1, this.getDamage(), 0, 0, false);
 	
 	public Alien(int HP, int damage, Vector2 position, int maxHP) {
-		super(HP, damage, position, maxHP);
+		super(new Texture(Gdx.files.internal("alien.png")),HP, damage, position, maxHP);
 		List<Attack> moveList = Arrays.asList(beamRay,dryOff,chargeUp,probe);
 		super.setMoveList(moveList);
 	}
