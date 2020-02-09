@@ -92,9 +92,15 @@ public class GameScreen implements Screen {
         PLAY, PAUSE
     }
     
+    /** Used to switch between story state within the game
+     * Non is the normal state and the other states are called when the story is prompted */
     public enum StoryState {
     	NON, INTRO, FORTRESS, BOSS, UPDATE
     }
+    
+    long startTime, currentTime, timeDifference;
+    
+    int upgradeCounter;
 
     /**
      * Constructor which has the game passed in
@@ -104,6 +110,11 @@ public class GameScreen implements Screen {
     
     public GameScreen(Kroy game) {
         this.game = game;
+        
+        startTime = System.currentTimeMillis();
+        System.out.println(startTime);
+        
+        upgradeCounter = 0;
 
         state = PlayState.PLAY;
         storyState = StoryState.INTRO;
@@ -276,7 +287,20 @@ public class GameScreen implements Screen {
         station.checkForCollisions();
         gameState.setTrucksInAttackRange(0);
 
-        
+        currentTime = System.currentTimeMillis();
+		timeDifference = currentTime - startTime;
+		System.out.println(timeDifference);  
+		
+		if (upgradeCounter == 0 && timeDifference >= 40000 ) {
+			upgradeFortresses();
+			upgradeCounter++;
+		} else if (upgradeCounter == 1 && timeDifference >= 80000 ){
+			upgradeFortresses();
+			upgradeCounter++;
+		} else if (upgradeCounter == 2 && timeDifference >= 120000){
+			upgradeFortresses();
+			upgradeCounter++;
+		} 
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
@@ -382,6 +406,13 @@ public class GameScreen implements Screen {
         SoundFX.sfx_soundtrack.stop();
     }
 
+    public void upgradeFortresses() {
+    	for (Fortress fortress : this.fortresses) {
+    		fortress.upgradeStat();
+    	}
+    }
+    
+    
     /**
      * Checks whether the player has clicked on a truck and sets that
      * truck to selected truck and entity

@@ -50,7 +50,7 @@ public class Fortress {
      * @param targetPos the truck position being checked
      * @return          <code>true</code> if truck within range of fortress
      *                  <code>false</code> otherwise
-     */
+     */    
     public boolean withinRange(Vector2 targetPos) {
         return targetPos.dst(this.position) <= fortressType.getRange();
     }
@@ -93,6 +93,12 @@ public class Fortress {
         return false;
     }
 
+    public void upgradeStat() {
+    	this.fortressType.upgradeIndividualStat();
+    	this.HP = this.getHP() + 50;
+    			
+    }
+    
     /**
      * Removes Bomb from bomb list. This
      * occurs when the bomb hits or misses
@@ -122,7 +128,8 @@ public class Fortress {
     public void draw(Batch mapBatch) {
         mapBatch.draw(this.getFortressType().getTexture(), this.getArea().x, this.getArea().y, this.getArea().width, this.getArea().height);
     }
-
+    
+  
     public Vector2 getPosition() {
         return this.position;
     }

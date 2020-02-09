@@ -19,23 +19,23 @@ public enum FortressType {
      * attack points, width, height and sprite.
      */
     Revs ("Revolution", 2500, 7, 100, 10, 5, 3, new Texture(Gdx.files.internal("sprites/fortress/fortress_revs.png"))),
-    Walmgate ("Walmgate Bar", 1500, 8, 200, 15, 5, 5, new Texture(Gdx.files.internal("sprites/fortress/fortress_walmgate.png"))),
-    Clifford ("Clifford's Tower", 500, 4, 150, 20, 4, 3, new Texture(Gdx.files.internal("sprites/fortress/fortress_clifford.png")));
+    Walmgate ("Walmgate Bar", 2000, 8, 200, 15, 5, 5, new Texture(Gdx.files.internal("sprites/fortress/fortress_walmgate.png"))),
+    Clifford ("Clifford's Tower", 1500, 4, 150, 20, 4, 3, new Texture(Gdx.files.internal("sprites/fortress/fortress_clifford.png")));
 
     /** The name for the fortress, visible once the fortress has been clicked on */
     private final String name;
 
     /** The time between firing bombs */
-    private final int delay;
+    private int delay;
 
     /** The range that the fortress can see and attack firetrucks */
-    private final float range;
+    private float range;
 
     /** The maximum health points for the fortress - always 100 */
-    private final float maxHP;
+    private float maxHP;
 
     /** Attack points - how much damage the fortress can inflict */
-    private final float AP;
+    private float AP;
 
     /** The width of the sprite measured in tiles */
     private final int w;
@@ -69,8 +69,31 @@ public enum FortressType {
         this.h = h;
         this.texture = texture;
     }
+    
+    public void upgradeIndividualStat() {
+    	this.setAP(this.getAP() + 5);
+    	this.setDelay(this.getDelay() - 250);
+    	this.setMaxHP(this.getMaxHP() + 50);
+    	this.setRange(this.getRange() + 1);
+    }
+    
+    public void setDelay(int delay) {
+		this.delay = delay;
+	}
 
-    public String getName() { return name; }
+	public void setRange(float range) {
+		this.range = range;
+	}
+
+	public void setMaxHP(float maxHP) {
+		this.maxHP = maxHP;
+	}
+
+	public void setAP(float aP) {
+		this.AP = aP;
+	}    
+	
+	public String getName() { return name; }
 
     public int getDelay() { return delay; }
 
