@@ -83,12 +83,22 @@ public class MiniGameScreen implements Screen{
 		//Draw FireEngine
 		if(fireEngineMoving) {
 			if(!goBack) {
-				Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
-				fireEngine.attackAnimation(thisVector);
+				if(fireEngine.getSelectedIndex() == 0 || fireEngine.getSelectedIndex() == 3 ) {
+					Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
+					fireEngine.attackAnimation(thisVector, 1000);
+				}else {
+					Vector2 thisVector = new Vector2 (fireEngine.getStartPosition().x, fireEngine.getStartPosition().y+20);
+					fireEngine.attackAnimation(thisVector, 90);
+				}
 			}
 			else {
-				Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
-				fireEngine.attackAnimation(thisVector);
+				if(fireEngine.getSelectedIndex() == 0 || fireEngine.getSelectedIndex() == 3 ) {
+					Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
+					fireEngine.attackAnimation(thisVector, 1000);
+				}else {
+					Vector2 thisVector = new Vector2 (fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
+					fireEngine.attackAnimation(thisVector, 90);
+				}
 			}
 			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && !goBack) {
 				goBack = true;
@@ -102,12 +112,22 @@ public class MiniGameScreen implements Screen{
 		}
 		if(alienMoving) {
 			if(!goBack) {
-				Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
-				alien.attackAnimation(thisVector);
+				if(chosenAttack.getName() == "Beam Ray" || chosenAttack.getName() == "Probe") {
+					Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
+					alien.attackAnimation(thisVector,1000);
+				}else {
+					Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y+20);
+					alien.attackAnimation(thisVector, 90);
+				}
 			}
 			else {
-				Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
-				alien.attackAnimation(thisVector);
+				if(chosenAttack.getName() == "Beam Ray" || chosenAttack.getName() == "Probe") {
+					Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
+					alien.attackAnimation(thisVector,1000);
+				}else {
+					Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
+					alien.attackAnimation(thisVector, 90);
+				}
 			}
 			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && !goBack) {
 				goBack = true;

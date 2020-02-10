@@ -32,8 +32,7 @@ public class Unit extends Sprite{
 		return (Attack)this.getMoveList().get(i);
 	}
 	
-	public void attackAnimation(Vector2 otherUnitPosition) {
-		float velocity = 1000;
+	public void attackAnimation(Vector2 otherUnitPosition, float velocity) {
 		Vector2 delta = otherUnitPosition.sub(this.getCurrentPosition()).nor();
 		Vector2 newPos = new Vector2(this.getCurrentPosition());
 		newPos.add(delta.scl(velocity * Gdx.graphics.getDeltaTime()));

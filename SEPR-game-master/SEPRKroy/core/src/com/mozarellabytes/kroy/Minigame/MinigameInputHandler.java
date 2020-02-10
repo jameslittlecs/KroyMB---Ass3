@@ -2,10 +2,7 @@ package com.mozarellabytes.kroy.Minigame;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
-import com.mozarellabytes.kroy.Screens.GameScreen;
 import com.mozarellabytes.kroy.Screens.MiniGameScreen;
-import com.mozarellabytes.kroy.Utilities.GUI;
 
 public class MinigameInputHandler implements InputProcessor{
 	
