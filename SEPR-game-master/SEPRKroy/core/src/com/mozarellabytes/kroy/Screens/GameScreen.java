@@ -159,7 +159,9 @@ public class GameScreen implements Screen {
         fortresses.add(new Fortress(30.5f, 17.5f, FortressType.Walmgate));
         fortresses.add(new Fortress(16, 3.5f, FortressType.Clifford));
         maxFortress = fortresses.size();
-        numberofFortressAlive = maxFortress;       
+        numberofFortressAlive = maxFortress;      
+        
+        //finalFortress = fortresses.get(0).getFortressType().getName();
         
         // sets the origin point to which all of the polygon's local vertices are relative to.
         for (FireTruck truck : station.getTrucks()) {
@@ -285,6 +287,8 @@ public class GameScreen implements Screen {
      */
     private void update(float delta) {
         gameState.hasGameEnded(game);
+        
+        //If the minigame is lost the game is restored to its previous state with a low health fortress
         if(gameState.getMinigameEntered()) {
         	this.toMiniGameScreen();
         	gameState.setMinigameEntered(false);
@@ -295,6 +299,7 @@ public class GameScreen implements Screen {
         	}else if(finalFortress == "Walmgate Bar"){
         		 fortresses.add(new Fortress(30.5f, 17.5f, FortressType.Walmgate));
         	}
+        	fortresses.get(0).setHP(20);
         	this.updateFortressAlive();
         	gameState.setMinigameEntered(false);
         }
@@ -370,6 +375,20 @@ public class GameScreen implements Screen {
 
             // check if fortress is destroyed
             if (fortress.getHP() <= 0) {
+            	//destroys the attacking fire engine to start the minigame
+            	if(this.fortresses.size() == 1) {
+            		for (int j = 0; j < station.getTrucks().size(); j++) {
+                        FireTruck truck = station.getTruck(j);
+                        if (truck.fortressInRange(fortress.getPosition())) {
+                        	gameState.removeFireTruck();
+                        	station.destroyTruck(truck);
+                            if (truck.equals(this.selectedTruck)) {
+                                this.selectedTruck = null;
+                            }
+                            break;
+                        }
+            		}
+            	}
                 this.fortresses.remove(fortress);
                 if(this.fortresses.size() == 1) {
                 	finalFortress = fortresses.get(0).getFortressType().getName();
