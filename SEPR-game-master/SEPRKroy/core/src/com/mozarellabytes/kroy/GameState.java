@@ -1,6 +1,10 @@
 package com.mozarellabytes.kroy;
 
+import com.mozarellabytes.kroy.Entities.Fortress;
+import com.mozarellabytes.kroy.Entities.FortressType;
 import com.mozarellabytes.kroy.Screens.GameOverScreen;
+import com.mozarellabytes.kroy.Screens.GameScreen;
+import com.mozarellabytes.kroy.Screens.MiniGameScreen;
 
 /** This class is used to keep track of the player's progress within
  * the game. It keeps track of how many active fire trucks the user
@@ -14,15 +18,15 @@ public class GameState {
     private int activeFireTrucks;
 
     /** The number of fortresses the player has destroyed */
-    private int fortressesDestroyed;
 
     /** The number of trucks that have a fortress within their attack range */
     private int trucksInAttackRange;
+    
+    private boolean miniGameEntered = false;
 
     /** Constructor for GameState */
     public GameState() {
         this.activeFireTrucks = 0;
-        this.fortressesDestroyed = 0;
     }
 
     /** Adds one to activeFireTrucks, called when a firetruck is spawned */
@@ -35,12 +39,15 @@ public class GameState {
     public void removeFireTruck() {
         this.activeFireTrucks--;
     }
-
-    /** Adds one to fortressesDestroyed when a user has destroyed a
-     * fortress */
-    public void addFortress() {
-        this.fortressesDestroyed++;
+    
+    public void setMinigameEntered(boolean value) {
+    	miniGameEntered = value;
     }
+    
+    public boolean getMinigameEntered() {
+    	return miniGameEntered;
+    }
+
 
     /** Determines whether the game has ended either when a certain
      * number of fortresses have been destroyed or when there are no
@@ -48,8 +55,9 @@ public class GameState {
      * @param game LibGDX game
      */
     public void hasGameEnded(Kroy game) {
-        if (fortressesDestroyed == 3) {
-            endGame(true, game);
+        if (GameScreen.getFortressesAlive() == 0 && !(miniGameEntered)) {
+        	miniGameEntered = true;
+            //endGame(true, game);
         } else if (this.activeFireTrucks == 0) {
             endGame(false, game);
         }
@@ -61,7 +69,7 @@ public class GameState {
      *                  <code> false </code> if player has lost
      * @param game LibGDX game
      */
-    private void endGame(Boolean playerWon, Kroy game) {
+    public static void endGame(Boolean playerWon, Kroy game) {
         if (playerWon) {
             game.setScreen(new GameOverScreen(game, true));
         } else {

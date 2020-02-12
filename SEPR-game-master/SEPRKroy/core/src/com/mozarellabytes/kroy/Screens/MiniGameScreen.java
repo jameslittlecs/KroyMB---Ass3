@@ -15,16 +15,21 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.mozarellabytes.kroy.GameState;
 import com.mozarellabytes.kroy.Kroy;
 import com.mozarellabytes.kroy.Minigame.Alien;
 import com.mozarellabytes.kroy.Minigame.FireEngine;
 import com.mozarellabytes.kroy.Minigame.Unit;
 import com.mozarellabytes.kroy.Utilities.Constants;
+import com.mozarellabytes.kroy.Utilities.GUI;
+import com.mozarellabytes.kroy.Utilities.GameInputHandler;
 
 public class MiniGameScreen implements Screen{
 	
 	BitmapFont font = new BitmapFont();
 	SpriteBatch batch = new SpriteBatch();
+	
+	private final Screen parent;
 
 	private final Kroy game;
 	
@@ -45,8 +50,10 @@ public class MiniGameScreen implements Screen{
 	private final OrthographicCamera camera;
 	private Texture backgroundImage,grassImage;
 	
-	public MiniGameScreen(Kroy game) {
+	public MiniGameScreen(Kroy game, Screen parent) {
 		this.game = game;
+		
+		this.parent = parent;
 		
 		Gdx.input.setInputProcessor(new MinigameInputHandler(this));
 		camera = new OrthographicCamera();
@@ -185,6 +192,14 @@ public class MiniGameScreen implements Screen{
 			this.gameEnd = true;
 		}
 		if(gameEnd) {
+			if(playerDead) {
+				GUI gui = new GUI(game, (GameScreen) parent);
+	            Gdx.input.setInputProcessor(new GameInputHandler((GameScreen) parent, gui));
+	            gui.idleInfoButton();
+				this.game.setScreen(parent);
+			}else if(alienDead) {
+				GameState.endGame(true, game);
+			}
 			//end the game
 		}
 	}

@@ -76,6 +76,10 @@ public class GameScreen implements Screen {
 
     private int maxFortress;
     
+    private static int numberofFortressAlive;
+    
+    private String finalFortress;
+    
     /** Where the FireEngines' spawn, refill and repair */
     private final FireStation station;
 
@@ -155,7 +159,7 @@ public class GameScreen implements Screen {
         fortresses.add(new Fortress(30.5f, 17.5f, FortressType.Walmgate));
         fortresses.add(new Fortress(16, 3.5f, FortressType.Clifford));
         maxFortress = fortresses.size();
-        
+        numberofFortressAlive = maxFortress;       
         
         // sets the origin point to which all of the polygon's local vertices are relative to.
         for (FireTruck truck : station.getTrucks()) {
@@ -281,6 +285,20 @@ public class GameScreen implements Screen {
      */
     private void update(float delta) {
         gameState.hasGameEnded(game);
+        if(gameState.getMinigameEntered()) {
+        	this.toMiniGameScreen();
+        	gameState.setMinigameEntered(false);
+        	if(finalFortress == "Revolution") {
+        		fortresses.add(new Fortress(12, 18.5f, FortressType.Revs));
+        	}else if(finalFortress == "Clifford's Tower") {
+        		fortresses.add(new Fortress(16, 3.5f, FortressType.Clifford));
+        	}else if(finalFortress == "Walmgate Bar"){
+        		 fortresses.add(new Fortress(30.5f, 17.5f, FortressType.Walmgate));
+        	}
+        	this.updateFortressAlive();
+        	gameState.setMinigameEntered(false);
+        }
+        this.updateFortressAlive();
         CameraShake.update(delta, camera, new Vector2(camera.viewportWidth / 2f, camera.viewportHeight / 2f));
 
         station.restoreTrucks();
@@ -289,7 +307,6 @@ public class GameScreen implements Screen {
 
         currentTime = System.currentTimeMillis();
 		timeDifference = currentTime - startTime;
-		System.out.println(timeDifference);  
 		
 		if (upgradeCounter == 0 && timeDifference >= 40000 ) {
 			upgradeFortresses();
@@ -353,8 +370,10 @@ public class GameScreen implements Screen {
 
             // check if fortress is destroyed
             if (fortress.getHP() <= 0) {
-                gameState.addFortress();
                 this.fortresses.remove(fortress);
+                if(this.fortresses.size() == 1) {
+                	finalFortress = fortresses.get(0).getFortressType().getName();
+                }
                 if (SoundFX.music_enabled) {
                     SoundFX.sfx_fortress_destroyed.play();
                 }
@@ -487,6 +506,10 @@ public class GameScreen implements Screen {
     public void toControlScreen() {
         game.setScreen(new ControlsScreen(game, this, "game"));
     }
+    
+    public void toMiniGameScreen() {
+    	game.setScreen(new MiniGameScreen(game, this));
+    }
 
     /** Exits the main game screen and goes to the menu, called when the home
      * button is clicked */
@@ -528,6 +551,14 @@ public class GameScreen implements Screen {
 
     public ArrayList<Fortress> getFortresses() {
         return this.fortresses;
+    }
+    
+    public void updateFortressAlive() {
+    	numberofFortressAlive = this.getFortresses().size();
+    }
+    
+    public static int getFortressesAlive() {
+    	return numberofFortressAlive;
     }
 
     public PlayState getState() {
