@@ -4,7 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Queue;
+
 import java.util.ArrayList;
+
+import com.mozarellabytes.kroy.Screens.GameScreen;
+import com.mozarellabytes.kroy.Utilities.AStar;
 import com.mozarellabytes.kroy.Utilities.SoundFX;
 
 /**
@@ -21,6 +26,8 @@ public class FireStation {
      * in tiles
      */
     private final int x,y;
+    
+    private GameScreen gameScreen;
 
     /** The tile where new FireTrucks are spawned */
     private final Vector2 spawnTile;
@@ -46,7 +53,8 @@ public class FireStation {
      * @param x  x coordinate of Station in tiles (lower left point)
      * @param y  y coordinate of Station in tiles (lower left point)
      */
-    public FireStation(int x, int y) {
+    public FireStation(GameScreen gameScreen, int x, int y) {
+    	this.gameScreen = gameScreen;
         this.x = x;
         this.y = y;
         this.spawnTile = new Vector2(x+3, y);
@@ -183,5 +191,19 @@ public class FireStation {
 
     public FireTruck getTruck(int i) {
         return this.trucks.get(i);
+    }
+    public FireTruck nearestTruck(Vector2 point, int range) {
+    	int lowest = range;
+    	FireTruck truck = null;
+    	for (FireTruck t : this.trucks) {
+    		AStar pathfinder = new AStar(this.gameScreen.getObstacleGrid(), new Vector2((float)Math.floor(point.x), (float)Math.floor(point.y)), t.getPosition());
+    		Queue<Vector2> path = pathfinder.findPath();
+			if(path.size < lowest) {
+				lowest = path.size;
+				truck = t;
+			}
+    	}
+		return truck;
+    	
     }
 }

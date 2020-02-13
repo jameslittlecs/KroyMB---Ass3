@@ -19,22 +19,13 @@ import java.util.ArrayList;
  *
  * Having 'A' held when within range of a  Fortress will deal damage to it.
  */
-public class FireTruck extends Sprite {
-
-    /** Enables access to functions in GameScreen */
-    private final GameScreen gameScreen;
+public class FireTruck extends Entity {
 
     /** Defines set of pre-defined attributes */
     public final FireTruckType type;
 
-    /** Health points */
-    private float HP;
-
     /** Water Reserve */
     private float reserve;
-
-    /** Position of FireTruck in tiles */
-    private Vector2 position;
 
     /** Actual path the truck follows; the fewer item in
      * the path the slower the truck will go */
@@ -72,7 +63,7 @@ public class FireTruck extends Sprite {
 
     /** List of particles that the truck uses to attack
      * a Fortress */
-    private final ArrayList<WaterParticle> spray;
+    private final ArrayList<Particle> spray;
 
     /** Texture for each direction the
      * truck is facing */
@@ -90,19 +81,20 @@ public class FireTruck extends Sprite {
      * @param type          used to have predefined attributes
      */
     public FireTruck(GameScreen gameScreen, Vector2 position, FireTruckType type) {
-        super(new Texture(Gdx.files.internal("sprites/firetruck/down.png")));
+        this.setRegion(new Texture(Gdx.files.internal("sprites/firetruck/down.png")));
 
-        this.gameScreen = gameScreen;
+        this.setGameScreen(gameScreen);
         this.type = type;
-        this.HP = type.getMaxHP();
+        this.setHP(type.getMaxHP());
+        this.setMaxHP(type.getMaxHP());
         this.reserve = type.getMaxReserve();
-        this.position = position;
+        this.setPosition(position);
         this.path = new Queue<Vector2>();
         this.trailPath = new Queue<Vector2>();
         this.moving = false;
         this.attacking = false;
         this.inCollision = false;
-        this.spray = new ArrayList<WaterParticle>();
+        this.spray = new ArrayList<Particle>();
         this.timeOfLastAttack = System.currentTimeMillis();
         this.lookLeft = new Texture(Gdx.files.internal("sprites/firetruck/left.png"));
         this.lookRight = new Texture(Gdx.files.internal("sprites/firetruck/right.png"));
@@ -118,9 +110,9 @@ public class FireTruck extends Sprite {
         if (moving) {
             if (this.path.size > 0) {
                 Vector2 nextTile = path.first();
-                this.position = nextTile;
+                this.setPosition(nextTile);
 
-                if (!this.trailPath.isEmpty() && (int) this.position.x == this.trailPath.first().x && (int) this.position.y == this.trailPath.first().y) {
+                if (!this.trailPath.isEmpty() && (int) this.getPosition().x == this.trailPath.first().x && (int) this.getPosition().y == this.trailPath.first().y) {
                     this.trailPath.removeFirst();
                 }
                 if (!this.inCollision) {
@@ -135,15 +127,6 @@ public class FireTruck extends Sprite {
                 inCollision = false;
             }
         }
-    }
-
-    /**
-     * Increases Health Points of the truck
-     *
-     * @param HP    increased by this value
-     */
-    public void repair(float HP) {
-        this.HP += HP;
     }
 
     /**
@@ -170,6 +153,7 @@ public class FireTruck extends Sprite {
                 for (int i=1; i<interpolation; i++) {
                     this.path.addLast(new Vector2((((previous.x - coordinate.x)*-1)/interpolation)*i + previous.x, (((previous.y - coordinate.y)*-1)/interpolation)*i + previous.y));
                 }
+//                System.out.println(this.path.toString());
             }
             this.trailPath.addLast(new Vector2(((int) coordinate.x), ((int) coordinate.y)));
             this.path.addLast(new Vector2(((int) coordinate.x), ((int) coordinate.y)));
@@ -187,7 +171,7 @@ public class FireTruck extends Sprite {
      */
     private boolean isValidDraw(Vector2 coordinate) {
         if (coordinate.y < 24) {
-            if (gameScreen.isRoad((Math.round(coordinate.x)), (Math.round(coordinate.y)))) {
+            if (getGameScreen().isRoad((Math.round(coordinate.x)), (Math.round(coordinate.y)))) {
                 if (this.path.isEmpty()) {
                     return this.getPosition().equals(coordinate);
                 } else {
@@ -228,14 +212,20 @@ public class FireTruck extends Sprite {
     }
 
     /**
-     * Deals damage to Fortress by generating a WaterParticle and adding
+     * Deals damage to Fortress by generating a Particle and adding
      * it to the spray
      *
      * @param fortress Fortress being attacked
      */
     public void attack(Fortress fortress) {
         if (this.attacking && this.reserve > 0) {
-            this.spray.add(new WaterParticle(this, fortress));
+            this.spray.add(new Particle(this, fortress, 0));
+            this.reserve -= Math.min(this.reserve, this.type.getAP());
+        }
+    }
+    public void attack(Patrol patrol) {
+        if (this.attacking && this.reserve > 0) {
+            this.spray.add(new Particle(this, patrol, 0));
             this.reserve -= Math.min(this.reserve, this.type.getAP());
         }
     }
@@ -248,17 +238,17 @@ public class FireTruck extends Sprite {
      * @return          <code>true</code> if Fortress is within range
      *                  <code>false </code> otherwise
      */
-    public boolean fortressInRange(Vector2 fortress) {
+    public boolean enemyInRange(Vector2 fortress) {
         return this.getVisualPosition().dst(fortress) <= this.type.getRange();
     }
 
     /**
-     * Updates the position of each WaterParticle
+     * Updates the position of each Particle
      */
     public void updateSpray() {
         if (this.spray != null) {
             for (int i=0; i < this.spray.size(); i++) {
-                WaterParticle particle = this.spray.get(i);
+                Particle particle = this.spray.get(i);
                 particle.updatePosition();
                 if (particle.isHit()) {
                     this.damage(particle);
@@ -269,11 +259,11 @@ public class FireTruck extends Sprite {
     }
 
     /**
-     * Remove the WaterParticle from the spray when it hits the Fortress
+     * Remove the Particle from the spray when it hits the Fortress
      *
      * @param particle  The particle to be removed from spray
      */
-    private void removeParticle(WaterParticle particle) {
+    private void removeParticle(Particle particle) {
         this.spray.remove(particle);
     }
 
@@ -282,7 +272,7 @@ public class FireTruck extends Sprite {
      *
      * @param particle  the particle which damages the fortress
      */
-    private void damage(WaterParticle particle) {
+    private void damage(Particle particle) {
         particle.getTarget().damage(Math.min(this.type.getAP(), particle.getTarget().getHP()));
     }
 
@@ -297,7 +287,7 @@ public class FireTruck extends Sprite {
         if (SoundFX.music_enabled) {
             SoundFX.sfx_truck_damage.play();
         }
-        this.HP -= Math.min(HP, this.HP);
+        this.setHP(this.getHP() - Math.min(HP, this.getHP()));
     }
 
     /**
@@ -329,7 +319,7 @@ public class FireTruck extends Sprite {
         shapeMapRenderer.rect(this.getPosition().x + 0.266f, this.getPosition().y + 1.4f, 0.2f, this.getReserve() / this.type.getMaxReserve() * 0.6f, Color.CYAN, Color.CYAN, Color.CYAN, Color.CYAN);
         shapeMapRenderer.rect(this.getPosition().x + 0.533f, this.getPosition().y + 1.4f, 0.2f, 0.6f, Color.FIREBRICK, Color.FIREBRICK, Color.FIREBRICK, Color.FIREBRICK);
         shapeMapRenderer.rect(this.getPosition().x + 0.533f, this.getPosition().y + 1.4f, 0.2f, this.getHP() / this.type.getMaxHP() * 0.6f, Color.RED, Color.RED, Color.RED, Color.RED);
-        for (WaterParticle particle : this.getSpray()) {
+        for (Particle particle : this.getSpray()) {
             shapeMapRenderer.rect(particle.getPosition().x, particle.getPosition().y, particle.getSize(), particle.getSize(), particle.getColour(), particle.getColour(), particle.getColour(), particle.getColour());
         }
     }
@@ -341,7 +331,7 @@ public class FireTruck extends Sprite {
      *                  drawn to (map dependant)
      */
     public void drawSprite(Batch mapBatch) {
-        mapBatch.draw(this, this.position.x, this.position.y, 1, 1);
+        mapBatch.draw(this, this.getPosition().x, this.getPosition().y, 1, 1);
     }
 
     /**
@@ -351,7 +341,7 @@ public class FireTruck extends Sprite {
      * @return a vector where the truck is visually
      */
     public Vector2 getVisualPosition() {
-        return new Vector2(this.position.x + 0.5f, this.position.y + 0.5f);
+        return new Vector2(this.getPosition().x + 0.5f, this.getPosition().y + 0.5f);
     }
 
     /**
@@ -374,10 +364,6 @@ public class FireTruck extends Sprite {
         return timeOfLastAttack;
     }
 
-    public float getHP() {
-        return this.HP;
-    }
-
     public float getReserve() {
         return this.reserve;
     }
@@ -390,10 +376,6 @@ public class FireTruck extends Sprite {
         this.inCollision = true;
     }
 
-    public Vector2 getPosition() {
-        return this.position;
-    }
-
     public Queue<Vector2> getTrailPath() {
         return this.trailPath;
     }
@@ -402,12 +384,24 @@ public class FireTruck extends Sprite {
         return this.path;
     }
 
-    private ArrayList<WaterParticle> getSpray() {
+    private ArrayList<Particle> getSpray() {
         return this.spray;
     }
 
     public boolean getMoving() {
         return this.moving;
     }
+
+	@Override
+	public void damage(float dmg) {
+		if (SoundFX.music_enabled) {
+            SoundFX.sfx_truck_damage.play();
+        }
+		if (dmg > 20) {
+			this.getGameScreen().getCamShake().shakeIt(.2f);
+		}
+		super.damage(dmg);
+	}
+    
 }
 

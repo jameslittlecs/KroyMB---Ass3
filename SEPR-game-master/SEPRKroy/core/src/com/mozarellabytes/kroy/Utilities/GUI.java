@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.mozarellabytes.kroy.Entities.FireTruck;
 import com.mozarellabytes.kroy.Entities.Fortress;
+import com.mozarellabytes.kroy.Minigame.Unit;
 import com.mozarellabytes.kroy.Kroy;
 import com.mozarellabytes.kroy.Screens.GameScreen;
 
@@ -198,6 +199,10 @@ public class GUI {
     private void renderSelectedFortress(Fortress fortress) {
         renderSelectedEntityBar(fortress.getHP(), fortress.getFortressType().getMaxHP(), Color.RED, Color.FIREBRICK, 1);
         renderSelectedEntityText(fortress);
+    }
+    
+    private void renderMinigameHP(Unit unit) {
+    	renderSelectedEntityBar(unit.getHP(), unit.getMaxHP(), Color.RED, Color.FIREBRICK, 1);
     }
 
     /**
