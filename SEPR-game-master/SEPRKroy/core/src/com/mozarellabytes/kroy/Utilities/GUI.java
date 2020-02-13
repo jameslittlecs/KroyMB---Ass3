@@ -484,6 +484,29 @@ public class GUI {
         game.batch.end();
     }
     
+    public void renderStoryUpdate(int storyUpdate) {
+    	GlyphLayout layout = new GlyphLayout();
+        String SUpdateText1 =  "Fortresses have upgraded to level " + (storyUpdate);
+        String SUpdateText2 =  "they will have increased; damage,";
+        String SUpdateText3 =  "range and health. Good Luck";
+        String SUpdateText4 =  "Press - Space - to Continue";
+
+        
+        layout.setText(game.font26, SUpdateText1);
+        layout.setText(game.font26, SUpdateText2);
+        layout.setText(game.font26, SUpdateText3);
+        layout.setText(game.font26, SUpdateText4);
+        
+        game.batch.setProjectionMatrix(pauseCamera.combined);
+        game.batch.begin();
+        game.font26.draw(game.batch, SUpdateText1, pauseCamera.viewportWidth * 19/54f, pauseCamera.viewportHeight * 47/48f - 5);
+        game.font26.draw(game.batch, SUpdateText2, pauseCamera.viewportWidth * 19/54f, pauseCamera.viewportHeight * 47/48f - 45f);
+        game.font26.draw(game.batch, SUpdateText3, pauseCamera.viewportWidth * 19/54f, pauseCamera.viewportHeight * 47/48f - 85f);
+        game.font26.draw(game.batch, SUpdateText4, pauseCamera.viewportWidth * 19/54f, pauseCamera.viewportHeight * 47/48f - 125f);
+        game.batch.end();
+        
+    }
+    
     /** Renders the text to the screen when the game is paused */
     public void renderPauseScreenText() {
         GlyphLayout layout = new GlyphLayout();
@@ -497,6 +520,17 @@ public class GUI {
         game.font50.draw(game.batch, pauseText1, pauseCamera.viewportWidth/2 - layout.width/2.7f, pauseCamera.viewportHeight/1.8f - layout.height/2);
         game.font26.draw(game.batch, pauseText2, pauseCamera.viewportWidth/2 - layout.width/2, pauseCamera.viewportHeight/2.3f - layout.height/2);
         game.batch.end();
+    }
+    
+    public void renderTimer(int timer) {
+    	GlyphLayout layout = new GlyphLayout();
+        String timerText1 =  "Time till next Upgrade - " + timer;
+        layout.setText(game.font26, timerText1);
+        game.batch.setProjectionMatrix(pauseCamera.combined);
+        game.batch.begin();
+        game.font26.draw(game.batch, timerText1, pauseCamera.viewportWidth * 6/8f, pauseCamera.viewportHeight* 1/30f);
+        game.batch.end();
+
     }
 
     public Rectangle getHomeButton() { return this.homeButton; }

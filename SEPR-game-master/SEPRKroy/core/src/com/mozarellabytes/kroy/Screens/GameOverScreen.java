@@ -52,7 +52,7 @@ public class GameOverScreen implements Screen {
         if (won) {
             this.text = "We did it! Good job little guy.";
         } else {
-            this.text = "Mission Failed. We'll get 'em next time." + "\n" + "Ahh shit, the World was counting on you and look what you’ve done."+"\n"+"They've won, I couldn't be anymore disappointed."; 
+            this.text = "Mission Failed. We'll get 'em next time." + "\n" + "Ahh shooot, the World was counting on you and look what you’ve done."+"\n"+"They've won, I couldn't be anymore disappointed."; 
             
         }
         this.text = this.text + "\n" + "Click to return to the main menu...";

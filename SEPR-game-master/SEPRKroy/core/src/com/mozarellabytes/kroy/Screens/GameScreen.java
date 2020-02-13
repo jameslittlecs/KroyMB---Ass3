@@ -17,6 +17,7 @@ import com.mozarellabytes.kroy.Utilities.*;
 
 import java.util.ArrayList;
 
+
 /**
  * The Screen that our game is played in.
  * Accessed from MenuScreen when the user
@@ -95,12 +96,20 @@ public class GameScreen implements Screen {
     /** Used to switch between story state within the game
      * Non is the normal state and the other states are called when the story is prompted */
     public enum StoryState {
-    	NON, INTRO, FORTRESS, BOSS, UPDATE
+    	NON, INTRO, FORTRESS, BOSS, UPDATE, MSG
     }
     
-    long startTime, currentTime, timeDifference;
+    long startTime;
+
+	long currentTime;
+	
+	long timeDifference;
     
     int upgradeCounter;
+    
+    int timer;
+    
+    int upgradeTimes, upgradeTimer;
 
     /**
      * Constructor which has the game passed in
@@ -110,6 +119,9 @@ public class GameScreen implements Screen {
     
     public GameScreen(Kroy game) {
         this.game = game;
+        
+        upgradeTimes = 45;
+        upgradeTimer = upgradeTimes;
         
         startTime = System.currentTimeMillis();
         System.out.println(startTime);
@@ -168,6 +180,7 @@ public class GameScreen implements Screen {
             SoundFX.sfx_soundtrack.setVolume(.5f);
             SoundFX.sfx_soundtrack.play();
         }
+       
 
     }
 
@@ -269,9 +282,18 @@ public class GameScreen implements Screen {
                 shapeMapRenderer.end();
         		gui.renderUpdateText();
         		break;
+        	case MSG:
+        		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+                shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeMapRenderer.setColor(0, 0, 0, 0.8f);
+                shapeMapRenderer.rect(this.camera.viewportWidth/3f, this.camera.viewportHeight * 53/64f, this.camera.viewportWidth/3f, this.camera.viewportHeight * 10/64f);
+                shapeMapRenderer.end();
+        		gui.renderStoryUpdate(upgradeCounter);       
         }
         
         gui.renderButtons();
+        
+        
     }
 
     /**
@@ -288,18 +310,28 @@ public class GameScreen implements Screen {
         gameState.setTrucksInAttackRange(0);
 
         currentTime = System.currentTimeMillis();
-		timeDifference = currentTime - startTime;
-		System.out.println(timeDifference);  
+        
+		timeDifference = (currentTime - startTime)/1000;
+		int time = (int) timeDifference;
+		timer = upgradeTimer - time;
 		
-		if (upgradeCounter == 0 && timeDifference >= 40000 ) {
+		
+		if (timer == 0) {
+			upgradeTimer = upgradeTimes + upgradeTimer*2;
+		} 
+		
+		if (upgradeCounter == 0 && timeDifference >= upgradeTimes) {
 			upgradeFortresses();
 			upgradeCounter++;
-		} else if (upgradeCounter == 1 && timeDifference >= 80000 ){
+			this.storyState = storyState.MSG;
+		} else if (upgradeCounter == 1 && timeDifference >= upgradeTimes*3){
 			upgradeFortresses();
 			upgradeCounter++;
-		} else if (upgradeCounter == 2 && timeDifference >= 120000){
+			this.storyState = storyState.MSG;
+		} else if (upgradeCounter == 2 && timeDifference >= upgradeTimes*7){
 			upgradeFortresses();
 			upgradeCounter++;
+			this.storyState = storyState.MSG;
 		} 
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
@@ -376,6 +408,14 @@ public class GameScreen implements Screen {
         shapeMapRenderer.setColor(Color.WHITE);
 
         gui.renderSelectedEntity(selectedEntity);
+        
+        Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+        shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeMapRenderer.setColor(0, 0, 0, 0.8f);
+        shapeMapRenderer.rect(this.camera.viewportWidth * 95/128f, this.camera.viewportHeight * 1/200f, this.camera.viewportWidth/4f, this.camera.viewportHeight * 1/25f);
+        shapeMapRenderer.end();
+        
+        gui.renderTimer(timer);
     }
 
     @Override
