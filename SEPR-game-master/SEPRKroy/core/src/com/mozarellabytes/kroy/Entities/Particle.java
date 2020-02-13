@@ -4,33 +4,26 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * This class is what a FireTruck uses to attack a
- * Fortress with. It generates a random colour from
- * a list of colours and a random size before heading
- * from the FireTruck towards the Fortress using the
- * interpolation function specified
- */
-public class WaterParticle {
+public class Particle {
 
-    /** Fortress that WaterParticle is firing at */
-    private final Fortress target;
+    /** Entity that WaterParticle is firing at */
+    private final Entity target;
 
     /** Random colour of Rectangle */
-    private final Color colour;
+    private Color colour;
 
     /** Random size of the Rectangle */
     private final float size;
 
     /** The position where the water particle starts from (the position
-     * of the truck)
+     * of the source)
      */
     private final Vector2 startPosition;
 
     /** The current position of the water particle */
     private Vector2 currentPosition;
 
-    /** The end position of the water particle (the fortress the truck
+    /** The end position of the water particle (the target the source
      * is attacking)
      */
     private Vector2 targetPosition;
@@ -39,31 +32,37 @@ public class WaterParticle {
      * Constructs a WaterParticle with
      * the following parameters
      *
-     * @param truck     The FireTruck that the
+     * @param source     The Entity that the
      *                  WaterParticle came from
-     * @param target    The Fortress that the
+     * @param target    The Entity that the
      *                  WaterParticle is heading
      *                  towards
      */
-    public WaterParticle(FireTruck truck, Fortress target) {
-        this.target = target;
-        Color[] colors = new Color[] {Color.CYAN, Color.NAVY, Color.BLUE, Color.PURPLE, Color.SKY, Color.TEAL};
-        this.colour = colors[(int)(Math.random() * 4)];
+    public Particle(Entity source, Entity target, int colourType) {
+		this.target = target;
+        if (colourType == 0) {
+        	Color[] colors = new Color[] {Color.CYAN, Color.NAVY, Color.BLUE, Color.PURPLE, Color.SKY, Color.TEAL};
+            this.colour = colors[(int)(Math.random() * 4)];
+        }
+        if (colourType == 1) {
+        	Color[] colors = new Color[] {Color.GOLD, Color.RED, Color.SCARLET, Color.FIREBRICK, Color.SALMON, Color.TAN};
+            this.colour = colors[(int)(Math.random() * 4)];
+        }
         this.size = (float)(Math.random()/5 + 0.1);
-        this.startPosition = new Vector2(truck.getPosition().x + 0.5f, truck.getPosition().y + 0.5f);
+        this.startPosition = new Vector2(source.getPosition().x + 0.5f, source.getPosition().y + 0.5f);
         this.currentPosition = startPosition;
         this.targetPosition = target.getPosition();
         createTargetPosition(target);
     }
 
     /**
-     * Creates the random coordinate within the fortress
+     * Creates the random coordinate within the target
      *
-     * @param fortress the fortress whose target position is being created
+     * @param target the target whose target position is being created
      */
-    private void createTargetPosition(Fortress fortress) {
-        float xCoord = (float)(Math.random()-0.5+fortress.getPosition().x);
-        float yCoord = (float)(Math.random()-0.5+fortress.getPosition().y);
+    private void createTargetPosition(Entity target) {
+        float xCoord = (float)(Math.random()-0.5+target.getPosition().x);
+        float yCoord = (float)(Math.random()-0.5+target.getPosition().y);
         this.targetPosition = new Vector2(xCoord, yCoord);
     }
 
@@ -77,9 +76,9 @@ public class WaterParticle {
 
     /**
      * Checks if the WaterParticle has
-     * reached the the Fortress
+     * reached the the Entity
      *
-     * @return  <code>true</code> if WaterParticle hit Fortress
+     * @return  <code>true</code> if WaterParticle hit Entity
      *          <code>false</code> otherwise
      */
     public boolean isHit() {
@@ -87,7 +86,7 @@ public class WaterParticle {
                 ((int) this.targetPosition.y == (int) this.currentPosition.y));
     }
 
-    public Fortress getTarget() { return this.target; }
+    public Entity getTarget() { return this.target; }
 
     public float getSize() { return this.size; }
 
@@ -96,4 +95,3 @@ public class WaterParticle {
     public Vector2 getPosition() { return this.currentPosition; }
 
 }
-

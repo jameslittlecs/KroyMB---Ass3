@@ -10,11 +10,11 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mozarellabytes.kroy.Entities.*;
 import com.mozarellabytes.kroy.GameState;
 import com.mozarellabytes.kroy.Kroy;
 import com.mozarellabytes.kroy.Utilities.*;
-
 import java.util.ArrayList;
 
 
@@ -25,6 +25,10 @@ import java.util.ArrayList;
  * the player wins or loses the game
  */
 public class GameScreen implements Screen {
+	
+	private ArrayList<Patrol> patrols;
+	
+	private int[][] obstacleGrid;
 
 	private int storyCounter;
 	
@@ -77,6 +81,10 @@ public class GameScreen implements Screen {
 
     private int maxFortress;
     
+    private static int numberofFortressAlive;
+    
+    private String finalFortress;
+    
     /** Where the FireEngines' spawn, refill and repair */
     private final FireStation station;
 
@@ -124,7 +132,7 @@ public class GameScreen implements Screen {
         upgradeTimer = upgradeTimes;
         
         startTime = System.currentTimeMillis();
-        System.out.println(startTime);
+//        System.out.println(startTime);
         
         upgradeCounter = 0;
 
@@ -157,17 +165,34 @@ public class GameScreen implements Screen {
                 mapLayers.getIndex("structures2"),
                 mapLayers.getIndex("transparentStructures")};
 
-        station = new FireStation(3, 2);
+        station = new FireStation(this, 3, 2);
 
         spawn(FireTruckType.Ocean);
         spawn(FireTruckType.Speed);
+        
+        generateGrid((TiledMapTileLayer) mapLayers.get("collisions"));
+        
+        this.patrols = new ArrayList<Patrol>();
+        Array<Vector2> patrolPath1 = new Array<Vector2>();
+        patrolPath1.add(new Vector2(10, 5));
+        patrolPath1.add(new Vector2(10, 10));
+        patrolPath1.add(new Vector2(20, 8));
+        Array<Vector2> patrolPath2 = new Array<Vector2>();
+        patrolPath2.add(new Vector2(15, 15));
+        patrolPath2.add(new Vector2(23, 15));
+        Gunner patrol1 = new Gunner(this, new Vector2(2, 5), patrolPath1);
+        Bomber patrol2 = new Bomber(this, new Vector2(15, 13), patrolPath2);
+        this.patrols.add(patrol1);
+        this.patrols.add(patrol2);
 
         fortresses = new ArrayList<Fortress>();
-        fortresses.add(new Fortress(12, 18.5f, FortressType.Revs));
-        fortresses.add(new Fortress(30.5f, 17.5f, FortressType.Walmgate));
-        fortresses.add(new Fortress(16, 3.5f, FortressType.Clifford));
+        fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
+        fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
+        fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
         maxFortress = fortresses.size();
+        numberofFortressAlive = maxFortress;      
         
+        //finalFortress = fortresses.get(0).getFortressType().getName();
         
         // sets the origin point to which all of the polygon's local vertices are relative to.
         for (FireTruck truck : station.getTrucks()) {
@@ -184,7 +209,7 @@ public class GameScreen implements Screen {
 
     }
 
-    @Override
+	@Override
     public void show() {
     }
 
@@ -197,10 +222,13 @@ public class GameScreen implements Screen {
         mapRenderer.render(backgroundLayerIndex);
 
         mapBatch.begin();
-
+        
         for (FireTruck truck : station.getTrucks()) {
             truck.drawPath(mapBatch);
             truck.drawSprite(mapBatch);
+        }
+        for (Patrol p : this.patrols) {
+            p.draw(mapBatch);
         }
 
         station.draw(mapBatch);
@@ -225,6 +253,9 @@ public class GameScreen implements Screen {
                 bomb.drawBomb(shapeMapRenderer);
             }
         }
+        for (Patrol p : this.patrols) {
+            p.drawStats(shapeMapRenderer);
+        }
 
         shapeMapRenderer.end();
 
@@ -247,7 +278,7 @@ public class GameScreen implements Screen {
         
         switch (storyState) {
         	case NON:
-        		this.update(delta);
+//        		this.update(delta); i think this is making update happen twice
         		break;
         	case INTRO:
             	System.out.println(storyCounter);
@@ -303,6 +334,23 @@ public class GameScreen implements Screen {
      */
     private void update(float delta) {
         gameState.hasGameEnded(game);
+        
+        //If the minigame is lost the game is restored to its previous state with a low health fortress
+        if(gameState.getMinigameEntered()) {
+        	this.toMiniGameScreen();
+        	gameState.setMinigameEntered(false);
+        	if(finalFortress == "Revolution") {
+        		fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
+        	}else if(finalFortress == "Clifford's Tower") {
+        		fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
+        	}else if(finalFortress == "Walmgate Bar"){
+        		 fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
+        	}
+        	fortresses.get(0).setHP(20);
+        	this.updateFortressAlive();
+        	gameState.setMinigameEntered(false);
+        }
+        this.updateFortressAlive();
         CameraShake.update(delta, camera, new Vector2(camera.viewportWidth / 2f, camera.viewportHeight / 2f));
 
         station.restoreTrucks();
@@ -333,6 +381,15 @@ public class GameScreen implements Screen {
 			upgradeCounter++;
 			this.storyState = storyState.MSG;
 		} 
+		timeDifference = currentTime - startTime;
+
+//		System.out.println(timeDifference);  
+
+		
+		if (upgradeCounter == 0 && timeDifference >= 40000 || upgradeCounter == 1 && timeDifference >= 80000 || upgradeCounter == 2 && timeDifference >= 120000) {
+			upgradeFortresses();
+			upgradeCounter++;
+		}
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
@@ -346,6 +403,15 @@ public class GameScreen implements Screen {
         	this.storyState = StoryState.BOSS;
         } else {}
         
+        ArrayList<Patrol> patrolList = new ArrayList<Patrol>(this.patrols);
+        for (Patrol p : patrolList) {
+        	if (p.getHP() <= 0) {
+        		this.patrols.remove(p);
+        		continue;
+        	}
+            this.patrols.get(this.patrols.indexOf(p)).move();
+            this.patrols.get(this.patrols.indexOf(p)).attack();
+        }
         
         for (int i = 0; i < station.getTrucks().size(); i++) {
             FireTruck truck = station.getTruck(i);
@@ -358,11 +424,18 @@ public class GameScreen implements Screen {
                 if (fortress.withinRange(truck.getVisualPosition())) {
                     fortress.attack(truck, true);
                 }
-                if (truck.fortressInRange(fortress.getPosition())) {
+                if (truck.enemyInRange(fortress.getPosition())) {
                     gameState.incrementTrucksInAttackRange();
                     truck.attack(fortress);
                     break;
                 }
+            }
+            for (Patrol p : this.patrols) {
+            	 if (truck.enemyInRange(p.getPosition())) {
+                     gameState.incrementTrucksInAttackRange();
+                     truck.attack(p);
+                     break;
+                 }
             }
 
             // check if truck is destroyed
@@ -385,8 +458,24 @@ public class GameScreen implements Screen {
 
             // check if fortress is destroyed
             if (fortress.getHP() <= 0) {
-                gameState.addFortress();
+            	//destroys the attacking fire engine to start the minigame
+            	if(this.fortresses.size() == 1) {
+            		for (int j = 0; j < station.getTrucks().size(); j++) {
+                        FireTruck truck = station.getTruck(j);
+                        if (truck.enemyInRange(fortress.getPosition())) {
+                        	gameState.removeFireTruck();
+                        	station.destroyTruck(truck);
+                            if (truck.equals(this.selectedTruck)) {
+                                this.selectedTruck = null;
+                            }
+                            break;
+                        }
+            		}
+            	}
                 this.fortresses.remove(fortress);
+                if(this.fortresses.size() == 1) {
+                	finalFortress = fortresses.get(0).getFortressType().getName();
+                }
                 if (SoundFX.music_enabled) {
                     SoundFX.sfx_fortress_destroyed.play();
                 }
@@ -527,6 +616,10 @@ public class GameScreen implements Screen {
     public void toControlScreen() {
         game.setScreen(new ControlsScreen(game, this, "game"));
     }
+    
+    public void toMiniGameScreen() {
+    	game.setScreen(new MiniGameScreen(game, this));
+    }
 
     /** Exits the main game screen and goes to the menu, called when the home
      * button is clicked */
@@ -569,10 +662,41 @@ public class GameScreen implements Screen {
     public ArrayList<Fortress> getFortresses() {
         return this.fortresses;
     }
+    
+    public void updateFortressAlive() {
+    	numberofFortressAlive = this.getFortresses().size();
+    }
+    
+    public static int getFortressesAlive() {
+    	return numberofFortressAlive;
+    }
 
     public PlayState getState() {
         return this.state;
     }
+    private void generateGrid(TiledMapTileLayer layer) {
+		this.obstacleGrid = new int[layer.getWidth()][layer.getHeight()];
+		for (int x = 0; x < layer.getWidth(); x++) {
+			for (int y = 0; y < layer.getHeight(); y++) {
+				if (layer.getCell(x, y).getTile().getProperties().get("road").equals(true)) {
+					this.obstacleGrid[x][y] = 1;
+				}
+				else {
+					this.obstacleGrid[x][y] = 0;
+				}
+			}
+		}
+	}
+    public int[][] getObstacleGrid(){
+    	return this.obstacleGrid;
+    }
 
+	public ArrayList<Patrol> getPatrols() {
+		return patrols;
+	}
+
+	public CameraShake getCamShake() {
+		return camShake;
+	}
 }
 

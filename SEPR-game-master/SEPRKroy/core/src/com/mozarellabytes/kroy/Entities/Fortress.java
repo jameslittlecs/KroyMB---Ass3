@@ -5,18 +5,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
+import com.mozarellabytes.kroy.Screens.GameScreen;
 import com.mozarellabytes.kroy.Utilities.SoundFX;
 
 import java.util.ArrayList;
 
-public class Fortress {
-
-    /*** Fortress health, destroyed on zero */
-    private float HP;
-
-    /*** Position of the Fortress */
-    private final Vector2 position;
+public class Fortress extends Entity {
 
     /*** Where the Fortress lies on the map */
     private final Rectangle area;
@@ -35,12 +29,14 @@ public class Fortress {
      * @param y     y coordinate of Fortress (lower left point)
      * @param type  Type of Fortress to give certain stats
      */
-    public Fortress(float x, float y, FortressType type) {
+    public Fortress(GameScreen gameScreen, Vector2 position, FortressType type) {
+    	this.setGameScreen(gameScreen);
         this.fortressType = type;
-        this.position = new Vector2(x, y);
-        this.HP = type.getMaxHP();
+        this.setPosition(position);
+        this.setHP(type.getMaxHP());
+        this.setMaxHP(type.getMaxHP());
         this.bombs = new ArrayList<Bomb>();
-        this.area = new Rectangle(this.position.x - (float) this.fortressType.getW()/2, this.position.y - (float) this.fortressType.getH()/2,
+        this.area = new Rectangle(this.getPosition().x - (float) this.fortressType.getW()/2, this.getPosition().y - (float) this.fortressType.getH()/2,
                 this.fortressType.getW(), this.fortressType.getH());
     }
 
@@ -52,7 +48,7 @@ public class Fortress {
      *                  <code>false</code> otherwise
      */    
     public boolean withinRange(Vector2 targetPos) {
-        return targetPos.dst(this.position) <= fortressType.getRange();
+        return targetPos.dst(this.getPosition()) <= fortressType.getRange();
     }
 
     /**
@@ -95,8 +91,7 @@ public class Fortress {
 
     public void upgradeStat() {
     	this.fortressType.upgradeIndividualStat();
-    	this.HP = this.getHP() + 50;
-    			
+    	this.setHP(this.getHP() + 50);
     }
     
     /**
@@ -128,19 +123,6 @@ public class Fortress {
     public void draw(Batch mapBatch) {
         mapBatch.draw(this.getFortressType().getTexture(), this.getArea().x, this.getArea().y, this.getArea().width, this.getArea().height);
     }
-    
-  
-    public Vector2 getPosition() {
-        return this.position;
-    }
-
-    public float getHP() {
-        return this.HP;
-    }
-
-    public void damage(float HP){
-        this.HP -= HP;
-    }
 
     public Rectangle getArea() {
         return this.area;
@@ -153,5 +135,4 @@ public class Fortress {
     public ArrayList<Bomb> getBombs() {
         return this.bombs;
     }
-
 }
