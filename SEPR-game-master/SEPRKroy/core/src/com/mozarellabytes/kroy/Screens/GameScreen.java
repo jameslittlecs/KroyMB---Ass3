@@ -161,12 +161,17 @@ public class GameScreen implements Screen {
         generateGrid((TiledMapTileLayer) mapLayers.get("collisions"));
         
         this.patrols = new ArrayList<Patrol>();
-        Array<Vector2> patrolPath = new Array<Vector2>();
-        patrolPath.add(new Vector2(10, 5));
-        patrolPath.add(new Vector2(10, 10));
-        patrolPath.add(new Vector2(20, 8));
-        Gunner patrol = new Gunner(this, new Vector2(2, 5), patrolPath);
-        this.patrols.add(patrol);
+        Array<Vector2> patrolPath1 = new Array<Vector2>();
+        patrolPath1.add(new Vector2(10, 5));
+        patrolPath1.add(new Vector2(10, 10));
+        patrolPath1.add(new Vector2(20, 8));
+        Array<Vector2> patrolPath2 = new Array<Vector2>();
+        patrolPath2.add(new Vector2(15, 15));
+        patrolPath2.add(new Vector2(23, 15));
+        Gunner patrol1 = new Gunner(this, new Vector2(2, 5), patrolPath1);
+        Bomber patrol2 = new Bomber(this, new Vector2(15, 13), patrolPath2);
+        this.patrols.add(patrol1);
+        this.patrols.add(patrol2);
 
         fortresses = new ArrayList<Fortress>();
         fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
