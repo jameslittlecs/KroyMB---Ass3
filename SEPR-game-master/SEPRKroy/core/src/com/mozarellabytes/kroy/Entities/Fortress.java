@@ -135,9 +135,4 @@ public class Fortress extends Entity {
     public ArrayList<Bomb> getBombs() {
         return this.bombs;
     }
-    
-    public void setHP(int HP) {
-    	this.HP = HP;
-    }
-
 }

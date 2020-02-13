@@ -44,6 +44,10 @@ public class Particle {
         	Color[] colors = new Color[] {Color.CYAN, Color.NAVY, Color.BLUE, Color.PURPLE, Color.SKY, Color.TEAL};
             this.colour = colors[(int)(Math.random() * 4)];
         }
+        if (colourType == 1) {
+        	Color[] colors = new Color[] {Color.GOLD, Color.RED, Color.SCARLET, Color.FIREBRICK, Color.SALMON, Color.TAN};
+            this.colour = colors[(int)(Math.random() * 4)];
+        }
         this.size = (float)(Math.random()/5 + 0.1);
         this.startPosition = new Vector2(source.getPosition().x + 0.5f, source.getPosition().y + 0.5f);
         this.currentPosition = startPosition;

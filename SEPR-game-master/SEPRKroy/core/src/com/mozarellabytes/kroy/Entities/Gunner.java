@@ -39,7 +39,7 @@ public class Gunner extends Patrol {
 	public void attack() {
 		this.setTarget(this.getGameScreen().getStation().nearestTruck(this.getPosition(), this.getRange()));
 		if (this.reserve > 0 && this.getTarget() != null) {
-            this.spray.add(new Particle(this, this.getTarget(), 0));
+            this.spray.add(new Particle(this, this.getTarget(), 1));
             this.reserve -= Math.min(this.reserve, this.getAd());
         }
 		this.updateSpray();
