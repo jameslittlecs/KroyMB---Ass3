@@ -358,6 +358,7 @@ public class GameScreen implements Screen {
         gameState.setTrucksInAttackRange(0);
 
         currentTime = System.currentTimeMillis();
+<<<<<<< HEAD
         
 		timeDifference = (currentTime - startTime)/1000;
 		int time = (int) timeDifference;
@@ -381,6 +382,7 @@ public class GameScreen implements Screen {
 			upgradeCounter++;
 			this.storyState = storyState.MSG;
 		} 
+=======
 		timeDifference = currentTime - startTime;
 
 //		System.out.println(timeDifference);  
@@ -390,6 +392,7 @@ public class GameScreen implements Screen {
 			upgradeFortresses();
 			upgradeCounter++;
 		}
+>>>>>>> 186244e9f88cd408552f03e35a57b30b348dc3ce
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
