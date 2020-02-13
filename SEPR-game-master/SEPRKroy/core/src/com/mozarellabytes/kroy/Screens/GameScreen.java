@@ -313,11 +313,11 @@ public class GameScreen implements Screen {
         	this.toMiniGameScreen();
         	gameState.setMinigameEntered(false);
         	if(finalFortress == "Revolution") {
-        		fortresses.add(new Fortress(12, 18.5f, FortressType.Revs));
+        		fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
         	}else if(finalFortress == "Clifford's Tower") {
-        		fortresses.add(new Fortress(16, 3.5f, FortressType.Clifford));
+        		fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
         	}else if(finalFortress == "Walmgate Bar"){
-        		 fortresses.add(new Fortress(30.5f, 17.5f, FortressType.Walmgate));
+        		 fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
         	}
         	fortresses.get(0).setHP(20);
         	this.updateFortressAlive();
@@ -332,10 +332,9 @@ public class GameScreen implements Screen {
 
         currentTime = System.currentTimeMillis();
 		timeDifference = currentTime - startTime;
-<<<<<<< HEAD
+
 //		System.out.println(timeDifference);  
-=======
->>>>>>> 1245567a93f72d3857500aac0e72fc5bfdd7545e
+
 		
 		if (upgradeCounter == 0 && timeDifference >= 40000 || upgradeCounter == 1 && timeDifference >= 80000 || upgradeCounter == 2 && timeDifference >= 120000) {
 			upgradeFortresses();
@@ -413,7 +412,7 @@ public class GameScreen implements Screen {
             	if(this.fortresses.size() == 1) {
             		for (int j = 0; j < station.getTrucks().size(); j++) {
                         FireTruck truck = station.getTruck(j);
-                        if (truck.fortressInRange(fortress.getPosition())) {
+                        if (truck.enemyInRange(fortress.getPosition())) {
                         	gameState.removeFireTruck();
                         	station.destroyTruck(truck);
                             if (truck.equals(this.selectedTruck)) {
