@@ -18,10 +18,10 @@ public class Gunner extends Patrol {
     public Gunner(GameScreen gameScreen, Vector2 position,Array<Vector2> nodes) {
 		this.setGameScreen(gameScreen);
 		this.setPosition(position);
-		this.setLookLeft(new Texture(Gdx.files.internal("sprites/firetruck/left.png")));
-        this.setLookRight(new Texture(Gdx.files.internal("sprites/firetruck/right.png")));
-        this.setLookUp(new Texture(Gdx.files.internal("sprites/firetruck/up.png")));
-        this.setLookDown(new Texture(Gdx.files.internal("sprites/firetruck/down.png")));
+		this.setLookLeft(new Texture(Gdx.files.internal("sprites/patrol/tankleft.png")));
+        this.setLookRight(new Texture(Gdx.files.internal("sprites/patrol/tankright.png")));
+        this.setLookUp(new Texture(Gdx.files.internal("sprites/patrol/tankup.png")));
+        this.setLookDown(new Texture(Gdx.files.internal("sprites/patrol/tankdown.png")));
         this.setRegion(getLookDown());
 		this.setPath(new Queue<Vector2>());
 		this.setPoints(new Queue<Vector2>());

@@ -189,6 +189,10 @@ public class GameScreen implements Screen {
         fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
         fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
         fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
+        fortresses.add(new Fortress(this, new Vector2(1f, 1f), FortressType.CentralHall));
+        fortresses.add(new Fortress(this, new Vector2(20f, 20f), FortressType.Minister));
+        fortresses.add(new Fortress(this, new Vector2(15f, 15f), FortressType.TrainStation));
+        
         maxFortress = fortresses.size();
         numberofFortressAlive = maxFortress;      
         
@@ -358,7 +362,6 @@ public class GameScreen implements Screen {
         gameState.setTrucksInAttackRange(0);
 
         currentTime = System.currentTimeMillis();
-<<<<<<< HEAD
         
 		timeDifference = (currentTime - startTime)/1000;
 		int time = (int) timeDifference;
@@ -382,7 +385,6 @@ public class GameScreen implements Screen {
 			upgradeCounter++;
 			this.storyState = storyState.MSG;
 		} 
-=======
 		timeDifference = currentTime - startTime;
 
 //		System.out.println(timeDifference);  
@@ -392,7 +394,6 @@ public class GameScreen implements Screen {
 			upgradeFortresses();
 			upgradeCounter++;
 		}
->>>>>>> 186244e9f88cd408552f03e35a57b30b348dc3ce
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;

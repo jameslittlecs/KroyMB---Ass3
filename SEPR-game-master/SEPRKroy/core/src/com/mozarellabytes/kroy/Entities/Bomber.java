@@ -15,10 +15,10 @@ public class Bomber extends Patrol {
 	public Bomber(GameScreen gameScreen, Vector2 position,Array<Vector2> nodes) {
 		this.setGameScreen(gameScreen);
 		this.setPosition(position);
-		this.setLookLeft(new Texture(Gdx.files.internal("sprites/firetruck/left.png")));
-        this.setLookRight(new Texture(Gdx.files.internal("sprites/firetruck/right.png")));
-        this.setLookUp(new Texture(Gdx.files.internal("sprites/firetruck/up.png")));
-        this.setLookDown(new Texture(Gdx.files.internal("sprites/firetruck/down.png")));
+		this.setLookLeft(new Texture(Gdx.files.internal("sprites/patrol/ufoleft.png")));
+        this.setLookRight(new Texture(Gdx.files.internal("sprites/patrol/uforight.png")));
+        this.setLookUp(new Texture(Gdx.files.internal("sprites/patrol/ufoup.png")));
+        this.setLookDown(new Texture(Gdx.files.internal("sprites/patrol/ufodown.png")));
 		this.setRegion(getLookDown());
 		this.setPath(new Queue<Vector2>());
 		this.setPoints(new Queue<Vector2>());
