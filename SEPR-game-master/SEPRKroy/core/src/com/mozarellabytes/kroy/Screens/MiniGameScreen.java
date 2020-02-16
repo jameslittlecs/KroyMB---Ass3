@@ -55,8 +55,10 @@ public class MiniGameScreen implements Screen{
 		
 		this.parent = parent;
 		
+<<<<<<< HEAD
 		
 		gameEnd = false;
+=======
 		goBack = false;
 		alienMoving = false;
 		fireEngineMoving = false;
@@ -65,6 +67,7 @@ public class MiniGameScreen implements Screen{
 		playerDead = false;
 		paused = false;
 		
+>>>>>>> e1a7921aaec7a64662e0d1a9d1d6588d32d8a7c6
 		Gdx.input.setInputProcessor(new MinigameInputHandler(this));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
