@@ -69,7 +69,6 @@ public class MiniGameScreen implements Screen{
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
 		backgroundImage = new Texture("minigameBackground.png");
-		grassImage = new Texture("grass.png");
 		fireEngine = new FireEngine(100, 10, new Vector2(camera.viewportWidth/5f, camera.viewportHeight/4f), 100);
 		alien = new Alien(100, 10, new Vector2(camera.viewportWidth/1.45f, camera.viewportHeight/1.6f), 100);
 		unitTurn = fireEngine;
@@ -92,9 +91,6 @@ public class MiniGameScreen implements Screen{
 		batch.begin();
 		//Draw background
 		batch.draw(backgroundImage, 0, 0, camera.viewportWidth, camera.viewportHeight);
-		//Draw Grass circles
-		batch.draw(grassImage, camera.viewportWidth/7f, camera.viewportHeight/5.5f, camera.viewportWidth/4f, camera.viewportHeight/4f);
-		batch.draw(grassImage, camera.viewportWidth/1.6f, camera.viewportHeight/1.9f, camera.viewportWidth/4f, camera.viewportHeight/4f);
 		fireEngine.drawSprite(batch);
 		alien.drawSprite(batch);
 		//Draw FireEngine
