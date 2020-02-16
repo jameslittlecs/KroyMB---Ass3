@@ -18,8 +18,12 @@ public enum FireTruckType {
      * maximum reserve, speed, trailColour, name, attack range, attack points
      */
     Speed(100, 2, Color.RED, "Speed Truck", 5, 0.08f, 150),
-    Ocean(250, 1, Color.CYAN, "Ocean Truck", 7, 0.16f, 100);
-
+    Ocean(350, 1, Color.CYAN, "Ocean Truck", 7, 0.16f, 100),
+	Juggernaut(200, 1, Color.BLACK, "Juggernaut Truck", 3, 0.12f, 400),
+	Cannon(75, 1, Color.WHITE, "Cannon Truck", 4, 0.36f, 75),
+	Standard(150, 1, Color.BLUE, "Standard Truck", 5, 0.18f, 150);
+	
+	
     /** The maximum amount of water this type of truck can have,
      * also the value of the truck's reserve when it is spawned */
     private final float maxReserve;
