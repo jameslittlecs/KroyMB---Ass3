@@ -56,6 +56,7 @@ public class MiniGameScreen implements Screen{
 		this.parent = parent;
 		
 		
+=======
 		gameEnd = false;
 		goBack = false;
 		alienMoving = false;
