@@ -129,15 +129,6 @@ public class GameScreen implements Screen {
     
     public GameScreen(Kroy game) {
         this.game = game;
-        
-        upgradeTimes = 60;
-        upgradeTimer = upgradeTimes;
-        stationTimes = 5;
-        stationTimer = stationTimes;
-        
-        startTime = System.currentTimeMillis();
-        
-        upgradeCounter = 0;
 
         state = PlayState.PLAY;
         storyState = StoryState.INTRO;
@@ -221,6 +212,14 @@ public class GameScreen implements Screen {
 
 	@Override
     public void show() {
+		upgradeTimes = 20;
+        upgradeTimer = upgradeTimes;
+        stationTimes = 5;
+        stationTimer = stationTimes;
+        
+        startTime = System.currentTimeMillis();
+        
+        upgradeCounter = 0;
     }
 
     @Override
@@ -367,54 +366,14 @@ public class GameScreen implements Screen {
         station.restoreTrucks();
         station.checkForCollisions();
         gameState.setTrucksInAttackRange(0);
-
-        currentTime = System.currentTimeMillis();
         
-		timeDifference = (currentTime - startTime)/1000;
-		int time = (int) timeDifference;
-		timer = upgradeTimer - time;
-		stationTimes = stationTimer - time;
-		
-		if (timer == 0) {
-			upgradeTimer = upgradeTimes + upgradeTimer*2;
-		} 
-		
-		if (stationTimes <= 0) {
-			stationTimes = 0;
-		}
-		
-		if (timeDifference >= stationTimer && stationDestoryed == false) {
-			station.destroyStation();
-			stationDestoryed = true;
-		}
-			
-		if (upgradeCounter == 0 && timeDifference >= upgradeTimes) {
-			upgradeFortresses();
-			upgradeCounter++;
-			this.storyState = StoryState.MSG;
-		} else if (upgradeCounter == 1 && timeDifference >= upgradeTimes*3){
-			upgradeFortresses();
-			upgradeCounter++;
-			this.storyState = StoryState.MSG;
-		} else if (upgradeCounter == 2 && timeDifference >= upgradeTimes*7){
-			upgradeFortresses();
-			upgradeCounter++;
-			this.storyState = StoryState.MSG;
-		} 
-		
-		if (upgradeCounter == 3) {
-			timer = 0;
-		}
-
-		timeDifference = currentTime - startTime;
-
-//		System.out.println(timeDifference);  
-
-		
-		if (upgradeCounter == 0 && timeDifference >= 40000 || upgradeCounter == 1 && timeDifference >= 80000 || upgradeCounter == 2 && timeDifference >= 120000) {
-			upgradeFortresses();
-			upgradeCounter++;
-		}
+        currentTime = System.currentTimeMillis();
+        timeDifference = (int) (currentTime - startTime)/1000;
+        
+        if(timeDifference > upgradeTimer) {
+        	upgradeFortresses();
+        	this.storyState = StoryState.MSG;
+        }
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
@@ -530,7 +489,7 @@ public class GameScreen implements Screen {
         shapeMapRenderer.rect(this.camera.viewportWidth * 57/128f, this.camera.viewportHeight * 1/200f, this.camera.viewportWidth* 36/128, this.camera.viewportHeight * 1/25f);
         shapeMapRenderer.end();
         
-        gui.renderTimer(timer,stationTimes);
+        gui.renderTimer((int)(upgradeTimer - timeDifference),stationTimes);
     }
 
     @Override
@@ -563,7 +522,11 @@ public class GameScreen implements Screen {
 
     public void upgradeFortresses() {
     	for (Fortress fortress : this.fortresses) {
+    		startTime = System.currentTimeMillis();
+    		upgradeTimer = upgradeTimer * 2;
+    		upgradeCounter++;
     		fortress.upgradeStat();
+    		System.out.println("Upgrade");
     	}
     }
     
