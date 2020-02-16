@@ -354,6 +354,12 @@ public class GameScreen implements Screen {
         		fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
         	}else if(finalFortress == "Walmgate Bar"){
         		 fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
+        	}else if(finalFortress == "York Minister") {
+        		fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
+        	}else if(finalFortress == "Central Hall") {
+        		fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
+        	}else if(finalFortress == "Train Station") {
+        		fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
         	}
         	fortresses.get(0).setHP(20);
         	this.updateFortressAlive();
