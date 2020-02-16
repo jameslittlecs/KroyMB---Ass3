@@ -35,7 +35,7 @@ public class GameOverScreen implements Screen {
     /** Constructor for the game screen
      * @param game  LibGdx game
      * @param won <code> true </code> if the game was won
-     *            <code> false </code> if th game was lost
+     *            <code> false </code> if the game was lost
      */
     public GameOverScreen(Kroy game, boolean won) {
     	commander = new Texture(Gdx.files.internal("images/commander.png"), true);
@@ -50,12 +50,16 @@ public class GameOverScreen implements Screen {
 
         layout = new GlyphLayout();
         if (won) {
-            this.text = "We did it! Good job little guy.";
+            this.text = "We did it! Good job little guy." +"\n"+          
+            "Didnt think you could do that," +"\n"+
+            "you have shown a lot of bravery." +"\n"+
+            " This is all down to you, I couldnt be" +"\n"+
+            " more happy. You have claimed back York...";
         } else {
-            this.text = "Mission Failed. We'll get 'em next time." + "\n" + "Ahh shooot, the World was counting on you and look what you’ve done."+"\n"+"They've won, I couldn't be anymore disappointed."; 
+            this.text = "Ahh shooot, the World was counting on you and look what you’ve done."+"\n"+"They've won, I couldn't be anymore disappointed."; 
             
         }
-        this.text = this.text + "\n" + "Click to return to the main menu...";
+        this.text = this.text + "\n" + "\n"+ "Click to return to the main menu...";
         layout.setText(game.font26, this.text);
     }
 
@@ -77,6 +81,7 @@ public class GameOverScreen implements Screen {
 
         game.batch.begin();
         game.font26.draw(game.batch, this.text, camera.viewportWidth/2 - layout.width/2, camera.viewportHeight/2 - layout.height/2);
+        game.batch.draw(commander, camera.viewportWidth * 2/5f, camera.viewportHeight/2f);
         game.batch.end();
     }
 

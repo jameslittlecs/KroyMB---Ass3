@@ -70,10 +70,11 @@ public class GameState {
      * @param game LibGDX game
      */
     public static void endGame(Boolean playerWon, Kroy game) {
-        if (playerWon) {
+        if (playerWon) {      	
             game.setScreen(new GameOverScreen(game, true));
         } else {
             game.setScreen(new GameOverScreen(game, false));
+            
         }
     }
 

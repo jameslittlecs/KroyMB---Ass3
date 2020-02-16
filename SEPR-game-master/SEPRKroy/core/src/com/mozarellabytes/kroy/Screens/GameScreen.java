@@ -136,7 +136,6 @@ public class GameScreen implements Screen {
         stationTimer = stationTimes;
         
         startTime = System.currentTimeMillis();
-//        System.out.println(startTime);
         
         upgradeCounter = 0;
 
@@ -193,17 +192,17 @@ public class GameScreen implements Screen {
         this.patrols.add(patrol2);
 
         fortresses = new ArrayList<Fortress>();
-        fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
-        fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
+        //fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
+        //fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
         fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
-        fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
-        fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
-        fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
+        //fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
+        //fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
+        //fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
         
         maxFortress = fortresses.size();
         numberofFortressAlive = maxFortress;      
         
-        //finalFortress = fortresses.get(0).getFortressType().getName();
+        finalFortress = fortresses.get(0).getFortressType().getName();
         
         // sets the origin point to which all of the polygon's local vertices are relative to.
         for (FireTruck truck : station.getTrucks()) {
@@ -348,6 +347,7 @@ public class GameScreen implements Screen {
         
         //If the minigame is lost the game is restored to its previous state with a low health fortress
         if(gameState.getMinigameEntered()) {
+        	
         	this.toMiniGameScreen();
         	gameState.setMinigameEntered(false);
         	if(finalFortress == "Revolution") {

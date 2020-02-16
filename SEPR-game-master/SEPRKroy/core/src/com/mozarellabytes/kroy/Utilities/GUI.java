@@ -409,10 +409,10 @@ public class GUI {
     public void renderFortressText() {
     	GlyphLayout layout = new GlyphLayout();
         String FortressText1 =  "Now that was pretty amazing but";
-        String FortressText2 =  "don't get too rested there is a lot";
+        String FortressText2 =  "don't get too rested there are a lot";
         String FortressText3 =  "more Fortresses around the map. ";
         String FortressText4 =  "What are you waiting for go and get";
-        String FortressText5 =  "them. General Barnes";
+        String FortressText5 =  "them. General Barnes out!";
         String ContinueText =  "Press 'Space' to Continue";
         layout.setText(game.font26, FortressText1);
         layout.setText(game.font26, FortressText2);
@@ -459,14 +459,14 @@ public class GUI {
         game.batch.draw(commander, pauseCamera.viewportWidth/4f, pauseCamera.viewportHeight * 5/16f);
         game.batch.end();
     }
-    
+     
     public void renderUpdateText() {
     	GlyphLayout layout = new GlyphLayout();
         String UpdateText1 =  "With that sort shooting soldier";
         String UpdateText2 =  "you should be leading this assault.";
         String UpdateText3 =  "Now keep going, those alien ";
-        String UpdateText4 =  "invaders will not stop until they";
-        String UpdateText5 =  "have been completely annihilated.";
+        String UpdateText4 =  "invaders won't stop until they";
+        String UpdateText5 =  "have been completely destroyed.";
         String UpdateText6 =  "Remember were all counting on you.";
         String ContinueText =  "Press 'Space' to Continue";
         layout.setText(game.font26, UpdateText1);
