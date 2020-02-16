@@ -18,18 +18,13 @@ public enum FortressType {
      * name, delay between firing bombs, attack range, maximum health points,
      * attack points, width, height and sprite.
      */
-<<<<<<< HEAD
+
     Revs ("Revolution", 2500, 7, 100, 10, 5, 3, new Texture(Gdx.files.internal("sprites/fortress/fortress_revs.png"))),
     Walmgate ("Walmgate Bar", 2000, 8, 200, 15, 5, 5, new Texture(Gdx.files.internal("sprites/fortress/fortress_walmgate.png"))),
     Clifford ("Clifford's Tower", 1500, 4, 150, 20, 4, 3, new Texture(Gdx.files.internal("sprites/fortress/fortress_clifford.png"))),
     Minister ("York Minister", 2500, 4, 100, 10, 5, 4, new Texture(Gdx.files.internal("sprites/fortress/fortress_yorkminister.png"))),
     CentralHall ("Central Hall", 2500, 4, 100, 10, 3, 3, new Texture(Gdx.files.internal("sprites/fortress/fortress_centralhall.png"))),
     TrainStation ("Train Station", 2500, 4, 100, 10, 4, 2, new Texture(Gdx.files.internal("sprites/fortress/fortress_trainstation.png")));
-=======
-    Revs ("Revolution", 3500, 7, 100, 10, 5, 3, new Texture(Gdx.files.internal("sprites/fortress/fortress_revs.png"))),
-    Walmgate ("Walmgate Bar", 3000, 8, 125, 10, 5, 5, new Texture(Gdx.files.internal("sprites/fortress/fortress_walmgate.png"))),
-    Clifford ("Clifford's Tower", 2500, 4, 125, 13, 4, 3, new Texture(Gdx.files.internal("sprites/fortress/fortress_clifford.png")));
->>>>>>> a924b22a42998af549fd9a21e595e0e47d35a7ad
 
     /** The name for the fortress, visible once the fortress has been clicked on */
     private final String name;

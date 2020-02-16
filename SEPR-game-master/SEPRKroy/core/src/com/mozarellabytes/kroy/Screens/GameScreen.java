@@ -398,14 +398,11 @@ public class GameScreen implements Screen {
 			upgradeCounter++;
 			this.storyState = storyState.MSG;
 		} 
-<<<<<<< HEAD
-=======
 		
 		if (upgradeCounter == 3) {
 			timer = 0;
 		}
 
->>>>>>> a924b22a42998af549fd9a21e595e0e47d35a7ad
 		timeDifference = currentTime - startTime;
 
 //		System.out.println(timeDifference);  
@@ -415,10 +412,6 @@ public class GameScreen implements Screen {
 			upgradeFortresses();
 			upgradeCounter++;
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> a924b22a42998af549fd9a21e595e0e47d35a7ad
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
