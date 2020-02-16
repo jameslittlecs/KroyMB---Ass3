@@ -198,7 +198,7 @@ public class GUI {
      *                  thta are being displayed
      */
     private void renderSelectedFortress(Fortress fortress) {
-        renderSelectedEntityBar(fortress.getHP(), fortress.getFortressType().getMaxHP(), Color.RED, Color.FIREBRICK, 1);
+        renderSelectedEntityBar(fortress.getHP(), fortress.getMaxHP(), Color.RED, Color.FIREBRICK, 1);
         renderSelectedEntityText(fortress);
     }
     
@@ -242,11 +242,11 @@ public class GUI {
         game.batch.begin();
         game.font26.draw(game.batch, fortress.getFortressType().getName(), this.selectedX + 10, this.selectedY + this.selectedH - 10);
         game.font19.draw(game.batch, "HP: ", this.selectedX + 15, this.selectedY + this.selectedH - 50);
-        game.font19.draw(game.batch, String.format("%.1f", fortress.getHP()) + " / " + String.format("%.1f", fortress.getFortressType().getMaxHP()), this.selectedX + 20, this.selectedY + this.selectedH - 50 - newLine);
+        game.font19.draw(game.batch, String.format("%.1f", fortress.getHP()) + " / " + String.format("%.1f", fortress.getMaxHP()), this.selectedX + 20, this.selectedY + this.selectedH - 50 - newLine);
         game.font19.draw(game.batch, "Range: ", this.selectedX + 15, this.selectedY + this.selectedH - 50 - newLine*2);
-        game.font19.draw(game.batch, String.format("%.1f", fortress.getFortressType().getRange()), this.selectedX + 20, this.selectedY + this.selectedH - 50 - newLine*3);
+        game.font19.draw(game.batch, String.format("%.1f", fortress.getRange()), this.selectedX + 20, this.selectedY + this.selectedH - 50 - newLine*3);
         game.font19.draw(game.batch, "AP: ", this.selectedX + 15, this.selectedY + this.selectedH - 50 - newLine*4);
-        game.font19.draw(game.batch, String.format("%.2f", fortress.getFortressType().getAP()), this.selectedX + 20, this.selectedY + this.selectedH - 50 - newLine*5);
+        game.font19.draw(game.batch, String.format("%.2f", fortress.getAP()), this.selectedX + 20, this.selectedY + this.selectedH - 50 - newLine*5);
         game.batch.end();
     }
 

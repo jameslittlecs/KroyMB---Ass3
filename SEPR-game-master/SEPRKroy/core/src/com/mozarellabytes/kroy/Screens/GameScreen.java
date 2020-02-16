@@ -391,15 +391,15 @@ public class GameScreen implements Screen {
 		if (upgradeCounter == 0 && timeDifference >= upgradeTimes) {
 			upgradeFortresses();
 			upgradeCounter++;
-			this.storyState = storyState.MSG;
+			this.storyState = StoryState.MSG;
 		} else if (upgradeCounter == 1 && timeDifference >= upgradeTimes*3){
 			upgradeFortresses();
 			upgradeCounter++;
-			this.storyState = storyState.MSG;
+			this.storyState = StoryState.MSG;
 		} else if (upgradeCounter == 2 && timeDifference >= upgradeTimes*7){
 			upgradeFortresses();
 			upgradeCounter++;
-			this.storyState = storyState.MSG;
+			this.storyState = StoryState.MSG;
 		} 
 		
 		if (upgradeCounter == 3) {

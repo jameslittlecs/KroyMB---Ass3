@@ -74,13 +74,6 @@ public enum FortressType {
         this.texture = texture;
     }
     
-    public void upgradeIndividualStat() {
-    	this.setAP(this.getAP() + 5);
-    	this.setDelay(this.getDelay() - 250);
-    	this.setMaxHP(this.getMaxHP() + 50);
-    	this.setRange(this.getRange() + 1);
-    }
-    
     public void setDelay(int delay) {
 		this.delay = delay;
 	}

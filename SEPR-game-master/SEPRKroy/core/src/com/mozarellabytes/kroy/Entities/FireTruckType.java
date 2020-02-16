@@ -68,7 +68,7 @@ public enum FireTruckType {
      * @param AP the attack points for this type of truck
      *
      */
-    FireTruckType(int maxReserve, int speed, Color trailColour, String name, float range, float AP, float maxHP) {
+    FireTruckType(int maxReserve, float speed, Color trailColour, String name, float range, float AP, float maxHP) {
         this.maxReserve = maxReserve;
         this.maxHP = maxHP;
         this.speed = speed;
