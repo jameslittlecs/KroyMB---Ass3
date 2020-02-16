@@ -290,7 +290,6 @@ public class GameScreen implements Screen {
 //        		this.update(delta); i think this is making update happen twice
         		break;
         	case INTRO:
-            	System.out.println(storyCounter);
         		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
                 shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
                 shapeMapRenderer.setColor(0, 0, 0, 0.8f);
@@ -378,7 +377,6 @@ public class GameScreen implements Screen {
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
         	this.storyState = StoryState.FORTRESS;
-        	System.out.println(storyCounter);
         } else if (maxFortress - fortresses.size() == 2 && storyCounter == 1) {
         	storyCounter++;
         	this.storyState = StoryState.UPDATE;
