@@ -132,7 +132,7 @@ public class GameScreen implements Screen {
         
         upgradeTimes = 60;
         upgradeTimer = upgradeTimes;
-        stationTimes = 200;
+        stationTimes = 5;
         stationTimer = stationTimes;
         
         startTime = System.currentTimeMillis();
@@ -173,6 +173,9 @@ public class GameScreen implements Screen {
 
         spawn(FireTruckType.Ocean);
         spawn(FireTruckType.Speed);
+        spawn(FireTruckType.Cannon);
+        spawn(FireTruckType.Juggernaut);
+        spawn(FireTruckType.Standard);
         
         generateGrid((TiledMapTileLayer) mapLayers.get("collisions"));
         

@@ -82,6 +82,7 @@ public class GUI {
     private Texture currentSoundTexture;
 
     /** Camera to set the projection for the screen */
+    
     private final OrthographicCamera pauseCamera;
 
     /** Constructor for GUI
@@ -400,7 +401,7 @@ public class GUI {
         game.font26.draw(game.batch, UpdateText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
         game.font26.draw(game.batch, UpdateText6, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 260f);
         game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
-        game.batch.draw(commander, pauseCamera.viewportWidth/8f, pauseCamera.viewportHeight/5f);
+        game.batch.draw(commander, pauseCamera.viewportWidth/4f, pauseCamera.viewportHeight * 5/16f);
         game.batch.end();
 
     }
@@ -428,7 +429,7 @@ public class GUI {
         game.font26.draw(game.batch, FortressText4, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 180f);
         game.font26.draw(game.batch, FortressText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
         game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
-        game.batch.draw(commander, pauseCamera.viewportWidth/8f, pauseCamera.viewportHeight/5f);
+        game.batch.draw(commander, pauseCamera.viewportWidth/4f, pauseCamera.viewportHeight * 5/16f);
         game.batch.end();
     }
     
@@ -455,7 +456,7 @@ public class GUI {
         game.font26.draw(game.batch, BossText4, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 180f);
         game.font26.draw(game.batch, BossText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
         game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
-        game.batch.draw(commander, pauseCamera.viewportWidth/8f, pauseCamera.viewportHeight/5f);
+        game.batch.draw(commander, pauseCamera.viewportWidth/4f, pauseCamera.viewportHeight * 5/16f);
         game.batch.end();
     }
     
@@ -485,7 +486,7 @@ public class GUI {
         game.font26.draw(game.batch, UpdateText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
         game.font26.draw(game.batch, UpdateText6, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 260f);
         game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
-        game.batch.draw(commander, pauseCamera.viewportWidth/8f, pauseCamera.viewportHeight/5f);
+        game.batch.draw(commander, pauseCamera.viewportWidth/4f, pauseCamera.viewportHeight * 5/16f);
         game.batch.end();
     }
     
