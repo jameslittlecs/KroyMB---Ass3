@@ -27,7 +27,8 @@ public class Bomber extends Patrol {
 		this.setRange(4);
 		this.viewDistance = 6;
 		this.setAd(50);
-		this.setHP(50);
+		this.setHP(25);
+		this.setMaxHP(25);
 	}
 	public void move() {
 		if (getTarget() != null) {
@@ -70,8 +71,5 @@ public class Bomber extends Patrol {
 				return;
 			}
 		}
-	}
-	@Override
-	public void drawStats(ShapeRenderer shapeMapRenderer) {
 	}
 }

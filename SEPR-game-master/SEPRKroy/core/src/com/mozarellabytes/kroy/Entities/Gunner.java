@@ -65,6 +65,7 @@ public class Gunner extends Patrol {
 
 	@Override
 	public void drawStats(ShapeRenderer shapeMapRenderer) {
+		super.drawStats(shapeMapRenderer);
 		for (Particle particle : this.spray) {
             shapeMapRenderer.rect(particle.getPosition().x, particle.getPosition().y, particle.getSize(), particle.getSize(), particle.getColour(), particle.getColour(), particle.getColour(), particle.getColour());
         }
