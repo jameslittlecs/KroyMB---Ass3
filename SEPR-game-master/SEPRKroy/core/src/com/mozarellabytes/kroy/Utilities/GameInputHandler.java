@@ -63,7 +63,6 @@ public class GameInputHandler implements InputProcessor {
                 gui.clickedPauseButton();
                 gameScreen.changeState();
             case Input.Keys.SPACE:
-            	System.out.println("Continue");
             	gameScreen.storyNon();
         }
         return true;
