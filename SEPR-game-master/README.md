@@ -8,7 +8,7 @@ Hi :)
 
 ## Website
 This website will contain information and media for our game. Any extra information that does not fit in our report will also be accessible here.
-https://emhodges.github.io/SEPR-game/
+https://gm-martin.github.io/
 
 ## Description
 This is the description to our game...
