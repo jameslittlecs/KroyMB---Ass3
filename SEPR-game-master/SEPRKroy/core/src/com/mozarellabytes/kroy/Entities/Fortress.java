@@ -1,6 +1,7 @@
 package com.mozarellabytes.kroy.Entities;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -21,6 +22,18 @@ public class Fortress extends Entity {
     /*** Gives Fortress certain stats */
     private final FortressType fortressType;
 
+    /** The time between firing bombs */
+    private int delay;
+
+    /** The range that the fortress can see and attack firetrucks */
+    private float range;
+
+    /** The maximum health points for the fortress - always 100 */
+    private float maxHP;
+
+    /** Attack points - how much damage the fortress can inflict */
+    private float AP;
+
     /**
      * Constructs Fortress at certain position and
      * of a certain type
@@ -30,6 +43,10 @@ public class Fortress extends Entity {
      * @param type  Type of Fortress to give certain stats
      */
     public Fortress(GameScreen gameScreen, Vector2 position, FortressType type) {
+    	this.delay = type.getDelay();
+    	this.range = type.getRange();
+    	this.maxHP = type.getMaxHP();
+    	this.AP = type.getAP();
     	this.setGameScreen(gameScreen);
         this.fortressType = type;
         this.setPosition(position);
@@ -90,8 +107,11 @@ public class Fortress extends Entity {
     }
 
     public void upgradeStat() {
-    	this.fortressType.upgradeIndividualStat();
     	this.setHP(this.getHP() + 50);
+    	this.setAP(this.getAP() + 5);
+    	this.setDelay(this.getDelay() - 250);
+    	this.setMaxHP(this.getMaxHP() + 50);
+    	this.setRange(this.getRange() + 1);
     }
     
     /**
@@ -124,15 +144,47 @@ public class Fortress extends Entity {
         mapBatch.draw(this.getFortressType().getTexture(), this.getArea().x, this.getArea().y, this.getArea().width, this.getArea().height);
     }
 
-    public Rectangle getArea() {
-        return this.area;
-    }
-
     public FortressType getFortressType() {
-        return this.fortressType;
+		return fortressType;
+	}
+
+	public Rectangle getArea() {
+        return this.area;
     }
 
     public ArrayList<Bomb> getBombs() {
         return this.bombs;
     }
+
+	public float getAP() {
+		return AP;
+	}
+
+	public void setAP(float aP) {
+		AP = aP;
+	}
+
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+
+	public float getRange() {
+		return range;
+	}
+
+	public void setRange(float range) {
+		this.range = range;
+	}
+
+	public float getMaxHP() {
+		return maxHP;
+	}
+
+	public void setMaxHP(float maxHP) {
+		this.maxHP = maxHP;
+	}
 }

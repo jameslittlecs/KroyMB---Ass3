@@ -1,5 +1,6 @@
 package com.mozarellabytes.kroy.Entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -26,7 +27,11 @@ public abstract class Patrol extends Unit {
 
 	public abstract void attack();
 	
-	public abstract void drawStats(ShapeRenderer shapeMapRenderer);
+	public void drawStats(ShapeRenderer shapeMapRenderer) {
+		shapeMapRenderer.rect(this.getPosition().x + 0.2f, this.getPosition().y + 1.3f, 0.7f, 0.3f, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE);
+        shapeMapRenderer.rect(this.getPosition().x + 0.25f, this.getPosition().y + 1.35f, 0.6f, 0.2f, Color.FIREBRICK, Color.FIREBRICK, Color.FIREBRICK, Color.FIREBRICK);
+        shapeMapRenderer.rect(this.getPosition().x + 0.25f, this.getPosition().y + 1.35f, this.getHP() / this.getMaxHP() * 0.6f, 0.2f, Color.RED, Color.RED, Color.RED, Color.RED);
+        }
 
 	public Array<Vector2> getNodes() {
 		return nodes;

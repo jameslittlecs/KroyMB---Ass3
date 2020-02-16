@@ -57,6 +57,14 @@ public class MiniGameScreen implements Screen{
 		
 		
 		gameEnd = false;
+		goBack = false;
+		alienMoving = false;
+		fireEngineMoving = false;
+		gameEnd = false;
+		alienDead = false;
+		playerDead = false;
+		paused = false;
+		
 		Gdx.input.setInputProcessor(new MinigameInputHandler(this));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
