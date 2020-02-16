@@ -115,9 +115,11 @@ public class GameScreen implements Screen {
     
     int upgradeCounter;
     
-    int timer;
+    int timer, timerS;
     
-    int upgradeTimes, upgradeTimer;
+    int upgradeTimes, upgradeTimer, stationTimer, stationTimes;
+    
+    boolean stationDestoryed;
 
     /**
      * Constructor which has the game passed in
@@ -128,8 +130,10 @@ public class GameScreen implements Screen {
     public GameScreen(Kroy game) {
         this.game = game;
         
-        upgradeTimes = 45;
+        upgradeTimes = 60;
         upgradeTimer = upgradeTimes;
+        stationTimes = 200;
+        stationTimer = stationTimes;
         
         startTime = System.currentTimeMillis();
 //        System.out.println(startTime);
@@ -366,12 +370,21 @@ public class GameScreen implements Screen {
 		timeDifference = (currentTime - startTime)/1000;
 		int time = (int) timeDifference;
 		timer = upgradeTimer - time;
-		
+		stationTimes = stationTimer - time;
 		
 		if (timer == 0) {
 			upgradeTimer = upgradeTimes + upgradeTimer*2;
 		} 
 		
+		if (stationTimes <= 0) {
+			stationTimes = 0;
+		}
+		
+		if (timeDifference >= stationTimer && stationDestoryed == false) {
+			station.destroyStation();
+			stationDestoryed = true;
+		}
+			
 		if (upgradeCounter == 0 && timeDifference >= upgradeTimes) {
 			upgradeFortresses();
 			upgradeCounter++;
@@ -385,6 +398,14 @@ public class GameScreen implements Screen {
 			upgradeCounter++;
 			this.storyState = storyState.MSG;
 		} 
+<<<<<<< HEAD
+=======
+		
+		if (upgradeCounter == 3) {
+			timer = 0;
+		}
+
+>>>>>>> a924b22a42998af549fd9a21e595e0e47d35a7ad
 		timeDifference = currentTime - startTime;
 
 //		System.out.println(timeDifference);  
@@ -394,6 +415,10 @@ public class GameScreen implements Screen {
 			upgradeFortresses();
 			upgradeCounter++;
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> a924b22a42998af549fd9a21e595e0e47d35a7ad
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
@@ -506,9 +531,10 @@ public class GameScreen implements Screen {
         shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeMapRenderer.setColor(0, 0, 0, 0.8f);
         shapeMapRenderer.rect(this.camera.viewportWidth * 95/128f, this.camera.viewportHeight * 1/200f, this.camera.viewportWidth/4f, this.camera.viewportHeight * 1/25f);
+        shapeMapRenderer.rect(this.camera.viewportWidth * 57/128f, this.camera.viewportHeight * 1/200f, this.camera.viewportWidth* 36/128, this.camera.viewportHeight * 1/25f);
         shapeMapRenderer.end();
         
-        gui.renderTimer(timer);
+        gui.renderTimer(timer,stationTimes);
     }
 
     @Override

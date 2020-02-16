@@ -37,7 +37,7 @@ public class Fortress extends Entity {
         this.setMaxHP(type.getMaxHP());
         this.bombs = new ArrayList<Bomb>();
         this.area = new Rectangle(this.getPosition().x - (float) this.fortressType.getW()/2, this.getPosition().y - (float) this.fortressType.getH()/2,
-                this.fortressType.getW(), this.fortressType.getH());
+        this.fortressType.getW(), this.fortressType.getH());
     }
 
     /**

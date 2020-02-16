@@ -40,7 +40,7 @@ public class FireStation {
     private final Vector2 bayTile2;
 
     /** The sprite image for the station */
-    private final Texture texture;
+    private Texture texture;
 
     /** List of active fire trucks
      * @link FireTruck */
@@ -99,7 +99,7 @@ public class FireStation {
      */
     private void refill(FireTruck truck) {
         if (truck.getReserve() < truck.type.getMaxReserve()) {
-            truck.refill(Math.min(0.06f, truck.getType().getMaxReserve() - truck.getReserve()));
+            truck.refill(Math.min(0.2f, truck.getType().getMaxReserve() - truck.getReserve()));
         }
     }
 
@@ -110,7 +110,7 @@ public class FireStation {
      */
     private void repair(FireTruck truck) {
         if (truck.getHP() < truck.type.getMaxHP()) {
-            truck.repair(Math.min(0.04f, truck.getType().getMaxHP() - truck.getHP()));
+            truck.repair(Math.min(0.1f, truck.getType().getMaxHP() - truck.getHP()));
         }
     }
 
@@ -123,7 +123,7 @@ public class FireStation {
     public void destroyTruck(FireTruck truck) {
         this.trucks.remove(truck);
     }
-
+    
     /**
      * Checks that no more than one truck occupies a tile at a time by checking trucks
      * are not moving towards each other and that a moving truck is not going to go onto
@@ -178,7 +178,6 @@ public class FireStation {
         truck2.addTileToPath(hold);
     }
 
-
     /** Draws the firetruck to the gameScreen
      * @param mapBatch batch being used to render to the gameScreen */
     public void draw(Batch mapBatch) {
@@ -203,7 +202,13 @@ public class FireStation {
 				truck = t;
 			}
     	}
-		return truck;
+		return truck;  
     	
+    }
+    
+    public void destroyStation() {
+    	this.texture = new Texture(Gdx.files.internal("sprites/station/blank_station.png"));
+    	this.bayTile1.set(0, 0);
+    	this.bayTile2.set(0, 0);
     }
 }

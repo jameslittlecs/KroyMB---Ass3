@@ -527,13 +527,16 @@ public class GUI {
         game.batch.end();
     }
     
-    public void renderTimer(int timer) {
+    public void renderTimer(int timer, int stationTimer) {
     	GlyphLayout layout = new GlyphLayout();
-        String timerText1 =  "Time till next Upgrade - " + timer;
+        String timerText1 = "Time till next Upgrade - " + timer;
+        String timerText2 = "Time till Station Assault - " + stationTimer;
         layout.setText(game.font26, timerText1);
+        layout.setText(game.font26, timerText2);
         game.batch.setProjectionMatrix(pauseCamera.combined);
         game.batch.begin();
         game.font26.draw(game.batch, timerText1, pauseCamera.viewportWidth * 6/8f, pauseCamera.viewportHeight* 1/30f);
+        game.font26.draw(game.batch, timerText2, pauseCamera.viewportWidth * 58/128f, pauseCamera.viewportHeight* 1/30f);
         game.batch.end();
 
     }
