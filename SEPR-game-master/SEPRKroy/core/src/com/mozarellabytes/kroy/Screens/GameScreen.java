@@ -196,6 +196,10 @@ public class GameScreen implements Screen {
         fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
         fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
         fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
+        fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
+        fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
+        fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
+        
         maxFortress = fortresses.size();
         numberofFortressAlive = maxFortress;      
         
@@ -411,7 +415,6 @@ public class GameScreen implements Screen {
 			upgradeFortresses();
 			upgradeCounter++;
 		}
-
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
