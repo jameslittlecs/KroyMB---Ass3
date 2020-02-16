@@ -377,10 +377,10 @@ public class GUI {
     public void renderIntroText() {
     	GlyphLayout layout = new GlyphLayout();
         String UpdateText1 =  "Help, help, help, is anyone out ";
-        String UpdateText2 =  "there, please help us now.";
-        String UpdateText3 =  "You hear those cries soldier, ";
-        String UpdateText4 =  "they need you now, go and destroy";
-        String UpdateText5 =  "those alien Fortresses. The Fire ";
+        String UpdateText2 =  "there, please help us!";
+        String UpdateText3 =  "You hear those cries soldier? ";
+        String UpdateText4 =  "York needs you! Now, go and destroy";
+        String UpdateText5 =  "those alien fortresses. The Fire ";
         String UpdateText6 =  "Department is at your disposal.";
         String ContinueText =  "Press 'Space' to Continue";
         layout.setText(game.font26, UpdateText1);
@@ -408,9 +408,9 @@ public class GUI {
     
     public void renderFortressText() {
     	GlyphLayout layout = new GlyphLayout();
-        String FortressText1 =  "Now that was pretty amazing but";
-        String FortressText2 =  "don't get too rested there are a lot";
-        String FortressText3 =  "more Fortresses around the map. ";
+        String FortressText1 =  "Amazing! Well done! But ";
+        String FortressText2 =  "don't get too rested there are many";
+        String FortressText3 =  "more Fortresses to destroy. ";
         String FortressText4 =  "What are you waiting for go and get";
         String FortressText5 =  "them. General Barnes out!";
         String ContinueText =  "Press 'Space' to Continue";
@@ -438,7 +438,7 @@ public class GUI {
         String BossText1 =  "Soldier! Watch Out!";
         String BossText2 =  "Now that is a big alien, you are";
         String BossText3 =  "gonna have to fight him face to";
-        String BossText4 =  "face. Look for it weak points.";
+        String BossText4 =  "face! Keep an eye on your health!";
         String BossText5 =  "Good Luck, we are counting on you!";
         String ContinueText =  "Press 'Space' to Continue";
         layout.setText(game.font26, BossText1);
@@ -493,7 +493,7 @@ public class GUI {
     public void renderStoryUpdate(int storyUpdate) {
     	GlyphLayout layout = new GlyphLayout();
         String SUpdateText1 =  "Fortresses have upgraded to level " + (storyUpdate);
-        String SUpdateText2 =  "they will have increased; damage,";
+        String SUpdateText2 =  "they will have increased damage,";
         String SUpdateText3 =  "range and health. Good Luck";
         String SUpdateText4 =  "Press - Space - to Continue";
 
