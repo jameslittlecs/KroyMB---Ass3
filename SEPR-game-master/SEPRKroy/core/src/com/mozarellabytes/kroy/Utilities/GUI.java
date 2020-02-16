@@ -198,7 +198,7 @@ public class GUI {
      *                  thta are being displayed
      */
     private void renderSelectedFortress(Fortress fortress) {
-        renderSelectedEntityBar(fortress.getHP(), fortress.getMaxHP(), Color.RED, Color.FIREBRICK, 1);
+        renderSelectedEntityBar(fortress.getHP()/fortress.getMaxHP(), 1, Color.RED, Color.FIREBRICK, 1);
         renderSelectedEntityText(fortress);
     }
     
