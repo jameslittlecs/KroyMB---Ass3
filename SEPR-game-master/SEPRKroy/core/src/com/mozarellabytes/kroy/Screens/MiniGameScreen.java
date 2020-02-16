@@ -55,6 +55,8 @@ public class MiniGameScreen implements Screen{
 		
 		this.parent = parent;
 		
+		
+		gameEnd = false;
 		Gdx.input.setInputProcessor(new MinigameInputHandler(this));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
@@ -227,6 +229,8 @@ public class MiniGameScreen implements Screen{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	//public void reset
 
 	@Override
 	public void dispose() {
