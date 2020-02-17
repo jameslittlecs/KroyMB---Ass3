@@ -220,18 +220,11 @@ public class GameScreen implements Screen {
 
 	@Override
     public void show() {
-<<<<<<< HEAD
 		//Sets base parameters for the time parts of the main game screen
-		upgradeTimes = 70;
-        upgradeTimer = upgradeTimes;
-        totalStationTime = 460;
-=======
 		upgradeTimes = 30;
         upgradeTimer = upgradeTimes;
 
         totalStationTime = 360;
-
->>>>>>> 586e5b6e2a71a22e02a9cf1be1144284d3576ac1
         currentStationTime = totalStationTime;
         startStationTime = System.currentTimeMillis();
         
@@ -625,13 +618,6 @@ public class GameScreen implements Screen {
     	startTime = System.currentTimeMillis();
 		upgradeTimer = upgradeTimer * 2;
     	for (Fortress fortress : this.fortresses) {
-<<<<<<< HEAD
-=======
-    		System.out.println(startTime + ", " + currentTime);
-    		startTime = System.currentTimeMillis();
-    		upgradeTimer = upgradeTimer * 2;
-    		upgradeCounter++;
->>>>>>> 586e5b6e2a71a22e02a9cf1be1144284d3576ac1
     		fortress.upgradeStat();
     	}
     }
