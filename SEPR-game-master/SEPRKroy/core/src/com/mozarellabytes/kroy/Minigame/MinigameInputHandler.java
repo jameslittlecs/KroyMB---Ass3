@@ -8,9 +8,11 @@ import com.mozarellabytes.kroy.Screens.MiniGameScreen;
 public class MinigameInputHandler implements InputProcessor{
 	
 	private MiniGameScreen gameScreen;
+	private boolean storyOpen;
 
 	public MinigameInputHandler(MiniGameScreen miniGameScreen) {
         this.gameScreen = miniGameScreen;
+        storyOpen = true;
     }
 	
 	@Override
@@ -33,6 +35,7 @@ public class MinigameInputHandler implements InputProcessor{
 			break;
 		case Input.Keys.SPACE:
 			gameScreen.storyPlay();
+			storyOpen = false;
 			break;
 		case Input.Keys.DOWN:
 			int currentlySelected = MiniGameScreen.fireEngine.getSelectedIndex();
@@ -46,6 +49,7 @@ public class MinigameInputHandler implements InputProcessor{
 			}
 			break;
 		case Input.Keys.ENTER:
+			if(!storyOpen) {
 			if(!MiniGameScreen.gameEnd && !MiniGameScreen.fireEngineMoving && !MiniGameScreen.alienMoving) {
 				if(MiniGameScreen.unitTurn == MiniGameScreen.fireEngine) {
 					int attackSelected = MiniGameScreen.fireEngine.getSelectedIndex();
@@ -68,7 +72,9 @@ public class MinigameInputHandler implements InputProcessor{
 			}
 			break;
 		}
+		}
 		return false;
+		
 	}
 
 	@Override
