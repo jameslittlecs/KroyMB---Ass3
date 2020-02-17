@@ -104,10 +104,10 @@ public class GameScreen implements Screen {
     /** Used to switch between story state within the game
      * Non is the normal state and the other states are called when the story is prompted */
     public enum StoryState {
-    	NON, INTRO, FORTRESS, BOSS, UPDATE, MSG
+    	NON, INTRO, FORTRESS, BOSS, UPDATE, MSG, STATION,
     }
     
-    long startTime;
+    long startTime, bossTime;
 
 	long currentTime;
 	
@@ -119,7 +119,7 @@ public class GameScreen implements Screen {
     
     int upgradeTimes, upgradeTimer, stationTimer, stationTimes;
     
-    boolean stationDestoryed;
+    boolean stationDestoryed, bossFound;
 
     /**
      * Constructor which has the game passed in
@@ -328,7 +328,15 @@ public class GameScreen implements Screen {
                 shapeMapRenderer.setColor(0, 0, 0, 0.8f);
                 shapeMapRenderer.rect(this.camera.viewportWidth/3f, this.camera.viewportHeight * 53/64f, this.camera.viewportWidth/3f, this.camera.viewportHeight * 10/64f);
                 shapeMapRenderer.end();
-        		gui.renderStoryUpdate(upgradeCounter);       
+        		gui.renderStoryUpdate(upgradeCounter);  
+        		break;
+        	case STATION:
+        		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+                shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeMapRenderer.setColor(0, 0, 0, 0.8f);
+                shapeMapRenderer.rect(this.camera.viewportWidth/4f, this.camera.viewportHeight/4f, this.camera.viewportWidth/2f, this.camera.viewportHeight/2f);
+                shapeMapRenderer.end();
+        		gui.renderFireStationText();  
         }
         
         gui.renderButtons();
@@ -344,21 +352,30 @@ public class GameScreen implements Screen {
     private void update(float delta) {
         gameState.hasGameEnded(game);
         
+        if(gameState.getMinigameEntered() && !bossFound) {
+        	bossFound = true;
+        	bossTime = System.currentTimeMillis();
+        }
+        
         //If the minigame is lost the game is restored to its previous state with a low health fortress
         if(gameState.getMinigameEntered()) {
-        	
-        	this.toMiniGameScreen();
-        	gameState.setMinigameEntered(false);
-        	if(finalFortress == "Revolution") {
-        		fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
-        	}else if(finalFortress == "Clifford's Tower") {
-        		fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
-        	}else if(finalFortress == "Walmgate Bar"){
-        		 fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
+        	this.storyState = StoryState.BOSS;
+        	System.out.println((currentTime - bossTime)/1000);
+        	if ((currentTime - bossTime)/1000 >= 5) {
+        		this.toMiniGameScreen();
+        		gameState.setMinigameEntered(false);
+        		if(finalFortress == "Revolution") {
+            		fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
+            	}else if(finalFortress == "Clifford's Tower") {
+            		fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
+            	}else if(finalFortress == "Walmgate Bar"){
+            		 fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
+            	}
+            	fortresses.get(0).setHP(20);
+            	this.updateFortressAlive();
         	}
-        	fortresses.get(0).setHP(20);
-        	this.updateFortressAlive();
-        	gameState.setMinigameEntered(false);
+        	
+        	
         }
         this.updateFortressAlive();
         CameraShake.update(delta, camera, new Vector2(camera.viewportWidth / 2f, camera.viewportHeight / 2f));
@@ -385,6 +402,7 @@ public class GameScreen implements Screen {
 		if (timeDifference >= stationTimer && stationDestoryed == false) {
 			station.destroyStation();
 			stationDestoryed = true;
+			this.storyState = StoryState.STATION;
 		}
 			
 		if (upgradeCounter == 0 && timeDifference >= upgradeTimes) {
