@@ -417,12 +417,14 @@ public class GUI {
         String UpdateText4 =  "from this moment on. Lets hope you";
         String UpdateText5 =  "have enough water to wipe them out. ";
         String UpdateText6 =  "These are dark times, Good Luck";
+        String ContinueText =  "Press 'Space' to Continue";
         layout.setText(game.font26, UpdateText1);
         layout.setText(game.font26, UpdateText2);
         layout.setText(game.font26, UpdateText3);
         layout.setText(game.font26, UpdateText4);
         layout.setText(game.font26, UpdateText5);
         layout.setText(game.font26, UpdateText6);
+        layout.setText(game.font26, ContinueText);
 
         game.batch.setProjectionMatrix(pauseCamera.combined);
         game.batch.begin();
@@ -432,6 +434,7 @@ public class GUI {
         game.font26.draw(game.batch, UpdateText4, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 180f);
         game.font26.draw(game.batch, UpdateText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
         game.font26.draw(game.batch, UpdateText6, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 260f);
+        game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
         game.batch.draw(commander, pauseCamera.viewportWidth/4f, pauseCamera.viewportHeight * 5/16f);
         game.batch.end();
 
@@ -471,13 +474,11 @@ public class GUI {
         String BossText3 =  "gonna have to fight him face to";
         String BossText4 =  "face! Keep an eye on your health!";
         String BossText5 =  "Good Luck, we are counting on you!";
-        String ContinueText =  "Press 'Space' to Continue";
         layout.setText(game.font26, BossText1);
         layout.setText(game.font26, BossText2);
         layout.setText(game.font26, BossText3);
         layout.setText(game.font26, BossText4);
         layout.setText(game.font26, BossText5);
-        layout.setText(game.font33, ContinueText);
         
         game.batch.setProjectionMatrix(pauseCamera.combined);
         game.batch.begin();
@@ -486,7 +487,6 @@ public class GUI {
         game.font26.draw(game.batch, BossText3, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 140f);
         game.font26.draw(game.batch, BossText4, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 180f);
         game.font26.draw(game.batch, BossText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
-        game.font26.draw(game.batch, ContinueText, pauseCamera.viewportWidth * 15/32f, pauseCamera.viewportHeight * 6/16f);
         game.batch.draw(commander, pauseCamera.viewportWidth/4f, pauseCamera.viewportHeight * 5/16f);
         game.batch.end();
     }

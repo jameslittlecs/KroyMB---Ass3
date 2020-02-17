@@ -123,7 +123,7 @@ public class GameScreen implements Screen {
     
     int upgradeTimes, upgradeTimer, stationTimer, totalStationTime, currentStationTime;
     
-    boolean stationDestoryed, bossFound;
+    boolean stationDestroyed, bossFound;
 
     /**
      * Constructor which has the game passed in
@@ -387,8 +387,11 @@ public class GameScreen implements Screen {
         currentStationTime = (int) (totalStationTime - (currentTime - startStationTime)/1000);
         System.out.println((currentTime - startStationTime) / 1000);
         
-        if(currentTime > startStationTime + totalStationTime*1000) {
+        if(currentTime > startStationTime + totalStationTime*1000 && !stationDestroyed) {
         	station.destroyStation();
+        	this.storyState = StoryState.STATION;
+        	stationDestroyed = true;
+        	
         }
         
         if(currentStationTime < 0) {
