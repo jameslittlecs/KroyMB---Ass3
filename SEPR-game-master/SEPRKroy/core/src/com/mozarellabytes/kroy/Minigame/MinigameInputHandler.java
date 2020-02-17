@@ -1,5 +1,6 @@
 package com.mozarellabytes.kroy.Minigame;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.mozarellabytes.kroy.Screens.MiniGameScreen;
@@ -15,6 +16,10 @@ public class MinigameInputHandler implements InputProcessor{
 	@Override
 	public boolean keyDown(int keyCode) {
 		switch(keyCode){
+		case Input.Keys.ESCAPE:
+			Gdx.app.exit();
+            System.exit(1);
+			break;
 		case Input.Keys.UP:
 			int currentSelected = MiniGameScreen.fireEngine.getSelectedIndex();
 			if(MiniGameScreen.fireEngine.getSelectedIndex() != 0) {

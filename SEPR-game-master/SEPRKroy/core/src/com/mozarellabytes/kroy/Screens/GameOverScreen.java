@@ -50,13 +50,13 @@ public class GameOverScreen implements Screen {
 
         layout = new GlyphLayout();
         if (won) {
-            this.text = "We did it! Good job little guy." +"\n"+          
-            "Didnt think you could do that," +"\n"+
+            this.text = "We did it! Good job, you're a hero!" +"\n"+          
+            "Didn't think you could do that," +"\n"+
             "you have shown a lot of bravery." +"\n"+
-            " This is all down to you, I couldnt be" +"\n"+
+            " This was all down to you, I couldnt be" +"\n"+
             " more happy. You have claimed back York...";
         } else {
-            this.text = "Ahh shooot, the World was counting on you and look what you’ve done."+"\n"+"They've won, I couldn't be anymore disappointed."; 
+            this.text = "Ahh shoot, the world was counting on you and look what you've done."+"\n"+"They've won, I couldn't be anymore disappointed."; 
             
         }
         this.text = this.text + "\n" + "\n"+ "Click to return to the main menu...";

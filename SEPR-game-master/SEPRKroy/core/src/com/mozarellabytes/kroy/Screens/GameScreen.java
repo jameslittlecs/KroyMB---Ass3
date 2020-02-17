@@ -129,15 +129,6 @@ public class GameScreen implements Screen {
     
     public GameScreen(Kroy game) {
         this.game = game;
-        
-        upgradeTimes = 60;
-        upgradeTimer = upgradeTimes;
-        stationTimes = 5;
-        stationTimer = stationTimes;
-        
-        startTime = System.currentTimeMillis();
-        
-        upgradeCounter = 0;
 
         state = PlayState.PLAY;
         storyState = StoryState.INTRO;
@@ -221,6 +212,14 @@ public class GameScreen implements Screen {
 
 	@Override
     public void show() {
+		upgradeTimes = 20;
+        upgradeTimer = upgradeTimes;
+        stationTimes = 5;
+        stationTimer = stationTimes;
+        
+        startTime = System.currentTimeMillis();
+        
+        upgradeCounter = 0;
     }
 
     @Override
@@ -359,6 +358,7 @@ public class GameScreen implements Screen {
         
         //If the minigame is lost the game is restored to its previous state with a low health fortress
         if(gameState.getMinigameEntered()) {
+<<<<<<< HEAD
         	this.storyState = StoryState.BOSS;
         	System.out.println((currentTime - bossTime)/1000);
         	if ((currentTime - bossTime)/1000 >= 5) {
@@ -373,6 +373,23 @@ public class GameScreen implements Screen {
             	}
             	fortresses.get(0).setHP(20);
             	this.updateFortressAlive();
+=======
+        	
+        	this.toMiniGameScreen();
+        	gameState.setMinigameEntered(false);
+        	if(finalFortress == "Revolution") {
+        		fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
+        	}else if(finalFortress == "Clifford's Tower") {
+        		fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
+        	}else if(finalFortress == "Walmgate Bar"){
+        		 fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
+        	}else if(finalFortress == "York Minister") {
+        		fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
+        	}else if(finalFortress == "Central Hall") {
+        		fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
+        	}else if(finalFortress == "Train Station") {
+        		fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
+>>>>>>> 92b214354c3c69a54d5760de6f1e7958dc6fc285
         	}
         	
         	
@@ -383,9 +400,11 @@ public class GameScreen implements Screen {
         station.restoreTrucks();
         station.checkForCollisions();
         gameState.setTrucksInAttackRange(0);
-
-        currentTime = System.currentTimeMillis();
         
+        currentTime = System.currentTimeMillis();
+        timeDifference = (int) (currentTime - startTime)/1000;
+        
+<<<<<<< HEAD
 		timeDifference = (currentTime - startTime)/1000;
 		int time = (int) timeDifference;
 		timer = upgradeTimer - time;
@@ -432,6 +451,12 @@ public class GameScreen implements Screen {
 			upgradeFortresses();
 			upgradeCounter++;
 		}
+=======
+        if(timeDifference > upgradeTimer) {
+        	upgradeFortresses();
+        	this.storyState = StoryState.MSG;
+        }
+>>>>>>> 92b214354c3c69a54d5760de6f1e7958dc6fc285
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
@@ -546,7 +571,7 @@ public class GameScreen implements Screen {
         shapeMapRenderer.rect(this.camera.viewportWidth * 57/128f, this.camera.viewportHeight * 1/200f, this.camera.viewportWidth* 36/128, this.camera.viewportHeight * 1/25f);
         shapeMapRenderer.end();
         
-        gui.renderTimer(timer,stationTimes);
+        gui.renderTimer((int)(upgradeTimer - timeDifference),stationTimes);
     }
 
     @Override
@@ -579,7 +604,11 @@ public class GameScreen implements Screen {
 
     public void upgradeFortresses() {
     	for (Fortress fortress : this.fortresses) {
+    		startTime = System.currentTimeMillis();
+    		upgradeTimer = upgradeTimer * 2;
+    		upgradeCounter++;
     		fortress.upgradeStat();
+    		System.out.println("Upgrade");
     	}
     }
     

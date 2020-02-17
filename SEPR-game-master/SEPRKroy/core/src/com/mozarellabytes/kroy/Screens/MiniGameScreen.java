@@ -68,8 +68,13 @@ public class MiniGameScreen implements Screen{
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
 		backgroundImage = new Texture("minigameBackground.png");
+<<<<<<< HEAD
 		fireEngine = new FireEngine(100, 10, new Vector2(camera.viewportWidth/8f, camera.viewportHeight * 3/20f), 100);
 		alien = new Alien(100, 10, new Vector2(camera.viewportWidth * 10/16f, camera.viewportHeight * 19/40f), 100);
+=======
+		fireEngine = new FireEngine(100, 10, new Vector2(camera.viewportWidth/5f, camera.viewportHeight/4.5f), 100);
+		alien = new Alien(100, 10, new Vector2(camera.viewportWidth/1.45f, camera.viewportHeight/1.9f), 100);
+>>>>>>> 92b214354c3c69a54d5760de6f1e7958dc6fc285
 		unitTurn = fireEngine;
 		font.getData().setScale(3);
 	}
