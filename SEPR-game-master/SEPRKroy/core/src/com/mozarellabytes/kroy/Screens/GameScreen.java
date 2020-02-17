@@ -206,10 +206,10 @@ public class GameScreen implements Screen {
 
 	@Override
     public void show() {
-		upgradeTimes = 5;
+		upgradeTimes = 30;
         upgradeTimer = upgradeTimes;
 
-        totalStationTime = 660;
+        totalStationTime = 360;
 
         currentStationTime = totalStationTime;
         startStationTime = System.currentTimeMillis();
