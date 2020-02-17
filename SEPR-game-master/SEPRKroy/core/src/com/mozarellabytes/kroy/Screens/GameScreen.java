@@ -208,11 +208,9 @@ public class GameScreen implements Screen {
     public void show() {
 		upgradeTimes = 5;
         upgradeTimer = upgradeTimes;
-<<<<<<< HEAD
+
         totalStationTime = 660;
-=======
-        totalStationTime = 200;
->>>>>>> 861425e807698ce327a4b32765ef4b36d3417f59
+
         currentStationTime = totalStationTime;
         startStationTime = System.currentTimeMillis();
         
