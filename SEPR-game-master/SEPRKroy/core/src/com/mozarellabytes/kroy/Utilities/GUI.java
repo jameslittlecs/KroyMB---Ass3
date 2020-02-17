@@ -406,6 +406,34 @@ public class GUI {
 
     }
     
+    public void renderFireStationText() {
+    	GlyphLayout layout = new GlyphLayout();
+        String UpdateText1 =  "Thats it soldier, they've ";
+        String UpdateText2 =  "destroyed the fire station. You";
+        String UpdateText3 =  "won't be able to repair or refill ";
+        String UpdateText4 =  "from this moment on. Lets hope you";
+        String UpdateText5 =  "have enough water to wipe them out. ";
+        String UpdateText6 =  "These are dark times, Good Luck";
+        layout.setText(game.font26, UpdateText1);
+        layout.setText(game.font26, UpdateText2);
+        layout.setText(game.font26, UpdateText3);
+        layout.setText(game.font26, UpdateText4);
+        layout.setText(game.font26, UpdateText5);
+        layout.setText(game.font26, UpdateText6);
+
+        game.batch.setProjectionMatrix(pauseCamera.combined);
+        game.batch.begin();
+        game.font26.draw(game.batch, UpdateText1, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 60f);
+        game.font26.draw(game.batch, UpdateText2, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 100f);
+        game.font26.draw(game.batch, UpdateText3, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 140f);
+        game.font26.draw(game.batch, UpdateText4, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 180f);
+        game.font26.draw(game.batch, UpdateText5, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 220f);
+        game.font26.draw(game.batch, UpdateText6, pauseCamera.viewportWidth * 7/16f, pauseCamera.viewportHeight * 3/4f - 260f);
+        game.batch.draw(commander, pauseCamera.viewportWidth/4f, pauseCamera.viewportHeight * 5/16f);
+        game.batch.end();
+
+    }
+    
     public void renderFortressText() {
     	GlyphLayout layout = new GlyphLayout();
         String FortressText1 =  "Amazing! Well done! But ";

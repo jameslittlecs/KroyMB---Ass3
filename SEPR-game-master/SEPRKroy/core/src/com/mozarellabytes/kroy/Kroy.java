@@ -51,8 +51,9 @@ public class Kroy extends Game {
 		parameter.size = 33;
 		font33 = generator.generateFont(parameter);
 		parameter.size = 33;
-		parameter.color = Color.FIREBRICK;
+		parameter.color = Color.BLACK;
 		font33Red = generator.generateFont(parameter);
+		
 
 		this.setScreen(new SplashScreen(this));
 	}

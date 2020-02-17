@@ -68,10 +68,24 @@ public class MiniGameScreen implements Screen{
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
 		backgroundImage = new Texture("minigameBackground.png");
+<<<<<<< HEAD
+<<<<<<< HEAD
 		fireEngine = new FireEngine(100, 10, new Vector2(camera.viewportWidth/5f, camera.viewportHeight/4.5f), 100);
 		alien = new Alien(100, 10, new Vector2(camera.viewportWidth/1.45f, camera.viewportHeight/1.9f), 100);
+=======
+		fireEngine = new FireEngine(100, 10, new Vector2(camera.viewportWidth/5f, camera.viewportHeight/4f), 100);
+		alien = new Alien(100, 10, new Vector2(camera.viewportWidth/1.45f, camera.viewportHeight/1.6f), 100);
+>>>>>>> parent of d6f3944... Story Boss Update and Mini Game Ratios Done
+=======
+		fireEngine = new FireEngine(100, 10, new Vector2(camera.viewportWidth/8f, camera.viewportHeight * 3/20f), 100);
+		alien = new Alien(100, 10, new Vector2(camera.viewportWidth * 10/16f, camera.viewportHeight * 19/40f), 100);
+=======
+		fireEngine = new FireEngine(100, 10, new Vector2(camera.viewportWidth/5f, camera.viewportHeight/4.5f), 100);
+		alien = new Alien(100, 10, new Vector2(camera.viewportWidth/1.45f, camera.viewportHeight/1.9f), 100);
+>>>>>>> 92b214354c3c69a54d5760de6f1e7958dc6fc285
+>>>>>>> fd91e44a376b0102fcb0cfe3d9e868131880370b
 		unitTurn = fireEngine;
-		font.getData().setScale(6);
+		font.getData().setScale(3);
 	}
 
 	@Override
@@ -90,17 +104,18 @@ public class MiniGameScreen implements Screen{
 		batch.begin();
 		//Draw background
 		batch.draw(backgroundImage, 0, 0, camera.viewportWidth, camera.viewportHeight);
-		fireEngine.drawSprite(batch);
+		fireEngine.drawSprite(batch);	
 		alien.drawSprite(batch);
+		
 		//Draw FireEngine
 		if(fireEngineMoving) {
 			if(!goBack) {
 				if(fireEngine.getSelectedIndex() == 0 || fireEngine.getSelectedIndex() == 3 ) {
-					Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
+					Vector2 thisVector = new Vector2(alien.getStartPosition().x - camera.viewportWidth/7f, alien.getStartPosition().y - camera.viewportHeight/7f);
 					fireEngine.attackAnimation(thisVector, 1000);
 				}else {
 					Vector2 thisVector = new Vector2 (fireEngine.getStartPosition().x, fireEngine.getStartPosition().y+20);
-					fireEngine.attackAnimation(thisVector, 90);
+					fireEngine.attackAnimation(thisVector, 50);
 				}
 			}
 			else {
@@ -109,14 +124,14 @@ public class MiniGameScreen implements Screen{
 					fireEngine.attackAnimation(thisVector, 1000);
 				}else {
 					Vector2 thisVector = new Vector2 (fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
-					fireEngine.attackAnimation(thisVector, 90);
+					fireEngine.attackAnimation(thisVector, 50);
 				}
 			}
-			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && !goBack) {
+			if(((System.currentTimeMillis()-startMovingTime)/1000)>.25 && !goBack) {
 				goBack = true;
 				startMovingTime = System.currentTimeMillis();
 			}
-			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && goBack) {
+			if(((System.currentTimeMillis()-startMovingTime)/1000)>.25 && goBack) {
 				fireEngineMoving = false;
 				unitTurn = alien;
 				goBack = false;
@@ -125,7 +140,7 @@ public class MiniGameScreen implements Screen{
 		if(alienMoving) {
 			if(!goBack) {
 				if(chosenAttack.getName() == "Beam Ray" || chosenAttack.getName() == "Probe") {
-					Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
+					Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x + camera.viewportWidth/7f, fireEngine.getStartPosition().y + camera.viewportHeight/7f);
 					alien.attackAnimation(thisVector,1000);
 				}else {
 					Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y+20);
@@ -141,11 +156,11 @@ public class MiniGameScreen implements Screen{
 					alien.attackAnimation(thisVector, 90);
 				}
 			}
-			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && !goBack) {
+			if(((System.currentTimeMillis()-startMovingTime)/1000)>.25 && !goBack) {
 				goBack = true;
 				startMovingTime = System.currentTimeMillis();
 			}
-			if(((System.currentTimeMillis()-startMovingTime)/1000)>.3 && goBack) {
+			if(((System.currentTimeMillis()-startMovingTime)/1000)>.25 && goBack) {
 				alienMoving = false;
 				unitTurn = fireEngine;
 				goBack = false;
@@ -155,8 +170,8 @@ public class MiniGameScreen implements Screen{
 		
 		//Draw health bar
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		renderHPBar(fireEngine.getHP(), fireEngine.getMaxHP(), Color.RED, Color.FIREBRICK, 1, camera.viewportWidth/10f, camera.viewportHeight/2f, camera.viewportWidth/6f, camera.viewportHeight/40f);
-		renderHPBar(alien.getHP(), alien.getMaxHP(), Color.RED, Color.FIREBRICK, 1, camera.viewportWidth/1.3f, camera.viewportHeight/1.1f, camera.viewportWidth/6f, camera.viewportHeight/40f);
+		renderHPBar(fireEngine.getHP(), fireEngine.getMaxHP(), Color.RED, Color.FIREBRICK, 1, camera.viewportWidth/6f, camera.viewportHeight * 11/20f, camera.viewportWidth/6f, camera.viewportHeight/40f);
+		renderHPBar(alien.getHP(), alien.getMaxHP(), Color.RED, Color.FIREBRICK, 1, camera.viewportWidth * 10/16f, camera.viewportHeight * 7/8f, camera.viewportWidth/6f, camera.viewportHeight/40f);
 		game.shapeRenderer.end();
 		
 		//When its the players turn
@@ -171,7 +186,7 @@ public class MiniGameScreen implements Screen{
 		        	}else {
 		        		font.setColor(Color.WHITE);
 		        	}
-		        	font.draw(batch, fireEngine.getMoveName(i) + " (" + fireEngine.getAttack(i).getPP() + "/" + fireEngine.getAttack(i).getMaxPP() + ")", camera.viewportWidth/2f, (camera.viewportHeight/4f)-yChange);
+		        	font.draw(batch, fireEngine.getMoveName(i) + " (" + fireEngine.getAttack(i).getPP() + "/" + fireEngine.getAttack(i).getMaxPP() + ")", camera.viewportWidth * 2/3f, (camera.viewportHeight * 1/3f)-yChange);
 		        	yChange += 80;
 		        }
 		        batch.end();
@@ -183,7 +198,7 @@ public class MiniGameScreen implements Screen{
 					paused = true;
 				}
 				batch.begin();
-				font.draw(batch, "Alien uses " + chosenAttack.getName() + "! (Press Enter to continue)", camera.viewportWidth/10f, camera.viewportHeight/5f);
+				font.draw(batch, "Alien uses " + chosenAttack.getName() + "! (Press Enter to continue)", camera.viewportWidth/10f, camera.viewportHeight/7f);
 				batch.end();
 			}
 		}
