@@ -354,12 +354,15 @@ public class GameScreen implements Screen {
         		fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
         	}else if(finalFortress == "Walmgate Bar"){
         		 fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
+<<<<<<< HEAD
         	}else if(finalFortress == "York Minister") {
         		fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
         	}else if(finalFortress == "Central Hall") {
         		fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
         	}else if(finalFortress == "Train Station") {
         		fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
+=======
+>>>>>>> parent of d6f3944... Story Boss Update and Mini Game Ratios Done
         	}
         	fortresses.get(0).setHP(20);
         	this.updateFortressAlive();
@@ -375,10 +378,58 @@ public class GameScreen implements Screen {
         currentTime = System.currentTimeMillis();
         timeDifference = (int) (currentTime - startTime)/1000;
         
+<<<<<<< HEAD
         if(timeDifference > upgradeTimer) {
         	upgradeFortresses();
         	this.storyState = StoryState.MSG;
         }
+=======
+		timeDifference = (currentTime - startTime)/1000;
+		int time = (int) timeDifference;
+		timer = upgradeTimer - time;
+		stationTimes = stationTimer - time;
+		
+		if (timer == 0) {
+			upgradeTimer = upgradeTimes + upgradeTimer*2;
+		} 
+		
+		if (stationTimes <= 0) {
+			stationTimes = 0;
+		}
+		
+		if (timeDifference >= stationTimer && stationDestoryed == false) {
+			station.destroyStation();
+			stationDestoryed = true;
+		}
+			
+		if (upgradeCounter == 0 && timeDifference >= upgradeTimes) {
+			upgradeFortresses();
+			upgradeCounter++;
+			this.storyState = StoryState.MSG;
+		} else if (upgradeCounter == 1 && timeDifference >= upgradeTimes*3){
+			upgradeFortresses();
+			upgradeCounter++;
+			this.storyState = StoryState.MSG;
+		} else if (upgradeCounter == 2 && timeDifference >= upgradeTimes*7){
+			upgradeFortresses();
+			upgradeCounter++;
+			this.storyState = StoryState.MSG;
+		} 
+		
+		if (upgradeCounter == 3) {
+			timer = 0;
+		}
+
+		timeDifference = currentTime - startTime;
+
+//		System.out.println(timeDifference);  
+
+		
+		if (upgradeCounter == 0 && timeDifference >= 40000 || upgradeCounter == 1 && timeDifference >= 80000 || upgradeCounter == 2 && timeDifference >= 120000) {
+			upgradeFortresses();
+			upgradeCounter++;
+		}
+>>>>>>> parent of d6f3944... Story Boss Update and Mini Game Ratios Done
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
