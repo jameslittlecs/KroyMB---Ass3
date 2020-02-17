@@ -106,10 +106,11 @@ public class Fortress extends Entity {
         return false;
     }
 
+    //Upgrades the fortress' stats
     public void upgradeStat() {
     	this.setHP(this.getHP() + 50);
-    	this.setAP(this.getAP() + 5);
-    	this.setDelay(this.getDelay() - 250);
+    	this.setAP(this.getAP() + 2);
+    	this.setDelay(this.getDelay() - 100);
     	this.setMaxHP(this.getMaxHP() + 50);
     	this.setRange(this.getRange() + 1);
     }

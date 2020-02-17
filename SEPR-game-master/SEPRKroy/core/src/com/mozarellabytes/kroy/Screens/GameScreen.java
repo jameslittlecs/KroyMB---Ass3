@@ -180,9 +180,9 @@ public class GameScreen implements Screen {
         fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
         fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
         fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
-        //fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
-        //fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
-        //fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
+        fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
+        fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
+        fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
         
         maxFortress = fortresses.size();
         numberofFortressAlive = maxFortress;      
@@ -206,9 +206,9 @@ public class GameScreen implements Screen {
 
 	@Override
     public void show() {
-		upgradeTimes = 20;
+		upgradeTimes = 5;
         upgradeTimer = upgradeTimes;
-        totalStationTime = 10;
+        totalStationTime = 660;
         currentStationTime = totalStationTime;
         startStationTime = System.currentTimeMillis();
         
@@ -384,8 +384,8 @@ public class GameScreen implements Screen {
         
         currentTime = System.currentTimeMillis();
         timeDifference = (int) (currentTime - startTime)/1000;
+        System.out.println(timeDifference);
         currentStationTime = (int) (totalStationTime - (currentTime - startStationTime)/1000);
-        System.out.println((currentTime - startStationTime) / 1000);
         
         if(currentTime > startStationTime + totalStationTime*1000 && !stationDestroyed) {
         	station.destroyStation();
@@ -578,11 +578,11 @@ public class GameScreen implements Screen {
 
     public void upgradeFortresses() {
     	for (Fortress fortress : this.fortresses) {
+    		System.out.println(startTime + ", " + currentTime);
     		startTime = System.currentTimeMillis();
     		upgradeTimer = upgradeTimer * 2;
     		upgradeCounter++;
     		fortress.upgradeStat();
-    		System.out.println("Upgrade");
     	}
     }
     

@@ -56,6 +56,11 @@ public class MiniGameScreen implements Screen{
 	private final OrthographicCamera camera;
 	private Texture backgroundImage,grassImage;
 	
+	/**
+	 * Constructor for minigamescreen. This is where the minigame is run
+	 * @param game to return to
+	 * @param parent
+	 */
 	public MiniGameScreen(Kroy game, Screen parent) {
 		this.game = game;
 		
@@ -72,10 +77,13 @@ public class MiniGameScreen implements Screen{
 		paused = false;
 		
 		Gdx.input.setInputProcessor(new MinigameInputHandler(this));
+		
+		//Sets the camera in scene filling the users display ratio
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
+		
+		//Initializes background image and fireEngine and Alien objects
 		backgroundImage = new Texture("minigameBackground.png");
-
 		fireEngine = new FireEngine(100, 10, new Vector2(camera.viewportWidth/8f, camera.viewportHeight * 3/20f), 100);
 		alien = new Alien(100, 10, new Vector2(camera.viewportWidth * 10/16f, camera.viewportHeight * 19/40f), 100);
 
@@ -91,73 +99,97 @@ public class MiniGameScreen implements Screen{
 
 	@Override
 	public void render(float delta) {
+		//Clears screen at beginning of render
 		Gdx.gl.glClearColor(51/255f, 34/255f, 99/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 		
+        //Sprite drawing begins here
 		batch.begin();
 		//Draw background
 		batch.draw(backgroundImage, 0, 0, camera.viewportWidth, camera.viewportHeight);
+		//Draws fireEngine and alien sprites
 		fireEngine.drawSprite(batch);	
 		alien.drawSprite(batch);
 		
 		ShapeRenderer shapeMapRenderer = new ShapeRenderer();
         shapeMapRenderer.setProjectionMatrix(camera.combined);
 		
-		//Draw FireEngine
+		//FireEngine attack animations
 		if(fireEngineMoving) {
 			if(!goBack) {
+				//Moves the fireEngine forward for the animation
+				//For damage dealing attacks
 				if(fireEngine.getSelectedIndex() == 0 || fireEngine.getSelectedIndex() == 3 ) {
 					Vector2 thisVector = new Vector2(alien.getStartPosition().x - camera.viewportWidth/7f, alien.getStartPosition().y - camera.viewportHeight/7f);
 					fireEngine.attackAnimation(thisVector, 1000);
-				}else {
+				}
+				//For self-value changing attacks
+				else {
 					Vector2 thisVector = new Vector2 (fireEngine.getStartPosition().x, fireEngine.getStartPosition().y+20);
 					fireEngine.attackAnimation(thisVector, 50);
 				}
 			}
+			//Moves the fireEngine backwards for the animation
 			else {
+				//For damage dealing attacks
 				if(fireEngine.getSelectedIndex() == 0 || fireEngine.getSelectedIndex() == 3 ) {
 					Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
 					fireEngine.attackAnimation(thisVector, 1000);
-				}else {
+				}
+				//For self-value changing attacks
+				else {
 					Vector2 thisVector = new Vector2 (fireEngine.getStartPosition().x, fireEngine.getStartPosition().y);
 					fireEngine.attackAnimation(thisVector, 50);
 				}
 			}
+			//If a certain amount of time passes make the fireEngine go back
 			if(((System.currentTimeMillis()-startMovingTime)/1000)>.25 && !goBack) {
 				goBack = true;
 				startMovingTime = System.currentTimeMillis();
 			}
+			//If a certain amount of time passes while the fireEngine is going back stop the engine from moving and make it the aliens turn
 			if(((System.currentTimeMillis()-startMovingTime)/1000)>.25 && goBack) {
 				fireEngineMoving = false;
 				unitTurn = alien;
 				goBack = false;
 			}
 		}
+		//Handles alien attack animations
 		if(alienMoving) {
 			if(!goBack) {
+				//Moves the alien forward for the animation
+				//For damage dealing attacks
 				if(chosenAttack.getName() == "Beam Ray" || chosenAttack.getName() == "Probe") {
 					Vector2 thisVector = new Vector2(fireEngine.getStartPosition().x + camera.viewportWidth/7f, fireEngine.getStartPosition().y + camera.viewportHeight/7f);
 					alien.attackAnimation(thisVector,1000);
-				}else {
+				}
+				//For self-value changing attacks
+				else {
 					Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y+20);
 					alien.attackAnimation(thisVector, 90);
 				}
 			}
+			//Moves the alien back for the animation
 			else {
+				//For damage dealing attacks
 				if(chosenAttack.getName() == "Beam Ray" || chosenAttack.getName() == "Probe") {
 					Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
 					alien.attackAnimation(thisVector,1000);
-				}else {
+				}
+				//For self-value changing attacks
+				else {
 					Vector2 thisVector = new Vector2(alien.getStartPosition().x, alien.getStartPosition().y);
 					alien.attackAnimation(thisVector, 90);
 				}
 			}
+			//If a certain amount of time passes make the alien go back
 			if(((System.currentTimeMillis()-startMovingTime)/1000)>.25 && !goBack) {
 				goBack = true;
 				startMovingTime = System.currentTimeMillis();
 			}
+			//If a certain amount of time passes while the alien is going back stop the engine from moving and make it the fireEngines turn
 			if(((System.currentTimeMillis()-startMovingTime)/1000)>.25 && goBack) {
 				alienMoving = false;
 				unitTurn = fireEngine;
@@ -175,9 +207,12 @@ public class MiniGameScreen implements Screen{
 		//When its the players turn
 		
 		if(!gameEnd && !fireEngineMoving && !alienMoving) {
+			//For the fireEngine's turn
 			if(this.unitTurn == fireEngine) {
 				batch.begin();
+				//The displacement value for the attack text being displayed to screen (will be incremented so all attacks are not displayed on one anther)
 		        int yChange = 0;
+		        //For all moves in the fireEngines move list, they are drawn onto the screen. The currently selected move is drawn red
 		        for(int i = 0 ; i<fireEngine.getMoveList().size(); i++) {
 		        	if(fireEngine.getMoveList().get(i).getSelected()) {
 		        		font.setColor(Color.RED);
@@ -192,23 +227,28 @@ public class MiniGameScreen implements Screen{
 			//When its the AI's turn
 			else {
 				if(!paused) {
+					//Chooses the attack and waits for space to be pressed
 					chosenAttack = alien.chooseAttack();
 					paused = true;
 				}
 				batch.begin();
+				//Displays the alien's attack they are using
 				font.draw(batch, "Alien uses " + chosenAttack.getName() + "! (Press Enter to continue)", camera.viewportWidth/10f, camera.viewportHeight/7f);
 				batch.end();
 			}
 		}
 		
+		//Checks if the fireEngine is dead. If so the player looses
 		if(fireEngine.getHP()<=0) {
 			this.playerDead = true;
 			this.gameEnd = true;
 		}
+		//Checks if the alien is dead. If so the alien looses
 		if(alien.getHP()<=0) {
 			this.alienDead = true;
 			this.gameEnd = true;
 		}
+		//If the game ends, check to see who won. If alien bring player back to main game. If player bring player to win game screen.
 		if(gameEnd) {
 			if(playerDead) {
 				GUI gui = new GUI(game, (GameScreen) parent);
@@ -292,6 +332,7 @@ public class MiniGameScreen implements Screen{
 		this.state = PlayState.PLAY;
 	}
 	
+	//Renders the health bars 
 	 private void renderHPBar(float value, float maxValue, Color progressColour, Color backgroundColour, int position, float viewportWidth, float viewportHeight, float W, float H) {
 	        
 		 	//game.shapeRenderer.rect(X + W - positionSpacer - outerSpacing - barSpacer, Y + outerSpacing, whiteW, H - outerSpacing*2 - spaceForText, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE);

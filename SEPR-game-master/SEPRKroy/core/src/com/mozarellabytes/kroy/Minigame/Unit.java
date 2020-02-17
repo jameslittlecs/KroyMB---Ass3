@@ -17,6 +17,14 @@ public class Unit extends Sprite{
 	private List<Attack> moveList;
 	private int maxHP;
 	
+	/**
+	 * Constructor for Unit
+	 * @param texture
+	 * @param HP
+	 * @param damage
+	 * @param startPosition
+	 * @param maxHP
+	 */
 	public Unit(Texture texture, int HP, int damage, Vector2 startPosition, int maxHP) {
 		super(texture);
 		this.HP = HP;
@@ -28,10 +36,12 @@ public class Unit extends Sprite{
 	}
 	
 	//Methods
+	//Gets the attack at passed in int I from the moveList
 	public Attack getAttack(int i) {
 		return (Attack)this.getMoveList().get(i);
 	}
 	
+	//Moves the unit from its current position to the Vector2 passed in at a speed specified by velocity
 	public void attackAnimation(Vector2 otherUnitPosition, float velocity) {
 		Vector2 delta = otherUnitPosition.sub(this.getCurrentPosition()).nor();
 		Vector2 newPos = new Vector2(this.getCurrentPosition());
@@ -39,6 +49,7 @@ public class Unit extends Sprite{
 		this.setCurrentPosition(newPos);
 	}
 	
+	//Draws the sprite at the given position
     public void drawSprite(Batch batch) {
         batch.draw(this, this.currentPosition.x, this.currentPosition.y, 400, 400);
     }
