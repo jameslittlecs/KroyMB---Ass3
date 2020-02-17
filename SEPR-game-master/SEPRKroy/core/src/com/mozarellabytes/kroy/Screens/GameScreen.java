@@ -208,7 +208,11 @@ public class GameScreen implements Screen {
     public void show() {
 		upgradeTimes = 5;
         upgradeTimer = upgradeTimes;
+<<<<<<< HEAD
         totalStationTime = 660;
+=======
+        totalStationTime = 200;
+>>>>>>> 861425e807698ce327a4b32765ef4b36d3417f59
         currentStationTime = totalStationTime;
         startStationTime = System.currentTimeMillis();
         
@@ -406,10 +410,10 @@ public class GameScreen implements Screen {
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
         	this.storyState = StoryState.FORTRESS;
-        } else if (maxFortress - fortresses.size() == 2 && storyCounter == 1) {
+        } else if (maxFortress - fortresses.size() == 4 && storyCounter == 1) {
         	storyCounter++;
         	this.storyState = StoryState.UPDATE;
-        } else if (maxFortress - fortresses.size() == 3 && storyCounter == 2){
+        } else if (maxFortress - fortresses.size() == 6 && storyCounter == 2){
         	storyCounter++;
         	this.storyState = StoryState.BOSS;
         } else {}

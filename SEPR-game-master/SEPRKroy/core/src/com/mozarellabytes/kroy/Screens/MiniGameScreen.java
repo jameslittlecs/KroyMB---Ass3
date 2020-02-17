@@ -269,14 +269,15 @@ public class MiniGameScreen implements Screen{
             Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
             shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeMapRenderer.setColor(0, 0, 0, 0.9f);
-            shapeMapRenderer.rect(this.camera.viewportWidth/6f, this.camera.viewportHeight/6f, this.camera.viewportWidth * 2/3f, this.camera.viewportHeight * 2/3f);
+            shapeMapRenderer.rect(this.camera.viewportWidth/6f, this.camera.viewportHeight/2f, this.camera.viewportWidth * 2/3f, this.camera.viewportHeight * 1/3f);
             shapeMapRenderer.end();
             GlyphLayout layout = new GlyphLayout();
             String instructionText1 = "Battle Instructions - ";
             String instructionText2 = "Water Spray - Basic Attack Move";
             String instructionText3 = "Quick Repair - Repair Fire Engine";
             String instructionText4 = "Pressure Pump - Skip Turn, Perminated Dmg Increase";
-            String instructionText5 = "Water Blast - Strong Attack, But Fire Engine Damaged";
+            String instructionText5 = "Water Blast - Strong Attack, But Fire Engine Damaged" + "\n" + "\n" + "Press - Space - To Continue";
+            
             
             layout.setText(game.font26, instructionText1);
             layout.setText(game.font26, instructionText2);

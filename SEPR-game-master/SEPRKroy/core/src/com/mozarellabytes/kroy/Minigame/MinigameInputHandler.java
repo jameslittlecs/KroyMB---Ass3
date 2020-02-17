@@ -8,10 +8,12 @@ import com.mozarellabytes.kroy.Screens.MiniGameScreen;
 public class MinigameInputHandler implements InputProcessor{
 	
 	private MiniGameScreen gameScreen;
+	private boolean storyOpen;
 
 	//Constructor 
 	public MinigameInputHandler(MiniGameScreen miniGameScreen) {
         this.gameScreen = miniGameScreen;
+        storyOpen = true;
     }
 	
 	@Override
@@ -38,6 +40,7 @@ public class MinigameInputHandler implements InputProcessor{
 		//Continues game after alien move text is displayed
 		case Input.Keys.SPACE:
 			gameScreen.storyPlay();
+			storyOpen = false;
 			break;
 		//Moves the fireEngines selected index down on press
 		case Input.Keys.DOWN:
@@ -54,6 +57,7 @@ public class MinigameInputHandler implements InputProcessor{
 			break;
 		//Selects the attack to perform and begins the animation
 		case Input.Keys.ENTER:
+			if(!storyOpen) {
 			if(!MiniGameScreen.gameEnd && !MiniGameScreen.fireEngineMoving && !MiniGameScreen.alienMoving) {
 				if(MiniGameScreen.unitTurn == MiniGameScreen.fireEngine) {
 					//FireEngine attacks
@@ -78,7 +82,9 @@ public class MinigameInputHandler implements InputProcessor{
 			}
 			break;
 		}
+		}
 		return false;
+		
 	}
 
 	@Override
