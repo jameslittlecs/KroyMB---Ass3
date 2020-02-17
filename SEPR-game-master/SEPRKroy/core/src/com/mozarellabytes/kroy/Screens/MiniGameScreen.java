@@ -4,6 +4,7 @@ import java.awt.Font;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mozarellabytes.kroy.Minigame.Attack;
 import com.mozarellabytes.kroy.Minigame.MinigameInputHandler;
@@ -44,8 +45,13 @@ public class MiniGameScreen implements Screen{
 	public static boolean fireEngineMoving = false;
 	public static boolean alienMoving = false;
 	private boolean goBack = false;
+	private PlayState state;
 	public static long startMovingTime;
 	public static long currentMovingTime;
+	
+	public enum PlayState {
+        PLAY, INSTRUCTION
+    }
 	
 	private final OrthographicCamera camera;
 	private Texture backgroundImage,grassImage;
@@ -55,6 +61,7 @@ public class MiniGameScreen implements Screen{
 		
 		this.parent = parent;
 
+		state = PlayState.INSTRUCTION;
 		gameEnd = false;
 		goBack = false;
 		alienMoving = false;
@@ -94,6 +101,9 @@ public class MiniGameScreen implements Screen{
 		batch.draw(backgroundImage, 0, 0, camera.viewportWidth, camera.viewportHeight);
 		fireEngine.drawSprite(batch);	
 		alien.drawSprite(batch);
+		
+		ShapeRenderer shapeMapRenderer = new ShapeRenderer();
+        shapeMapRenderer.setProjectionMatrix(camera.combined);
 		
 		//Draw FireEngine
 		if(fireEngineMoving) {
@@ -210,6 +220,39 @@ public class MiniGameScreen implements Screen{
 			}
 			//end the game
 		}
+		
+		switch (state) {
+        case PLAY:
+            break;
+        case INSTRUCTION:
+            // render dark background
+            Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+            shapeMapRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeMapRenderer.setColor(0, 0, 0, 0.9f);
+            shapeMapRenderer.rect(this.camera.viewportWidth/6f, this.camera.viewportHeight/6f, this.camera.viewportWidth * 2/3f, this.camera.viewportHeight * 2/3f);
+            shapeMapRenderer.end();
+            GlyphLayout layout = new GlyphLayout();
+            String instructionText1 = "Battle Instructions - ";
+            String instructionText2 = "Water Spray - Basic Attack Move";
+            String instructionText3 = "Quick Repair - Repair Fire Engine";
+            String instructionText4 = "Pressure Pump - Skip Turn, Perminated Dmg Increase";
+            String instructionText5 = "Water Blast - Strong Attack, But Fire Engine Damaged";
+            
+            layout.setText(game.font26, instructionText1);
+            layout.setText(game.font26, instructionText2);
+            layout.setText(game.font26, instructionText3);
+            layout.setText(game.font26, instructionText4);
+            layout.setText(game.font26, instructionText5);
+            game.batch.setProjectionMatrix(camera.combined);
+            game.batch.begin();
+            game.font50.draw(game.batch, instructionText1, camera.viewportWidth * 7/36f, camera.viewportHeight* 28/36f);
+            game.font33.draw(game.batch, instructionText2, camera.viewportWidth * 7/36f, camera.viewportHeight* 28/36f - 60f);
+            game.font33.draw(game.batch, instructionText3, camera.viewportWidth * 7/36f, camera.viewportHeight* 28/36f - 100f);
+            game.font33.draw(game.batch, instructionText4, camera.viewportWidth * 7/36f, camera.viewportHeight* 28/36f - 140f);
+            game.font33.draw(game.batch, instructionText5, camera.viewportWidth * 7/36f, camera.viewportHeight* 28/36f - 180f);
+
+            game.batch.end();
+    }
 	}
 
 	@Override
@@ -243,6 +286,10 @@ public class MiniGameScreen implements Screen{
 		batch.dispose();
         font.dispose();
 		
+	}
+	
+	public void storyPlay() {
+		this.state = PlayState.PLAY;
 	}
 	
 	 private void renderHPBar(float value, float maxValue, Color progressColour, Color backgroundColour, int position, float viewportWidth, float viewportHeight, float W, float H) {

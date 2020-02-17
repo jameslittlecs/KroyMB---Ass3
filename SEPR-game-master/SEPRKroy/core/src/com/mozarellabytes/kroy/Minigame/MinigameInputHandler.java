@@ -31,6 +31,9 @@ public class MinigameInputHandler implements InputProcessor{
 				MiniGameScreen.fireEngine.getAttack(currentSelected).setSelected(false);
 			}
 			break;
+		case Input.Keys.SPACE:
+			gameScreen.storyPlay();
+			break;
 		case Input.Keys.DOWN:
 			int currentlySelected = MiniGameScreen.fireEngine.getSelectedIndex();
 			if(MiniGameScreen.fireEngine.getSelectedIndex() != MiniGameScreen.fireEngine.getMoveList().size()-1) {

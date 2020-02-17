@@ -69,7 +69,7 @@ public class GameScreen implements Screen {
      * coordinates, e.g. big stat bars, buttons, pause
      * screen
      */
-    private final GUI gui;
+    public final GUI gui;
 
     /**
      * Stores the progress through the game. It keeps

@@ -13,6 +13,7 @@ import com.mozarellabytes.kroy.Entities.Fortress;
 import com.mozarellabytes.kroy.Minigame.Unit;
 import com.mozarellabytes.kroy.Kroy;
 import com.mozarellabytes.kroy.Screens.GameScreen;
+import com.mozarellabytes.kroy.Screens.MiniGameScreen;
 
 //import javax.jnlp.FileContents;
 
@@ -143,7 +144,9 @@ public class GUI {
         pauseCamera.setToOrtho(false, Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
     }
 
-    /**
+
+
+	/**
      * Renders the health and (when applicable) reserve bars
      * along with the custom attributes that the entity
      * possesses
