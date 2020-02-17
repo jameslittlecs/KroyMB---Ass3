@@ -81,10 +81,21 @@ public class GameScreen implements Screen {
     /** List of Fortresses currently active on the map */
     private final ArrayList<Fortress> fortresses;
 
+    /**
+     * Stores the amount of fortress's that are spawned
+     * at the games beginning
+     */
     private int maxFortress;
     
+    /**
+     * Stores the the number of alive fortresses on the game map
+     * as an Int value
+     */
     private static int numberofFortressAlive;
     
+    /**
+     * Used to dentify the last remaining fortress on the map
+     */
     private String finalFortress;
     
     /** Where the FireEngines' spawn, refill and repair */
@@ -109,6 +120,9 @@ public class GameScreen implements Screen {
     	NON, INTRO, FORTRESS, BOSS, UPDATE, MSG, STATION,
     }
     
+    /**
+     * Stores the all the information needed for the time functionality within the game
+     */
     long startTime, bossTime, startStationTime;
 
 	long currentTime;
@@ -206,9 +220,10 @@ public class GameScreen implements Screen {
 
 	@Override
     public void show() {
-		upgradeTimes = 20;
+		//Sets base parameters for the time parts of the main game screen
+		upgradeTimes = 70;
         upgradeTimer = upgradeTimes;
-        totalStationTime = 200;
+        totalStationTime = 460;
         currentStationTime = totalStationTime;
         startStationTime = System.currentTimeMillis();
         
@@ -346,6 +361,9 @@ public class GameScreen implements Screen {
     private void update(float delta) {
         gameState.hasGameEnded(game);
         
+        /**
+         * Used to make transition from game to mini game battle
+         */
         if(gameState.getMinigameEntered() && !bossFound) {
         	bossFound = true;
         	bossTime = System.currentTimeMillis();
@@ -382,11 +400,13 @@ public class GameScreen implements Screen {
         station.checkForCollisions();
         gameState.setTrucksInAttackRange(0);
         
+        // Time functionality to implement Destroying of Fire Station and Fortress Upgrades
         currentTime = System.currentTimeMillis();
         timeDifference = (int) (currentTime - startTime)/1000;
         currentStationTime = (int) (totalStationTime - (currentTime - startStationTime)/1000);
         System.out.println((currentTime - startStationTime) / 1000);
         
+        // Implements destuction of fire station and story update for the event
         if(currentTime > startStationTime + totalStationTime*1000 && !stationDestroyed) {
         	station.destroyStation();
         	this.storyState = StoryState.STATION;
@@ -394,15 +414,27 @@ public class GameScreen implements Screen {
         	
         }
         
+        // When fire station destroyed, countdown no longer continues
         if(currentStationTime < 0) {
         	currentStationTime = 0;
         }
 
-        if(timeDifference > upgradeTimer) {
+        //Implements the 3 upgrade cycles of the Fortress on the map
+        if(timeDifference >= upgradeTimer && upgradeCounter == 0) {
         	upgradeFortresses();
         	this.storyState = StoryState.MSG;
+        	upgradeCounter++;
+        } else if (timeDifference >= upgradeTimer && upgradeCounter == 1) {
+        	upgradeFortresses();
+        	this.storyState = StoryState.MSG;
+        	upgradeCounter++;
+        } else if (timeDifference >= upgradeTimer && upgradeCounter == 2) {
+        	upgradeFortresses();
+        	this.storyState = StoryState.MSG;
+        	upgradeCounter++;
         }
         
+        //Implements story updates as the player progresses through the game
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
         	this.storyState = StoryState.FORTRESS;
@@ -414,6 +446,7 @@ public class GameScreen implements Screen {
         	this.storyState = StoryState.BOSS;
         } else {}
         
+        // Patrol monitor that removes them when they die and move them so they can attack
         ArrayList<Patrol> patrolList = new ArrayList<Patrol>(this.patrols);
         for (Patrol p : patrolList) {
         	if (p.getHP() <= 0) {
@@ -424,6 +457,8 @@ public class GameScreen implements Screen {
             this.patrols.get(this.patrols.indexOf(p)).attack();
         }
         
+        
+        // Truck monitor allows for movement and attack system.
         for (int i = 0; i < station.getTrucks().size(); i++) {
             FireTruck truck = station.getTruck(i);
 
@@ -485,7 +520,9 @@ public class GameScreen implements Screen {
             	}
                 this.fortresses.remove(fortress);
                 
-                for (int z = 1; z <= 3; z++) {
+                for (int 
+                		
+                		z = 1; z <= 3; z++) {
                 	if (isRoad((int) fortress.getPosition().x, ((int) fortress.getPosition().y) - z)) {
                 		double randomInt = Math.random();
                 		if (randomInt < 0.5) {
@@ -500,7 +537,7 @@ public class GameScreen implements Screen {
                 }
                 
                 
-                
+                //Naming of final fortress when all others are destroyed
                 
                 if(this.fortresses.size() == 1) {
                 	finalFortress = fortresses.get(0).getFortressType().getName();
@@ -576,11 +613,11 @@ public class GameScreen implements Screen {
         SoundFX.sfx_soundtrack.stop();
     }
 
+    //Fortress Upgrade method
     public void upgradeFortresses() {
+    	startTime = System.currentTimeMillis();
+		upgradeTimer = upgradeTimer * 2;
     	for (Fortress fortress : this.fortresses) {
-    		startTime = System.currentTimeMillis();
-    		upgradeTimer = upgradeTimer * 2;
-    		upgradeCounter++;
     		fortress.upgradeStat();
     		System.out.println("Upgrade");
     	}
@@ -662,6 +699,7 @@ public class GameScreen implements Screen {
         game.setScreen(new ControlsScreen(game, this, "game"));
     }
     
+    //Sets Mini Game Screen as Kroys active screen
     public void toMiniGameScreen() {
     	game.setScreen(new MiniGameScreen(game, this));
     }
@@ -692,6 +730,9 @@ public class GameScreen implements Screen {
         }
     }
     
+    /**
+     * Used for reseting story to null/non.
+     */
     public void storyNon() {
     	this.storyState = StoryState.NON;
     }
@@ -719,6 +760,8 @@ public class GameScreen implements Screen {
     public PlayState getState() {
         return this.state;
     }
+    
+    //Generates grid for movement system and collision detection
     private void generateGrid(TiledMapTileLayer layer) {
 		this.obstacleGrid = new int[layer.getWidth()][layer.getHeight()];
 		for (int x = 0; x < layer.getWidth(); x++) {

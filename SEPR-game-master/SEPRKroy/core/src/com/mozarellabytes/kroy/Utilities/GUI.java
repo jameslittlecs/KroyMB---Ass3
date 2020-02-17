@@ -377,6 +377,7 @@ public class GUI {
         }
     }
 
+    /** Renders the text to the screen when the game is started from the main menu */
     public void renderIntroText() {
     	GlyphLayout layout = new GlyphLayout();
         String UpdateText1 =  "Help, help, help, is anyone out ";
@@ -409,6 +410,7 @@ public class GUI {
 
     }
     
+    /** Renders the text to the screen when the game destroys the FireStation */
     public void renderFireStationText() {
     	GlyphLayout layout = new GlyphLayout();
         String UpdateText1 =  "Thats it soldier, they've ";
@@ -440,6 +442,7 @@ public class GUI {
 
     }
     
+    /** Renders the text to the screen when the player destroys the first fortress */
     public void renderFortressText() {
     	GlyphLayout layout = new GlyphLayout();
         String FortressText1 =  "Amazing! Well done! But ";
@@ -467,6 +470,7 @@ public class GUI {
         game.batch.end();
     }
     
+    /** Renders the text to the screen when the game is about to place the player against the boss/minigame */
     public void renderBossText() {
     	GlyphLayout layout = new GlyphLayout();
         String BossText1 =  "Soldier! Watch Out!";
@@ -491,6 +495,7 @@ public class GUI {
         game.batch.end();
     }
      
+    /** Renders the text to the screen when the game is half way through*/
     public void renderUpdateText() {
     	GlyphLayout layout = new GlyphLayout();
         String UpdateText1 =  "With that sort shooting soldier";
@@ -521,6 +526,7 @@ public class GUI {
         game.batch.end();
     }
     
+    /** Renders the text to the screen when the game upgrades a fortress */
     public void renderStoryUpdate(int storyUpdate) {
     	GlyphLayout layout = new GlyphLayout();
         String SUpdateText1 =  "Fortresses have upgraded to level " + (storyUpdate);
@@ -559,6 +565,7 @@ public class GUI {
         game.batch.end();
     }
     
+    /** Renders the text to the screen for Timers that are in the game */
     public void renderTimer(int timer, int stationTimer) {
     	GlyphLayout layout = new GlyphLayout();
         String timerText1 = "Time till next Upgrade - " + timer;
