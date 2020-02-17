@@ -356,7 +356,6 @@ public class GameScreen implements Screen {
         //If the minigame is lost the game is restored to its previous state with a low health fortress
         if(gameState.getMinigameEntered()) {
         	this.storyState = StoryState.BOSS;
-        	System.out.println((currentTime - bossTime)/1000);
         	if ((currentTime - bossTime)/1000 >= 5) {
         		this.toMiniGameScreen();
         		gameState.setMinigameEntered(false);
