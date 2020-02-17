@@ -220,9 +220,13 @@ public class GameScreen implements Screen {
 
 	@Override
     public void show() {
+<<<<<<< HEAD
 
 		//Sets base parameters for the time parts of the main game screen
 
+=======
+		//Sets base parameters for the time parts of the main game screen
+>>>>>>> a82e11b19ed6c5f925e878eda55c6d03b2c3478b
 		upgradeTimes = 30;
         upgradeTimer = upgradeTimes;
 
@@ -375,7 +379,6 @@ public class GameScreen implements Screen {
         //If the minigame is lost the game is restored to its previous state with a low health fortress
         if(gameState.getMinigameEntered()) {
         	this.storyState = StoryState.BOSS;
-        	System.out.println((currentTime - bossTime)/1000);
         	if ((currentTime - bossTime)/1000 >= 5) {
         		this.toMiniGameScreen();
         		gameState.setMinigameEntered(false);
