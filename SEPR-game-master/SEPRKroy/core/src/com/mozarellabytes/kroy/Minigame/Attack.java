@@ -9,6 +9,17 @@ public class Attack {
 	private int targetHealthChange, selfHealthChange, targetDamageChange, selfDamageChange;
 	private boolean selected;
 	
+	/**
+	 * 
+	 * @param name Attack name
+	 * @param maxPP Max amount of times this move can be used
+	 * @param self
+	 * @param targetHealthChange The amount you want the targets health to change by
+	 * @param selfHealthChange The amount you want the current Units health the change by
+	 * @param targetDamageChange The amount you want your targets damage to change by
+	 * @param selfDamageChange The amount you want the current Units damage to change by
+	 * @param selected If the move is currently selected. Used for the user choosing their move
+	 */
 	public Attack(String name, int maxPP, Unit self, int targetHealthChange, int selfHealthChange, int targetDamageChange, int selfDamageChange, boolean selected) {
 		this.name = name;
 		this.maxPP = maxPP;
@@ -22,6 +33,7 @@ public class Attack {
 	}
 	
 	//Methods
+	//Applies all the HP/Damage changes to both the target and the self
 	public void performAttack(Unit target) {
 		self.setHP(self.getHP()+this.getSelfHealthChange());
 		target.setHP(target.getHP()+this.getTargetHealthChange());
@@ -30,6 +42,7 @@ public class Attack {
 		this.PP -= 1;
 	}
 	
+	//If the move can be used again return true
 	public boolean hasPP() {
 		if(this.getPP()>0) {
 			return true;

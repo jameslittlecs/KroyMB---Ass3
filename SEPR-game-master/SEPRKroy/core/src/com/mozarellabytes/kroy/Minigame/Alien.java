@@ -19,12 +19,14 @@ public class Alien extends Unit{
 	//Deals some damage to target, heals damage dealt
 	private Attack probe = new Attack("Probe", 5, this, this.getDamage()*-1, this.getDamage(), 0, 0, false);
 	
+	//Constructor
 	public Alien(int HP, int damage, Vector2 startPosition, int maxHP) {
 		super(new Texture(Gdx.files.internal("alien.png")),HP, damage, startPosition, maxHP);
 		List<Attack> moveList = Arrays.asList(beamRay,dryOff,chargeUp,probe);
 		super.setMoveList(moveList);
 	}
 	
+	//Sets the attacks to do the correct damage based on the current damage
 	public void updateMoves() {
 		beamRay.setTargetHealthChange(this.getDamage()*-1);
 		dryOff.setSelfHealthChange(this.getDamage()*2);
@@ -32,6 +34,7 @@ public class Alien extends Unit{
 		probe.setTargetHealthChange(this.getDamage()*-1);
 	}
 	
+	//AI for choosing attacks, based on current health it will choose a different random weighted attack to perform and returns that attack
 	public Attack chooseAttack() {
 		Random rand = new Random();
 		int randomNum = rand.nextInt(100);
