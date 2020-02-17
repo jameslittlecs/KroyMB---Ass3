@@ -223,10 +223,10 @@ public class GameScreen implements Screen {
 
 		//Sets base parameters for the time parts of the main game screen
 
-		upgradeTimes = 30;
+		upgradeTimes = 35;
         upgradeTimer = upgradeTimes;
 
-        totalStationTime = 360;
+        totalStationTime = 420;
         currentStationTime = totalStationTime;
         startStationTime = System.currentTimeMillis();
         
@@ -434,6 +434,10 @@ public class GameScreen implements Screen {
         	upgradeFortresses();
         	this.storyState = StoryState.MSG;
         	upgradeCounter++;
+        } else if (timeDifference >= upgradeTimer && upgradeCounter == 3) {
+        	upgradeFortresses();
+        	this.storyState = StoryState.MSG;
+        	upgradeCounter++;
         }
         
         //Implements story updates as the player progresses through the game
@@ -457,6 +461,10 @@ public class GameScreen implements Screen {
         	}
             this.patrols.get(this.patrols.indexOf(p)).move();
             this.patrols.get(this.patrols.indexOf(p)).attack();
+        }
+        
+        if (upgradeCounter > 4) {
+        	gui.renderTimer(0,currentStationTime);
         }
         
         
@@ -573,7 +581,11 @@ public class GameScreen implements Screen {
         shapeMapRenderer.rect(this.camera.viewportWidth * 57/128f, this.camera.viewportHeight * 1/200f, this.camera.viewportWidth* 36/128, this.camera.viewportHeight * 1/25f);
         shapeMapRenderer.end();
         
-        gui.renderTimer((int)(upgradeTimer - timeDifference),currentStationTime);
+        int specialTime = (int)(upgradeTimer - timeDifference);
+        if(specialTime < 0) {
+        	specialTime = 0;
+        }
+        gui.renderTimer(specialTime,currentStationTime);
         if (System.currentTimeMillis() > this.lastPatrolSpawn + 10000 && this.patrols.size() < this.maxPatrols) {
         	double value = Math.random();
     		if (value < 0.5) {

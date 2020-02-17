@@ -37,7 +37,7 @@ public abstract class Unit extends Entity {
     }
     
 	private void generatePoints(Vector2 end) {
-		int count = (int) (20/this.speed);
+		int count = (int) (40/this.speed);
         for (int i=1; i<count; i++) {
             this.points.addLast(new Vector2(((end.x - this.getPosition().x)/count) * i + this.getPosition().x, ((end.y - this.getPosition().y)/count) * i + this.getPosition().y));
         }

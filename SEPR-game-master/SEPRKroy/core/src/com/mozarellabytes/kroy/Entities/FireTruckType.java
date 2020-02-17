@@ -17,11 +17,11 @@ public enum FireTruckType {
     /** The preset values for the different truck types includes the type's:
      * maximum reserve, speed, trailColour, name, attack range, attack points
      */
-    Speed(100, 2, Color.RED, "Speed Truck", 5, 0.08f, 150),
-    Ocean(350, 1, Color.CYAN, "Ocean Truck", 7, 0.16f, 100),
+    Speed(100, 5, Color.RED, "Speed Truck", 5, 0.08f, 150),
+    Ocean(350, 2, Color.CYAN, "Ocean Truck", 7, 0.16f, 100),
 	Juggernaut(200, 1, Color.BLACK, "Juggernaut Truck", 3, 0.12f, 400),
-	Cannon(75, 1, Color.WHITE, "Cannon Truck", 4, 0.36f, 75),
-	Standard(150, 5, Color.BLUE, "Standard Truck", 4, 0.2f, 175);
+	Cannon(75, 3, Color.WHITE, "Cannon Truck", 4, 0.36f, 75),
+	Standard(150, 2, Color.BLUE, "Standard Truck", 4, 0.2f, 175);
 	
 	
     /** The maximum amount of water this type of truck can have,
