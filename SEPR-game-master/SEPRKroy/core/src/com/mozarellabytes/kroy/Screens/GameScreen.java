@@ -109,7 +109,7 @@ public class GameScreen implements Screen {
     	NON, INTRO, FORTRESS, BOSS, UPDATE, MSG, STATION,
     }
     
-    long startTime, bossTime;
+    long startTime, bossTime, startStationTime;
 
 	long currentTime;
 	
@@ -121,7 +121,7 @@ public class GameScreen implements Screen {
     
     int timer, timerS;
     
-    int upgradeTimes, upgradeTimer, stationTimer, stationTimes;
+    int upgradeTimes, upgradeTimer, stationTimer, totalStationTime, currentStationTime;
     
     boolean stationDestoryed, bossFound;
 
@@ -208,8 +208,9 @@ public class GameScreen implements Screen {
     public void show() {
 		upgradeTimes = 20;
         upgradeTimer = upgradeTimes;
-        stationTimes = 5;
-        stationTimer = stationTimes;
+        totalStationTime = 10;
+        currentStationTime = totalStationTime;
+        startStationTime = System.currentTimeMillis();
         
         startTime = System.currentTimeMillis();
         
@@ -383,13 +384,21 @@ public class GameScreen implements Screen {
         
         currentTime = System.currentTimeMillis();
         timeDifference = (int) (currentTime - startTime)/1000;
+        currentStationTime = (int) (totalStationTime - (currentTime - startStationTime)/1000);
+        System.out.println((currentTime - startStationTime) / 1000);
         
+        if(currentTime > startStationTime + totalStationTime*1000) {
+        	station.destroyStation();
+        }
+        
+        if(currentStationTime < 0) {
+        	currentStationTime = 0;
+        }
 
         if(timeDifference > upgradeTimer) {
         	upgradeFortresses();
         	this.storyState = StoryState.MSG;
         }
-
         
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
@@ -522,7 +531,7 @@ public class GameScreen implements Screen {
         shapeMapRenderer.rect(this.camera.viewportWidth * 57/128f, this.camera.viewportHeight * 1/200f, this.camera.viewportWidth* 36/128, this.camera.viewportHeight * 1/25f);
         shapeMapRenderer.end();
         
-        gui.renderTimer((int)(upgradeTimer - timeDifference),stationTimes);
+        gui.renderTimer((int)(upgradeTimer - timeDifference),currentStationTime);
         if (System.currentTimeMillis() > this.lastPatrolSpawn + 10000 && this.patrols.size() < this.maxPatrols) {
         	double value = Math.random();
     		if (value < 0.5) {
