@@ -180,9 +180,9 @@ public class GameScreen implements Screen {
         fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
         fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
         fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
-        //fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
-        //fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
-        //fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
+        fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
+        fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
+        fortresses.add(new Fortress(this, new Vector2(30f, 6f), FortressType.TrainStation));
         
         maxFortress = fortresses.size();
         numberofFortressAlive = maxFortress;      
@@ -208,7 +208,7 @@ public class GameScreen implements Screen {
     public void show() {
 		upgradeTimes = 20;
         upgradeTimer = upgradeTimes;
-        totalStationTime = 10;
+        totalStationTime = 200;
         currentStationTime = totalStationTime;
         startStationTime = System.currentTimeMillis();
         
@@ -406,10 +406,10 @@ public class GameScreen implements Screen {
         if (maxFortress - fortresses.size() == 1 && storyCounter == 0) {
         	storyCounter++;
         	this.storyState = StoryState.FORTRESS;
-        } else if (maxFortress - fortresses.size() == 2 && storyCounter == 1) {
+        } else if (maxFortress - fortresses.size() == 4 && storyCounter == 1) {
         	storyCounter++;
         	this.storyState = StoryState.UPDATE;
-        } else if (maxFortress - fortresses.size() == 3 && storyCounter == 2){
+        } else if (maxFortress - fortresses.size() == 6 && storyCounter == 2){
         	storyCounter++;
         	this.storyState = StoryState.BOSS;
         } else {}

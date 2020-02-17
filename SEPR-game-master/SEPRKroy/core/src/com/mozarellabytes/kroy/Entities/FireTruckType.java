@@ -21,7 +21,7 @@ public enum FireTruckType {
     Ocean(350, 1, Color.CYAN, "Ocean Truck", 7, 0.16f, 100),
 	Juggernaut(200, 1, Color.BLACK, "Juggernaut Truck", 3, 0.12f, 400),
 	Cannon(75, 1, Color.WHITE, "Cannon Truck", 4, 0.36f, 75),
-	Standard(1500, 5, Color.BLUE, "Standard Truck", 15, 1f, 150);
+	Standard(3500, 5, Color.BLUE, "Standard Truck", 15, 1f, 150);
 	
 	
     /** The maximum amount of water this type of truck can have,
