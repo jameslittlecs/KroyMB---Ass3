@@ -12,7 +12,7 @@ import com.mozarellabytes.kroy.Utilities.AStar;
 public class Bomber extends Patrol {
 	private float viewDistance;
 
-	public Bomber(GameScreen gameScreen, Vector2 position,Array<Vector2> nodes) {
+	public Bomber(GameScreen gameScreen, Vector2 position) {
 		this.setGameScreen(gameScreen);
 		this.setPosition(position);
 		this.setLookLeft(new Texture(Gdx.files.internal("sprites/patrol/ufoleft.png")));
@@ -23,7 +23,8 @@ public class Bomber extends Patrol {
 		this.setPath(new Queue<Vector2>());
 		this.setPoints(new Queue<Vector2>());
 		this.setSpeed(1f);
-		this.setNodes(nodes);
+		this.setNodes(new Array<Vector2>());
+		this.generatePath();
 		this.setRange(4);
 		this.viewDistance = 6;
 		this.setAd(50);
