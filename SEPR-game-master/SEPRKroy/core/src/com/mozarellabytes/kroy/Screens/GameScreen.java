@@ -28,6 +28,8 @@ public class GameScreen implements Screen {
 	
 	private ArrayList<Patrol> patrols;
 	
+	private int maxPatrols;
+	
 	private int[][] obstacleGrid;
 
 	private int storyCounter;
@@ -112,6 +114,8 @@ public class GameScreen implements Screen {
 	long currentTime;
 	
 	long timeDifference;
+	
+	long lastPatrolSpawn;
     
     int upgradeCounter;
     
@@ -170,21 +174,11 @@ public class GameScreen implements Screen {
         generateGrid((TiledMapTileLayer) mapLayers.get("collisions"));
         
         this.patrols = new ArrayList<Patrol>();
-        Array<Vector2> patrolPath1 = new Array<Vector2>();
-        patrolPath1.add(new Vector2(10, 5));
-        patrolPath1.add(new Vector2(10, 10));
-        patrolPath1.add(new Vector2(20, 8));
-        Array<Vector2> patrolPath2 = new Array<Vector2>();
-        patrolPath2.add(new Vector2(15, 15));
-        patrolPath2.add(new Vector2(23, 15));
-        Gunner patrol1 = new Gunner(this, new Vector2(2, 5), patrolPath1);
-        Bomber patrol2 = new Bomber(this, new Vector2(15, 13), patrolPath2);
-        this.patrols.add(patrol1);
-        this.patrols.add(patrol2);
+//        this.maxPatrols = 0;
 
         fortresses = new ArrayList<Fortress>();
-        //fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
-        //fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
+        fortresses.add(new Fortress(this, new Vector2(12, 18.5f), FortressType.Revs));
+        fortresses.add(new Fortress(this, new Vector2(30.5f, 17.5f), FortressType.Walmgate));
         fortresses.add(new Fortress(this, new Vector2(16, 3.5f), FortressType.Clifford));
         //fortresses.add(new Fortress(this, new Vector2(35f, 5f), FortressType.CentralHall));
         //fortresses.add(new Fortress(this, new Vector2(2.5f, 14f), FortressType.Minister));
@@ -455,6 +449,24 @@ public class GameScreen implements Screen {
             		}
             	}
                 this.fortresses.remove(fortress);
+                
+                for (int z = 1; z <= 3; z++) {
+                	if (isRoad((int) fortress.getPosition().x, ((int) fortress.getPosition().y) - z)) {
+                		double randomInt = Math.random();
+                		if (randomInt < 0.5) {
+                			patrols.add(new Bomber(this, new Vector2(fortress.getPosition().x, ((int) fortress.getPosition().y) - z)));
+                		}
+                    	else {
+                    		patrols.add(new Gunner(this, new Vector2(fortress.getPosition().x, ((int) fortress.getPosition().y) - z)));
+                		}
+                		this.maxPatrols += 1;
+                    	break;
+                	}
+                }
+                
+                
+                
+                
                 if(this.fortresses.size() == 1) {
                 	finalFortress = fortresses.get(0).getFortressType().getName();
                 }
@@ -488,6 +500,17 @@ public class GameScreen implements Screen {
         shapeMapRenderer.end();
         
         gui.renderTimer((int)(upgradeTimer - timeDifference),stationTimes);
+        if (System.currentTimeMillis() > this.lastPatrolSpawn + 10000 && this.patrols.size() < this.maxPatrols) {
+        	double value = Math.random();
+    		if (value < 0.5) {
+        		patrols.add(new Bomber(this, new Vector2(30, 15)));
+    		}
+    		else {
+        		patrols.add(new Gunner(this, new Vector2(30, 15)));
+    		}
+    		this.lastPatrolSpawn = System.currentTimeMillis();
+        }
+        
     }
 
     @Override

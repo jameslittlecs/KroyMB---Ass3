@@ -15,7 +15,7 @@ public class Gunner extends Patrol {
     private float reserve;
     private final ArrayList<Particle> spray;
     
-    public Gunner(GameScreen gameScreen, Vector2 position,Array<Vector2> nodes) {
+    public Gunner(GameScreen gameScreen, Vector2 position) {
 		this.setGameScreen(gameScreen);
 		this.setPosition(position);
 		this.setLookLeft(new Texture(Gdx.files.internal("sprites/patrol/tankleft.png")));
@@ -28,7 +28,8 @@ public class Gunner extends Patrol {
 		this.setHP(50);
 		this.setMaxHP(50);
 		this.setSpeed(1f);
-		this.setNodes(nodes);
+		this.setNodes(new Array<Vector2>());
+		this.generatePath();
 		this.setAd(0.08f);
     	this.spray = new ArrayList<Particle>();
     	this.reserve = 100;

@@ -31,7 +31,19 @@ public abstract class Patrol extends Unit {
 		shapeMapRenderer.rect(this.getPosition().x + 0.2f, this.getPosition().y + 1.3f, 0.7f, 0.3f, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE);
         shapeMapRenderer.rect(this.getPosition().x + 0.25f, this.getPosition().y + 1.35f, 0.6f, 0.2f, Color.FIREBRICK, Color.FIREBRICK, Color.FIREBRICK, Color.FIREBRICK);
         shapeMapRenderer.rect(this.getPosition().x + 0.25f, this.getPosition().y + 1.35f, this.getHP() / this.getMaxHP() * 0.6f, 0.2f, Color.RED, Color.RED, Color.RED, Color.RED);
-        }
+    }
+	
+	protected void generatePath() {
+		while (nodes.size != 5) {
+			int x = (int)(40.0 * Math.random());
+			int y = (int)(24.0 * Math.random());
+			if (!(x <= 10 && y <= 6)) {
+				if (this.getGameScreen().isRoad(x, y)) {
+					nodes.add(new Vector2(x, y));
+				}
+			}
+		}
+	}
 
 	public Array<Vector2> getNodes() {
 		return nodes;
