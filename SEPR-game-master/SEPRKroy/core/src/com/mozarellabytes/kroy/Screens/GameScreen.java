@@ -220,13 +220,9 @@ public class GameScreen implements Screen {
 
 	@Override
     public void show() {
-<<<<<<< HEAD
 
 		//Sets base parameters for the time parts of the main game screen
 
-=======
-		//Sets base parameters for the time parts of the main game screen
->>>>>>> a82e11b19ed6c5f925e878eda55c6d03b2c3478b
 		upgradeTimes = 30;
         upgradeTimer = upgradeTimes;
 
